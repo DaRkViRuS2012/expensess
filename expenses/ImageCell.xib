@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16G1036" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="gTV-IL-0wX" customClass="ImageCell" customModule="expenses" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="93" height="92"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="93" height="92"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VXA-3i-GPZ">
+                        <rect key="frame" x="0.0" y="0.0" width="93" height="92"/>
+                        <gestureRecognizers/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VpK-GM-Lea">
+                        <rect key="frame" x="78" y="0.0" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="6V0-H1-agD"/>
+                            <constraint firstAttribute="height" constant="15" id="ZC6-6U-51O"/>
+                        </constraints>
+                        <state key="normal" image="subtract"/>
+                        <connections>
+                            <action selector="remove:" destination="gTV-IL-0wX" eventType="touchUpInside" id="TTC-UU-zl4"/>
+                        </connections>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="VXA-3i-GPZ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="09c-fJ-sCi"/>
+                <constraint firstAttribute="bottom" secondItem="VXA-3i-GPZ" secondAttribute="bottom" id="1H3-IH-SMR"/>
+                <constraint firstItem="VpK-GM-Lea" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="8JK-jD-nOE"/>
+                <constraint firstItem="VXA-3i-GPZ" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="LHO-d7-fLO"/>
+                <constraint firstAttribute="trailing" secondItem="VpK-GM-Lea" secondAttribute="trailing" id="UEL-61-6tu"/>
+                <constraint firstAttribute="trailing" secondItem="VXA-3i-GPZ" secondAttribute="trailing" id="dh1-r3-dEb"/>
+            </constraints>
+            <size key="customSize" width="93" height="92"/>
+            <connections>
+                <outlet property="imageView" destination="VXA-3i-GPZ" id="CEc-X7-ew9"/>
+            </connections>
+            <point key="canvasLocation" x="46.5" y="73"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="subtract" width="26" height="26"/>
+    </resources>
+</document>

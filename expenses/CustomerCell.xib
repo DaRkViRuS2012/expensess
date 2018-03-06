@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CustomerCell" rowHeight="87" id="KGk-i7-Jjw" customClass="CustomerCell" customModule="expenses" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="86"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dq1-g4-DrM">
+                        <rect key="frame" x="24" y="64" width="33" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ek8-X7-R5Q">
+                        <rect key="frame" x="24" y="16" width="33" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S97-hF-fFL">
+                        <rect key="frame" x="266" y="64" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="bF5-UX-UOL"/>
+                            <constraint firstAttribute="width" constant="15" id="g14-2U-ixE"/>
+                        </constraints>
+                        <state key="normal" image="edit icon"/>
+                        <connections>
+                            <action selector="edit:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Yza-33-aYu"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eXL-bj-4HI">
+                        <rect key="frame" x="297" y="64" width="15" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="1VC-qa-xSR"/>
+                            <constraint firstAttribute="width" constant="15" id="8DI-Lu-1Ue"/>
+                        </constraints>
+                        <state key="normal" image="delete icon">
+                            <color key="titleColor" red="1" green="0.19368068150000001" blue="0.15091905520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="remove:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="fge-Cg-ZAK"/>
+                        </connections>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Switzerland, Lausane" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPL-uA-dYy">
+                        <rect key="frame" x="24" y="40" width="129" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BKw-lE-bp9">
+                        <rect key="frame" x="144" y="63" width="33" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="ek8-X7-R5Q" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="8" id="72m-y1-PIM"/>
+                    <constraint firstAttribute="bottom" secondItem="S97-hF-fFL" secondAttribute="bottom" constant="8" id="76K-tN-Nbq"/>
+                    <constraint firstItem="dq1-g4-DrM" firstAttribute="top" secondItem="wPL-uA-dYy" secondAttribute="bottom" constant="8" id="G1J-JK-XVG"/>
+                    <constraint firstItem="dq1-g4-DrM" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="16" id="SjV-aK-c4q"/>
+                    <constraint firstAttribute="bottom" secondItem="eXL-bj-4HI" secondAttribute="bottom" constant="8" id="Ud6-eB-kZo"/>
+                    <constraint firstAttribute="bottom" secondItem="BKw-lE-bp9" secondAttribute="bottom" constant="8" id="bmJ-7i-lAB"/>
+                    <constraint firstItem="BKw-lE-bp9" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="dzA-bA-D2G"/>
+                    <constraint firstItem="wPL-uA-dYy" firstAttribute="top" secondItem="ek8-X7-R5Q" secondAttribute="bottom" constant="8" id="gku-bE-zqt"/>
+                    <constraint firstAttribute="trailing" secondItem="eXL-bj-4HI" secondAttribute="trailing" constant="8" id="oHd-Jr-gFz"/>
+                    <constraint firstItem="eXL-bj-4HI" firstAttribute="leading" secondItem="S97-hF-fFL" secondAttribute="trailing" constant="16" id="vcx-5O-5bp"/>
+                    <constraint firstItem="ek8-X7-R5Q" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="16" id="wEZ-8B-tTA"/>
+                    <constraint firstItem="wPL-uA-dYy" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="16" id="yGM-aR-cPb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="wPL-uA-dYy" id="2tT-8l-nrA"/>
+                <outlet property="codeLbl" destination="dq1-g4-DrM" id="Vb2-Li-yH7"/>
+                <outlet property="currencyLbl" destination="BKw-lE-bp9" id="S2k-O6-LpN"/>
+                <outlet property="deletButton" destination="eXL-bj-4HI" id="2P1-AQ-pkS"/>
+                <outlet property="editButton" destination="S97-hF-fFL" id="9Ap-1q-Fyk"/>
+                <outlet property="nameLbl" destination="ek8-X7-R5Q" id="VN8-K0-pNo"/>
+            </connections>
+            <point key="canvasLocation" x="35" y="75.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="delete icon" width="21" height="21"/>
+        <image name="edit icon" width="22" height="22"/>
+    </resources>
+</document>
