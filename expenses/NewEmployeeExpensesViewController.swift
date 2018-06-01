@@ -402,7 +402,8 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
     }
     
     @IBAction func toggleCustomerDropDown(_ sender: UIButton) {
-        
+        self.selectedCustomer = nil
+        self.customerButton.setTitle("None", for: .normal)
         let vc = UIStoryboard.viewController(identifier: "CustomersViewController") as! CustomersViewController
         vc.selectMode = true
         self.present(vc, animated: true, completion: nil)

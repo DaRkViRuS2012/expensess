@@ -142,16 +142,16 @@ class CreateAccountViewController: AbstractController{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if (firstNameTxt.isFirstResponder){
-            lastNameTxt.becomeFirstResponder()
+           _ = lastNameTxt.becomeFirstResponder()
             return true
         }
         
         if (lastNameTxt.isFirstResponder){
-            emailTxt.becomeFirstResponder()
+           _ =  emailTxt.becomeFirstResponder()
             return true
         }
         if (emailTxt.isFirstResponder){
-            password.becomeFirstResponder()
+           _ =  password.becomeFirstResponder()
             return true
         }
         return true

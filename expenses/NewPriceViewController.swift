@@ -14,26 +14,64 @@ class NewPriceViewController: AbstractController {
     @IBOutlet weak var customersBtn: UIButton!
     @IBOutlet weak var itemBtn: UIButton!
     
+    var price:Price?
+    
     
     let customersDropDown = DropDown()
     var customers:[Customer] = []
     var customersList:[String] = []
     
+    var selectedCustomer:Customer?
     
     let itemDropDown = DropDown()
     var items:[Item] = []
     var itemsList:[String] = []
     
     var itemId:Int64 = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
-        valueTxt.becomeFirstResponder()
-        prepareCustomerList()
-        prepareCustomerDropDown()
-        prepareItemsList()
-        prepareItemDropDown()
+  
         self.showNavBackButton = true
+        if let _ = price{
+        setData()
+        
+        }
+    }
+    
+    
+    
+    func setData(){
+        valueTxt.text = price?.value
+        customersBtn.setTitle(price?.customer?.customerName, for: .normal)
+        itemBtn.setTitle(price?.item?.title, for: .normal)
+        
+        if let id = price?.itemid{
+            self.itemId = id
+        }
+        
+    }
+    
+    override func customizeView() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(selectItem),
+                                               name: NSNotification.Name(rawValue: "selectItem"),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(selectCustomer),
+                                               name: NSNotification.Name(rawValue: "selectCustomer"),
+                                               object: nil)
+    }
+    
+    
+    
+    func selectItem(){
+        if let item = Globals.item{
+            itemBtn.setTitle(item.title, for: .normal)
+            self.itemId = item.id
+        }
+        
     }
     
     
@@ -95,11 +133,16 @@ class NewPriceViewController: AbstractController {
     
     @IBAction func toggleItemDropDown(_ sender: UIButton) {
         
-        if itemDropDown.isHidden{
-            itemDropDown.show()
-        }else{
-            itemDropDown.hide()
-        }
+//        if itemDropDown.isHidden{
+//            itemDropDown.show()
+//        }else{
+//            itemDropDown.hide()
+//        }
+        
+        let vc = UIStoryboard.viewController(identifier: "ItemsViewController") as! ItemsViewController
+        vc.selectMode = true
+        vc.type = false
+        self.present(vc, animated: true, completion: nil)
     }
     
     func prepareItemDropDown(){
@@ -143,11 +186,23 @@ class NewPriceViewController: AbstractController {
     
     @IBAction func toggleCustomerDropDown(_ sender: UIButton) {
         
-        if customersDropDown.isHidden{
-            customersDropDown.show()
-        }else{
-            customersDropDown.hide()
+//        if customersDropDown.isHidden{
+//            customersDropDown.show()
+//        }else{
+//            customersDropDown.hide()
+//        }
+        let vc = UIStoryboard.viewController(identifier: "CustomersViewController") as! CustomersViewController
+        vc.selectMode = true
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    func selectCustomer(){
+        
+        if let customer = Globals.customer{
+            customersBtn.setTitle(customer.customerName, for: .normal)
+            selectedCustomer = customer
         }
+        
     }
     
 }

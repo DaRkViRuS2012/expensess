@@ -61,7 +61,7 @@ class AbstractController: UIViewController, UITextFieldDelegate, UIGestureRecogn
     // MARK: Navigation Bar
     func setNavBarTitle(title : String) {
         self.navigationItem.titleView = nil
-        self.navigationItem.title = title
+        self.navigationItem.titleLabel.text = title
     }
     
     func setNavBarTitleImage(type:titleImageView) {

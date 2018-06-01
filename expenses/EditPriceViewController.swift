@@ -44,7 +44,10 @@ class EditPriceViewController: AbstractController {
     valueTxt.text = price?.value
     customersBtn.setTitle(price?.customer?.customerName, for: .normal)
         itemBtn.setTitle(price?.item?.title, for: .normal)
-    self.itemId = (price?.item?.id)!
+    
+        if let id = price?.itemid{
+            self.itemId = id
+        }
     
     }
     

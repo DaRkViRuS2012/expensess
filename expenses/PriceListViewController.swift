@@ -68,7 +68,7 @@ class PriceListViewController: AbstractController,UITableViewDelegate,UITableVie
 
     
     func edit(price: Price) {
-        let vc = UIStoryboard.viewController(identifier: "EditPriceViewController") as! EditPriceViewController
+        let vc = UIStoryboard.viewController(identifier: "NewPriceViewController") as! NewPriceViewController
         vc.price = price
         self.navigationController?.pushViewController(vc, animated: true)
     }

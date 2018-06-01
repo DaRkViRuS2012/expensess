@@ -48,3 +48,36 @@ extension UITextField {
         }
     }
 }
+
+
+extension UITextField: UITextFieldDelegate{
+    
+    func addToolBar(){
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = .black
+        
+        let doneButton = UIBarButtonItem(image: #imageLiteral(resourceName: "down_arrow"), style: .done, target: self, action: #selector(UITextField.cancelPressed))
+        //let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UITextField.cancelPressed))
+        // let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        toolBar.setItems([doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        toolBar.sizeToFit()
+        
+        self.delegate = self
+        self.inputAccessoryView = toolBar
+    }
+    func donePressed(){
+        self.superview?.endEditing(true)
+    }
+    func cancelPressed(){
+        self.superview?.endEditing(true)
+    }
+    
+    
+    open override func awakeFromNib() {
+        super.awakeFromNib()
+        addToolBar()
+    }
+}

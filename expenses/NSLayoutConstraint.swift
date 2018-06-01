@@ -40,7 +40,7 @@ class XNSLayoutConstraint: NSLayoutConstraint {
 
     
     override func awakeFromNib() {
-        let ratio = Double(UIScreen.main.bounds.height / 1334)
+        let ratio = Double(UIScreen.main.bounds.width / 750)
         self.constant = self.constant * CGFloat(ratio)
     }
 
