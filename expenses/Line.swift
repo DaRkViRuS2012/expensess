@@ -21,8 +21,6 @@ class Line : CustomStringConvertible{
     var LineUoM:String
     var userid:Int64
     
-    
-    
     var item:Item?{
         return DatabaseManagement.shared.queryItem(itemid: ItemId)
     }
@@ -67,6 +65,25 @@ class Line : CustomStringConvertible{
       
         _ = DatabaseManagement.shared.deleteLine(Id: self.Id)
         
+    }
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["Id"] = self.Id
+        dictionary["headerId"] = self.headerId
+        dictionary["Qty"] = self.Qty
+        dictionary["Amount"] = self.Amount
+        dictionary["currency"] = self.currency
+        dictionary["ItemDiscription"] = self.ItemDiscription
+        dictionary["LinePrice"] = self.LinePrice
+        dictionary["ItemId"] = self.ItemId
+        dictionary["LineUoM"] = self.LineUoM
+        dictionary["userid"] = self.userid
+        
+        return dictionary
     }
     
 }

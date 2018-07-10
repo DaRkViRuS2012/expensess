@@ -31,6 +31,7 @@ class UoM :CustomStringConvertible{
     func save(){
         if id == -1{
             id = DatabaseManagement.shared.addUoM(uom: self)!
+            print("UoM JSON \n \n \(dictionaryRepresentation())")
         }else{
             _ = DatabaseManagement.shared.updateUoM(id: id, uom: self)
         }
@@ -42,5 +43,19 @@ class UoM :CustomStringConvertible{
     
     _ = DatabaseManagement.shared.deleteUoM(Id: id)
     
+    }
+    
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["id"] = self.id
+        dictionary["title"] = self.title
+        dictionary["userid"] = self.userid
+        
+        return dictionary
     }
 }

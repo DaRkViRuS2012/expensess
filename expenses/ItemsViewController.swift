@@ -35,6 +35,7 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
         tableView.register(nib, forCellReuseIdentifier: cellid)
         
         loadData()
+        getItemsFromServer()
         self.showNavBackButton = true
         // Do any additional setup after loading the view.
     }
@@ -87,9 +88,9 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
     
     func loadData(){
     
-        guard let user = Globals.user else{
-            return
-        }
+    guard let user = Globals.user else{
+        return
+    }
     EmployeeItems = user.getEmployeeItems()
     CustomerItems = user.getCustomerItems()
     tableView.reloadData()
@@ -102,57 +103,6 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
     self.navigationController?.pushViewController(vc, animated: true)
     
     
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if type{
-            if isSearching{
-                return filterCustomerItems.count
-            }else{
-                return CustomerItems.count
-            }
-            
-        }else{
-            if isSearching{
-                return filterEmployeeItems.count
-            }else{
-                return EmployeeItems.count
-            }
-        }
-    
-    }
-    
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellid, for: indexPath) as! ItemCell
-        cell.delegate = self
-        if !type{
-            if isSearching{
-                cell.item = filterEmployeeItems[indexPath.row]
-            }else{
-                cell.item = EmployeeItems[indexPath.row]
-            }
-        }else{
-            if isSearching {
-                cell.item = filterCustomerItems[indexPath.row]
-            
-            }else{
-                cell.item = CustomerItems[indexPath.row]
-            }
-        }
-        if selectMode{
-        
-            cell.selectMode()
-        }
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
     }
     
     @IBAction func changeType(_ sender: UISegmentedControl) {
@@ -183,13 +133,84 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
     }
     
     
+    
+    // get data from internet
+    func getItemsFromServer(){
+        
+        self.showActivityLoader(true)
+        ApiManager.shared.getModels(model: ModelType.Item,userToken: "c229d8a5-e43f-4e15-8e46-35076d4711d0") { (success, error, result) in
+            self.showActivityLoader(false)
+            print(result)
+        }
+        
+        
+    }
+   
+}
+
+
+extension ItemsViewController{
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if type{
+            if isSearching{
+                return filterCustomerItems.count
+            }else{
+                return CustomerItems.count
+            }
+            
+        }else{
+            if isSearching{
+                return filterEmployeeItems.count
+            }else{
+                return EmployeeItems.count
+            }
+        }
+        
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellid, for: indexPath) as! ItemCell
+        cell.delegate = self
+        if !type{
+            if isSearching{
+                cell.item = filterEmployeeItems[indexPath.row]
+            }else{
+                cell.item = EmployeeItems[indexPath.row]
+            }
+        }else{
+            if isSearching {
+                cell.item = filterCustomerItems[indexPath.row]
+                
+            }else{
+                cell.item = CustomerItems[indexPath.row]
+            }
+        }
+        if selectMode{
+            
+            cell.selectMode()
+        }
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+    
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if selectMode{    
+        if selectMode{
             if isSearching {
                 if type{
                     Globals.item = filterCustomerItems[indexPath.row]
                 }else{
-                Globals.item = filterEmployeeItems[indexPath.row]
+                    Globals.item = filterEmployeeItems[indexPath.row]
                 }
             }else{
                 if type{
@@ -199,11 +220,11 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
                 }
             }
             
-            
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "selectItem"), object: nil)
             
             self.dismiss(animated: true, completion: nil)
-        
+            
         }
     }
+    
 }

@@ -32,6 +32,8 @@ class Currency :CustomStringConvertible{
     
         if id == -1{
             id = DatabaseManagement.shared.addCurrency(currency: self)!
+            
+            print("Currency JSON \n \n \(dictionaryRepresentation())")
         }else{
         _ = DatabaseManagement.shared.updateCurrency(id: id, currency: self)
         }
@@ -41,6 +43,19 @@ class Currency :CustomStringConvertible{
     func delete(){
     
     _ = DatabaseManagement.shared.deleteCurrency(Id: id)
+    }
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["id"] = self.id
+        dictionary["title"] = self.title
+        dictionary["userid"] = self.userid
+        
+        return dictionary
     }
 
     

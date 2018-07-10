@@ -10,6 +10,12 @@
 		142419561F856695002C16E5 /* EditCustomerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142419551F856695002C16E5 /* EditCustomerViewController.swift */; };
 		142419591F856F9D002C16E5 /* CustomerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142419571F856F9D002C16E5 /* CustomerCell.swift */; };
 		1424195A1F856F9D002C16E5 /* CustomerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 142419581F856F9D002C16E5 /* CustomerCell.xib */; };
+		142D69F120F4EDAA00BE6AAF /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69EB20F4EDA900BE6AAF /* ApiManager.swift */; };
+		142D69F220F4EDAA00BE6AAF /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69EC20F4EDA900BE6AAF /* DataStore.swift */; };
+		142D69F820F4EDCB00BE6AAF /* BaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69F620F4EDCA00BE6AAF /* BaseModel.swift */; };
+		142D69F920F4EDCB00BE6AAF /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69F720F4EDCB00BE6AAF /* AppUser.swift */; };
+		142D69FC20F4F5CF00BE6AAF /* Resault_Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69FA20F4F5CE00BE6AAF /* Resault_Value.swift */; };
+		142D69FD20F4F5CF00BE6AAF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142D69FB20F4F5CE00BE6AAF /* Result.swift */; };
 		142E28A61F40BA9400D38A30 /* Material.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142E28A51F40BA9400D38A30 /* Material.framework */; };
 		142E28A81F40BA9700D38A30 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142E28A71F40BA9700D38A30 /* SQLite.framework */; };
 		142E2B0B1F32056900AB3676 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142E2B0A1F32056900AB3676 /* LoginViewController.swift */; };
@@ -123,6 +129,12 @@
 		142419551F856695002C16E5 /* EditCustomerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditCustomerViewController.swift; sourceTree = "<group>"; };
 		142419571F856F9D002C16E5 /* CustomerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerCell.swift; sourceTree = "<group>"; };
 		142419581F856F9D002C16E5 /* CustomerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomerCell.xib; sourceTree = "<group>"; };
+		142D69EB20F4EDA900BE6AAF /* ApiManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		142D69EC20F4EDA900BE6AAF /* DataStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		142D69F620F4EDCA00BE6AAF /* BaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseModel.swift; sourceTree = "<group>"; };
+		142D69F720F4EDCB00BE6AAF /* AppUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		142D69FA20F4F5CE00BE6AAF /* Resault_Value.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resault_Value.swift; sourceTree = "<group>"; };
+		142D69FB20F4F5CE00BE6AAF /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		142E28A51F40BA9400D38A30 /* Material.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Material.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/expenses-ahvdfmcvsxaugudsgtoxykxyuuws/Build/Products/Debug-iphoneos/Material/Material.framework"; sourceTree = "<group>"; };
 		142E28A71F40BA9700D38A30 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/expenses-ahvdfmcvsxaugudsgtoxykxyuuws/Build/Products/Debug-iphoneos/SQLite.swift/SQLite.framework"; sourceTree = "<group>"; };
 		142E2B021F32031100AB3676 /* Material.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Material.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/expenses-ahvdfmcvsxaugudsgtoxykxyuuws/Build/Products/Debug-iphonesimulator/Material/Material.framework"; sourceTree = "<group>"; };
@@ -246,6 +258,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		142D69E920F4EDA900BE6AAF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				142D69EB20F4EDA900BE6AAF /* ApiManager.swift */,
+				142D69EC20F4EDA900BE6AAF /* DataStore.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
 		142D6E331FBCE32D0016FE67 /* Employee */ = {
 			isa = PBXGroup;
 			children = (
@@ -319,6 +340,7 @@
 				14AE90C41FA91C670009BC9F /* OpenSansBold.ttf */,
 				14AE90C51FA91C670009BC9F /* OpenSansRegular.ttf */,
 				14AE90C61FA91C670009BC9F /* OpenSansSemiBold.ttf */,
+				142D69E920F4EDA900BE6AAF /* Managers */,
 				144B39601F377B65008F39C3 /* ViewStates */,
 				147D6C1A1F3663FF00CFF8B1 /* DataBaseManagement */,
 				143413DC1F3495DA00723C40 /* Cells */,
@@ -378,6 +400,10 @@
 		144DF90E1F3391A400DC50A8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				142D69F720F4EDCB00BE6AAF /* AppUser.swift */,
+				142D69FA20F4F5CE00BE6AAF /* Resault_Value.swift */,
+				142D69FB20F4F5CE00BE6AAF /* Result.swift */,
+				142D69F620F4EDCA00BE6AAF /* BaseModel.swift */,
 				144DF90F1F3391B800DC50A8 /* Item.swift */,
 				144B39651F387101008F39C3 /* Header.swift */,
 				14B2EC541F3A5CC40042B54B /* Line.swift */,
@@ -576,7 +602,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Nour ";
 				TargetAttributes = {
 					1433E09D1F3122E000997DC2 = {
@@ -648,13 +674,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-expenses-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FED3EA0AD6CE9686639ABF89 /* [CP] Embed Pods Frameworks */ = {
@@ -663,9 +692,32 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/CVCalendar/CVCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Popover/Popover.framework",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CVCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Popover.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -688,6 +740,7 @@
 				14C5317B1FA911D000AC47A5 /* Constants.swift in Sources */,
 				145E89A01FBA3FF90023CD50 /* UIImage.swift in Sources */,
 				144B39541F377AA8008F39C3 /* ExpensesDemoViewController.swift in Sources */,
+				142D69F220F4EDAA00BE6AAF /* DataStore.swift in Sources */,
 				1461B72C1F84F2EE0020EC97 /* EditPriceViewController.swift in Sources */,
 				145F5F1E1F38FFD900508215 /* PriceListViewController.swift in Sources */,
 				147517EC1F33450C003184DC /* NSLayoutConstraint.swift in Sources */,
@@ -702,6 +755,7 @@
 				14C531901FA9128000AC47A5 /* UIImageViewWithMask.swift in Sources */,
 				14C531781FA910E400AC47A5 /* AppFonts.swift in Sources */,
 				14D9CF461FBB7BF000485906 /* ProfileViewController.swift in Sources */,
+				142D69FD20F4F5CF00BE6AAF /* Result.swift in Sources */,
 				145F5F1A1F38F6AD00508215 /* NewUoMViewController.swift in Sources */,
 				14C5318B1FA9128000AC47A5 /* Color.swift in Sources */,
 				143413DF1F34960400723C40 /* ItemCell.swift in Sources */,
@@ -716,6 +770,7 @@
 				142E2B0B1F32056900AB3676 /* LoginViewController.swift in Sources */,
 				144B39621F3793DE008F39C3 /* SetupViewController.swift in Sources */,
 				14C531921FA9128000AC47A5 /* View.swift in Sources */,
+				142D69FC20F4F5CF00BE6AAF /* Resault_Value.swift in Sources */,
 				145F5F241F39557100508215 /* CustomersViewController.swift in Sources */,
 				145F5F2A1F395DF300508215 /* Currency.swift in Sources */,
 				1433E0A41F3122E000997DC2 /* ViewController.swift in Sources */,
@@ -733,6 +788,7 @@
 				142419561F856695002C16E5 /* EditCustomerViewController.swift in Sources */,
 				145F5F1C1F38FBEC00508215 /* UoM.swift in Sources */,
 				148FE3241FB7A1D400EC8986 /* EditCustomerExpensesLineViewController.swift in Sources */,
+				142D69F120F4EDAA00BE6AAF /* ApiManager.swift in Sources */,
 				147D6C1C1F36641A00CFF8B1 /* DataBaseManagement.swift in Sources */,
 				147F33F01F38AE6600180808 /* User.swift in Sources */,
 				143D93BB1F35164A00E6037F /* NewEmployeeExpensesViewController.swift in Sources */,
@@ -748,6 +804,7 @@
 				146A13E31FB3BF1E00A56951 /* LineCell.swift in Sources */,
 				14C5318D1FA9128000AC47A5 /* StoryBoard.swift in Sources */,
 				147517EF1F3376B4003184DC /* EmployeeExpensesViewController.swift in Sources */,
+				142D69F920F4EDCB00BE6AAF /* AppUser.swift in Sources */,
 				144B39661F387102008F39C3 /* Header.swift in Sources */,
 				1461B7211F84EF860020EC97 /* EditItemViewController.swift in Sources */,
 				144B395A1F377B59008F39C3 /* StatefulPlaceholderView.swift in Sources */,
@@ -755,6 +812,7 @@
 				144B395B1F377B59008F39C3 /* BasicPlaceholderView.swift in Sources */,
 				142419591F856F9D002C16E5 /* CustomerCell.swift in Sources */,
 				147517F31F337741003184DC /* UIButton.swift in Sources */,
+				142D69F820F4EDCB00BE6AAF /* BaseModel.swift in Sources */,
 				1461B7321F84FA950020EC97 /* EditUoMViewController.swift in Sources */,
 				1461B7341F8507F20020EC97 /* EditCurrencyViewController.swift in Sources */,
 				14C5318C1FA9128000AC47A5 /* GradiantView.swift in Sources */,
@@ -797,7 +855,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -805,7 +865,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -848,7 +912,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -856,7 +922,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -888,6 +958,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = E5963CA2JF;
 				INFOPLIST_FILE = expenses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -897,6 +968,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -906,6 +978,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = E5963CA2JF;
 				INFOPLIST_FILE = expenses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -915,6 +988,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};

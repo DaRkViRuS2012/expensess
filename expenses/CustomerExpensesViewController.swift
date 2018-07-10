@@ -35,6 +35,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
     
     var isFillter = false
     var header:Header?
+    
     fileprivate lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy MMM"

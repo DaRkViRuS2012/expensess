@@ -92,4 +92,29 @@ class Header :CustomStringConvertible{
         }
         _ = DatabaseManagement.shared.deleteHeader(Id: id)
     }
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["id"] = self.id
+        dictionary["headerUserId"] = self.headerUserId
+        dictionary["headerCreatedDate"] = self.headerCreatedDate
+        dictionary["headerPostedDate"] = self.headerPostedDate
+        dictionary["headerExpensesType"] = self.headerExpensesType
+        dictionary["headerCustomerId"] = self.headerCustomerId
+        dictionary["headerisApproved"] = self.headerisApproved
+        dictionary["headerKey"] = self.headerKey
+        dictionary["expaded"] = self.expaded
+        dictionary["headerPhoneNumber"] = self.headerPhoneNumber
+        dictionary["headerBillingAddress"] = self.headerBillingAddress
+        dictionary["headerShippingAddress"] = self.headerShippingAddress
+        dictionary["headerContactPerson"] = self.headerContactPerson
+        dictionary["headerDocumenetType"] = self.headerDocumenetType
+        
+        return dictionary
+    }
+    
 }

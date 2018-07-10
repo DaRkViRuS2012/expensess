@@ -45,7 +45,7 @@ class Price :CustomStringConvertible{
     func save(){
         if id == -1 {
             id = DatabaseManagement.shared.addPrice(price: self)!
-        
+            print("Price List JSON \n \n \(dictionaryRepresentation())")
         }else{
         
             _ = DatabaseManagement.shared.updatePrice(id: id, price: self)
@@ -57,5 +57,21 @@ class Price :CustomStringConvertible{
     
     _ = DatabaseManagement.shared.deletePrice(Id: id)
     
+    }
+    
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+
+        dictionary["id"] = self.id 
+        dictionary["value"] = self.value
+        dictionary["customerid"] = self.customerid
+        dictionary["itemid"] = self.itemid
+        dictionary["userid"] = self.userid
+        
+        return dictionary
     }
 }

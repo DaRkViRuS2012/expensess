@@ -20,7 +20,7 @@ class Action: NSObject {
 
 class ActionShowStart: Action {
     override class func execute() {
-        UIApplication.appWindow().rootViewController = UIStoryboard.startStoryboard.instantiateViewController(withIdentifier: StartViewController.className)
+        UIApplication.appWindow().rootViewController = UIStoryboard.mainStoryboard.instantiateViewController(withIdentifier: StartViewController.className)
     }
 }
 

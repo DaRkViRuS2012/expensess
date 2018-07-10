@@ -49,6 +49,7 @@ class Image:CustomStringConvertible{
     func save(){
         if self.id == -1 {
             id = DatabaseManagement.shared.addImage(headerid: headerId, image: title,data:self.data, userid: userid)
+            print("Image JSON \n \n \(dictionaryRepresentation())")
         }else{
           _ =  DatabaseManagement.shared.updateImage(id: self.id!, image: self)
         }
@@ -59,6 +60,21 @@ class Image:CustomStringConvertible{
         _ = DatabaseManagement.shared.deleteImage(Id: self.id!)
     }
     
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["id"] = self.id
+        dictionary["title"] = self.title
+        dictionary["userid"] = self.userid
+        dictionary["headerId"] = self.headerId
+        dictionary["data"] = self.data
+        
+        
+        return dictionary
+    }
     
     
 

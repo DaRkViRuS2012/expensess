@@ -41,7 +41,7 @@ class Item :CustomStringConvertible{
         if self.id == -1 {
             
            id = DatabaseManagement.shared.addItem(item: self)!
-            
+            print("item JSON \n \n \(dictionaryRepresentation())")
         }else{
         
             _ = DatabaseManagement.shared.updateItem(id: self.id, item: self)
@@ -57,6 +57,22 @@ class Item :CustomStringConvertible{
     
     func user() -> User {
         return DatabaseManagement.shared.queryUserById(id: self.userid)!
+    }
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+       dictionary["id"] = self.id
+       dictionary["code"] = self.code
+       dictionary["type"] = self.type
+       dictionary["title"] = self.title
+       dictionary["price"] = self.price
+       dictionary["UoM"] = self.UoM
+       dictionary["icon"] = self.icon
+       dictionary["user"] = self.userid
+        
+        return dictionary
     }
     
 

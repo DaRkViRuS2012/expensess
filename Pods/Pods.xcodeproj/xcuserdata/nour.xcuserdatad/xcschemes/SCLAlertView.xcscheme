@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E5157165686BD5D5C097B2F6040C35F4"
+               BlueprintIdentifier = "166B9CABFEE87B28334B27EBDF5AFAE2"
                BuildableName = "SCLAlertView.framework"
                BlueprintName = "SCLAlertView"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -47,7 +47,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "E5157165686BD5D5C097B2F6040C35F4"
+            BlueprintIdentifier = "166B9CABFEE87B28334B27EBDF5AFAE2"
             BuildableName = "SCLAlertView.framework"
             BlueprintName = "SCLAlertView"
             ReferencedContainer = "container:Pods.xcodeproj">

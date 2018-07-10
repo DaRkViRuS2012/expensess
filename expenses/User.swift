@@ -38,7 +38,7 @@ class User :NSObject,NSCoding{
     
     func save(){
         DatabaseManagement.shared.updateUser(id: self.UserId, user: self)
-    
+        print("User JSON \n \n \(dictionaryRepresentation())")
     }
     
     func getEmployeeItems() -> [Item]{
@@ -133,5 +133,24 @@ class User :NSObject,NSCoding{
         aCoder.encode(UserEmail, forKey: "UserEmail")
     }
     
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["UserId"] = self.UserId
+        dictionary["UserFirstName"] = self.UserFirstName
+        dictionary["UserLastName"] = self.UserLastName
+        dictionary["UserEmail"] = self.UserEmail
+        dictionary["UserName"] = self.UserName
+        dictionary["UserImage"] = self.UserImage
+        dictionary["UserPWD"] = self.UserPWD
+        dictionary["UserisActive"] = self.UserisActive
+        dictionary["UserVendorCode"] = self.UserVendorCode
+        
+        return dictionary
+    }
     
 }

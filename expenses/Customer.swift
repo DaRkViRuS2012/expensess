@@ -50,6 +50,7 @@ class Customer :CustomStringConvertible{
     func save(){
         if Id == -1{
             Id = DatabaseManagement.shared.addCustomer(customer: self)!
+            print("Customer JSON \n \n \(dictionaryRepresentation())")
         }else{
             _ = DatabaseManagement.shared.updateCustomer(id: Id, customer: self)
         }
@@ -61,4 +62,19 @@ class Customer :CustomStringConvertible{
         _ = DatabaseManagement.shared.deleteCustomer(Id: Id)
     }
     
+    
+    
+    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["Id"] = self.Id 
+        dictionary["customerName"] = self.customerName
+        dictionary["customerCurrency"] = self.customerCurrency
+        dictionary["userid"] = self.userid
+        dictionary["customerCode"] = self.customerCode
+        
+        return dictionary
+    }
 }

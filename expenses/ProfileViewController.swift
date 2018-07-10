@@ -62,13 +62,7 @@ class ProfileViewController: AbstractController{
     
    
     func logout(){
-    
-        Globals.user = nil
-        Globals.isLogedin = false
-        userDefulat.removeObject(forKey: "username")
-        userDefulat.removeObject(forKey: "password")
-        self.dismiss(animated: true, completion: nil)
-    
+     DataStore.shared.logout()
     }
     
     func showAlert(title:String,msg:String){

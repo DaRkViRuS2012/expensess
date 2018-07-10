@@ -64,6 +64,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SwiftyJSON.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Toast-Swift.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -71,72 +76,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>27EA17D44BFE33A780A6E03C9652292E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3778B8C2CC3D0E1D353FFFB9A1120B81</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>3F3F2CE7329B0A70E49EAAE9389170F9</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5168099F2EBFC99A707C03C9EADE01A5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5ED59BA0205F128693D6191E45707507</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>808BF1AAB30340347945199AA24226EB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>A2A7E7AA34E02FD24A234BCCF835798F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C4944FEC314D1A66588651D006273ADE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C5A2DB7A84B7B78E359870D2E1B24AA7</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E5157165686BD5D5C097B2F6040C35F4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F356FA89B2A23C5E3237695CB5684639</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>F6204A345A37C6CEE4D4E8E67F6A48C5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

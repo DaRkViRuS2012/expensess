@@ -35,11 +35,21 @@ class DocumnetType :CustomStringConvertible{
     
     func save(){
             id = DatabaseManagement.shared.addDocumnetType(title: self.title, userid: self.userid)
+        print("DocumnetType JSON \n \n \(dictionaryRepresentation())")
     }
     
     
    
-    
+    public  func dictionaryRepresentation() -> [String: Any] {
+        
+        var dictionary: [String: Any] = [:]
+        
+        dictionary["id"] = self.id
+        dictionary["title"] = self.title
+        dictionary["userid"] = self.userid
+        
+        return dictionary
+    }
     
     
     

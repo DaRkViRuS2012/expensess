@@ -6,6 +6,7 @@ target 'expenses' do
   use_frameworks!
   pod 'Material'
   pod 'Alamofire'
+  pod 'SwiftyJSON'
   pod 'Kingfisher'
   pod 'SCLAlertView'
   pod 'SQLite.swift'
