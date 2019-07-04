@@ -26,7 +26,7 @@ class EditPriceViewController: AbstractController {
     var items:[Item] = []
     var itemsList:[String] = []
     
-    var itemId:Int64 = 0
+    var itemId:String?
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
@@ -45,7 +45,7 @@ class EditPriceViewController: AbstractController {
     customersBtn.setTitle(price?.customer?.customerName, for: .normal)
         itemBtn.setTitle(price?.item?.title, for: .normal)
     
-        if let id = price?.itemid{
+        if let id = price?.ItemCode{
             self.itemId = id
         }
     
@@ -64,23 +64,18 @@ class EditPriceViewController: AbstractController {
         
         let userid = user.UserId
         let value = valueTxt.text?.trimmed
-        let customer = customersBtn.currentTitle
         
-        if((value?.characters.count)! > 0 && customer != "customers"){
-            if let customerid = DatabaseManagement.shared.findCustomer(name: customer!, userid: (Globals.user?.UserId)!){
+        if((value?.count)! > 0) {
+//            if let customer = DatabaseManagement.shared.queryCustomerByPriceId(priceListId: price?.PriceListNum){
                 var id:Int64 = -1
                 if let _ = self.price {
-                    id = (self.price?.id)!
+                    id = (self.price?.Pid)!
                 }
-                let price = Price(id: id, value: value!, customerid: customerid, itemid: itemId, userid: userid)
+            let price = Price(id: id, value: value!, PriceListNum: (self.price?.PriceListNum)!, ItemCode: itemId!, userid: userid)
                 price.save()
                 self.navigationController?.popViewController(animated: true)
                 
-            }
-        }else{
-            let alert = UIAlertController(title: "Wrong Data", message: "Enter a vaild Price and Customer", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
+//            }
         }
         
     }
@@ -104,7 +99,7 @@ class EditPriceViewController: AbstractController {
             return
         }
         items = user.getCustomerItems()
-        itemsList = items.map({$0.title})
+        itemsList = items.map({$0.title!})
 //        if itemsList.count > 0{
 //            itemBtn.setTitle(itemsList[0], for: .normal)
 //            self.itemId = self.items[0].id
@@ -129,7 +124,7 @@ class EditPriceViewController: AbstractController {
         itemDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.itemBtn.setTitle(item, for: .normal)
-            self.itemId = self.items[index].id
+            self.itemId = self.items[index].code
         }
     }
     
@@ -139,7 +134,7 @@ class EditPriceViewController: AbstractController {
             return
         }
         customers = user.getCustomers()
-        customersList = customers.map({ $0.customerName })
+        customersList = customers.map({ $0.customerName! })
 //        if customersList.count > 0 {
 //            customersBtn.setTitle(customersList[0], for: .normal)
 //        }

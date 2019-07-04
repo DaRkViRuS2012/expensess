@@ -18,7 +18,7 @@ extension Collection {
         return list
     }
 }
-
+/*
 extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffle() {
@@ -35,7 +35,7 @@ extension MutableCollection where Index == Int {
         }
     }
 }
-
+*/
 extension Array where Element: Equatable {
     // Remove first collection element that is equal to the given `object`:
     mutating func remove(object: Element) {

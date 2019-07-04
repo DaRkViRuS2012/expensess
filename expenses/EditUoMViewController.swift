@@ -45,7 +45,7 @@ class EditUoMViewController: AbstractController {
 
             var id:Int64 = -1
             if let _ = self.uom {
-                id = (self.uom?.id)!
+                id = (self.uom?.Uid)!
             }
             let uom = UoM(id: id, title: value!, userid: userid)
             uom.save()

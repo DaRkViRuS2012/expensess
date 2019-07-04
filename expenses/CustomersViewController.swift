@@ -78,7 +78,7 @@ class CustomersViewController: AbstractController,UITableViewDelegate,UITableVie
         
         filterCustomer = customers.filter({
             
-            $0.customerName.lowercased().contains(item) || $0.customerCode.contains(item)
+            ($0.customerName?.lowercased().contains(item))! || ($0.customerCode?.contains(item))!
         })
         
         tableView.reloadData()

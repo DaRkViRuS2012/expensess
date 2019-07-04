@@ -10,8 +10,8 @@
 import UIKit
 import DropDown
 import Material
-import Popover
-class NewCustomerExpensesViewController: AbstractController ,CalendarViewDelegate,UIImagePickerControllerDelegate{
+//import Popover
+class NewCustomerExpensesViewController: AbstractController ,CalendarViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate{
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var dateButton: UIButton!
@@ -70,7 +70,7 @@ class NewCustomerExpensesViewController: AbstractController ,CalendarViewDelegat
         
     }
     
-    func loadData(notification: Notification){
+    @objc func loadData(notification: Notification){
         lines = Globals.headerLines!
         tableView.reloadData()
     }
@@ -124,7 +124,7 @@ class NewCustomerExpensesViewController: AbstractController ,CalendarViewDelegat
     
     
 
-func deleteHeader(){
+    @objc func deleteHeader(){
     
     
     let alert = UIAlertController(title: "", message: "Are you sure to delete this expense", preferredStyle: .alert)
@@ -171,10 +171,10 @@ func loadHeaderData(){
         guard let userid = Globals.user?.UserId else {
             return
         }
-        let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerisApproved)!)! : .pendding
+        let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerStatus)!)! : .pendding
         
         
-        header = Header(id: -1, headerUserId: userid, headerCreatedDate: Date(), headerPostedDate: Date(), headerExpensesType: "Customer", headerCustomerId: self.selectedCustomer?.Id, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil)
+        header = Header(id: -1, headerUserId: userid, headerCreatedDate: Date(), headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Customer", headerCustomerId: self.selectedCustomer?.CId, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
         header?.save()
         Globals.headerLines = [Line]()
         lines = Globals.headerLines!
@@ -235,7 +235,7 @@ func loadHeaderData(){
     }
     
     
-    func save(){
+    @objc func save(){
         
         let date = dateTextField.text
         let billingAddress = billingAddressTextField.text
@@ -247,7 +247,7 @@ func loadHeaderData(){
                 return
             }
         let userid = user.UserId
-        header?.headerCustomerId = self.selectedCustomer?.Id
+            header?.headerCustomerId = self.selectedCustomer?.CId
         header?.headerCreatedDate = DateHelper.getDateFromString(date!)!
         header?.headerBillingAddress = billingAddress
         header?.headerShippingAddress = shippingAddress
@@ -282,7 +282,7 @@ func loadHeaderData(){
             
             let vc = segue.destination as! EditCustomerExpensesLineViewController
             vc.headerid  = self.header?.id
-            vc.customerid = self.header?.customer?.Id
+            vc.customerid = self.header?.customer?.CId
             vc.customer = selectedCustomer
             vc.line = self.line
         }
@@ -293,7 +293,7 @@ func loadHeaderData(){
             return
         }
         customers = user.getCustomers()
-        customersList = customers.map({ $0.customerName })
+        customersList = customers.map({ $0.customerName! })
         if customersList.count > 0 {
             customersBtn.setTitle(customersList[0], for: .normal)
             self.selectedCustomer = customers[0]
@@ -311,7 +311,7 @@ func loadHeaderData(){
         customersDropDown.selectionAction = { (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.customersBtn.setTitle(item, for: .normal)
-            self.customerid = self.customers[index].Id
+            self.customerid = self.customers[index].CId
             self.selectedCustomer = self.customers[index]
 
         }
@@ -327,7 +327,7 @@ func loadHeaderData(){
     }
     
     
-    func selectCustomer(){
+    @objc func selectCustomer(){
         
         if let customer = Globals.customer{
             customersBtn.setTitle(customer.customerName, for: .normal)
@@ -422,12 +422,12 @@ func loadHeaderData(){
     }
     
     
-    func doneClick() {
+    @objc func doneClick() {
         
         dateTextField.text = DateHelper.getStringFromDate(datePicker.date)
         dateTextField.resignFirstResponder()
     }
-    func cancelClick() {
+    @objc func cancelClick() {
         dateTextField.resignFirstResponder()
     }
     
@@ -534,7 +534,7 @@ extension NewCustomerExpensesViewController: UICollectionViewDelegate,UICollecti
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
@@ -650,7 +650,7 @@ extension NewCustomerExpensesViewController:LineCellDelegate{
         vc.line = line
         vc.header = self.header
         vc.headerid  = self.header?.id
-        vc.customerid = self.header?.customer?.Id
+        vc.customerid = self.header?.customer?.CId
         vc.customer = selectedCustomer
         vc.editMode = true
         self.navigationController?.pushViewController(vc, animated: true)

@@ -7,51 +7,59 @@
 //
 
 import Foundation
-
-class Currency :CustomStringConvertible{
+import SwiftyJSON
+class Currency :BaseModel,CustomStringConvertible{
   
-    var id:Int64
-    var title:String
-    var userid:Int64
+    var Cid:Int64?
+    var title:String?
+    var userid:Int64?
     
     var user:User?{
-        return DatabaseManagement.shared.queryUserById(id: userid)
+        return DatabaseManagement.shared.queryUserById(id: userid!)
     }
     
     
     init(id:Int64 ,title:String,userid:Int64) {
-        self.id = id
+        super.init()
+        self.Cid = id
         self.title = title
         self.userid = userid
     }
+    
+    public required init(json: JSON) {
+        super.init(json: json)
+        self.Cid = json["id"].int64
+        self.title = json["title"].string
+        self.userid = json["userid"].int64
+    }
+    
     var description: String {
-        return "id = \(self.id), title = \(self.title),"
+        return "id = \(self.Cid), title = \(self.title),"
     }
     
     func save(){
     
-        if id == -1{
-            id = DatabaseManagement.shared.addCurrency(currency: self)!
-            
+        if Cid == nil || Cid == -1{
+            Cid = DatabaseManagement.shared.addCurrency(currency: self)!
             print("Currency JSON \n \n \(dictionaryRepresentation())")
         }else{
-        _ = DatabaseManagement.shared.updateCurrency(id: id, currency: self)
+            _ = DatabaseManagement.shared.updateCurrency(id: Cid!, currency: self)
         }
     
     }
     
     func delete(){
     
-    _ = DatabaseManagement.shared.deleteCurrency(Id: id)
+        _ = DatabaseManagement.shared.deleteCurrency(Id: Cid!)
     }
     
     
     
-    public  func dictionaryRepresentation() -> [String: Any] {
+    public  override func dictionaryRepresentation() -> [String: Any] {
         
         var dictionary: [String: Any] = [:]
         
-        dictionary["id"] = self.id
+        dictionary["id"] = self.Cid
         dictionary["title"] = self.title
         dictionary["userid"] = self.userid
         

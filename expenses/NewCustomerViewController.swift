@@ -43,7 +43,7 @@ class NewCustomerViewController: AbstractController{
         if(currencies.count>0){
             customerCurrency.setTitle(currencies[0].title, for: .normal)
         }
-        currencieslist = currencies.map({ $0.title })
+        currencieslist = currencies.map({ $0.title! })
     }
 
     
@@ -92,7 +92,7 @@ class NewCustomerViewController: AbstractController{
         let userid = user.UserId
         if((name?.characters.count)! > 0 && (code?.characters.count)! > 0 && currency != "Currency"){
             
-            let customer = Customer(Id: -1, customerName: name!, customerCurrency: currency!, userid: userid, customerCode: code!)
+            let customer = Customer(Id: -1, customerName: name!, customerCurrency: currency!, userid: userid, customerCode: code!,pricelistnum:"")
             customer.save()
             self.dismiss(animated: true, completion: nil)
             

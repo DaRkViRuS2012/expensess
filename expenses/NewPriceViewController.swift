@@ -27,7 +27,7 @@ class NewPriceViewController: AbstractController {
     var items:[Item] = []
     var itemsList:[String] = []
     
-    var itemId:Int64 = 0
+    var itemId:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +47,7 @@ class NewPriceViewController: AbstractController {
         customersBtn.setTitle(price?.customer?.customerName, for: .normal)
         itemBtn.setTitle(price?.item?.title, for: .normal)
         
-        if let id = price?.itemid{
+        if let id = price?.ItemCode{
             self.itemId = id
         }
         
@@ -66,10 +66,10 @@ class NewPriceViewController: AbstractController {
     
     
     
-    func selectItem(){
+    @objc func selectItem(){
         if let item = Globals.item{
             itemBtn.setTitle(item.title, for: .normal)
-            self.itemId = item.id
+            self.itemId = item.code
         }
         
     }
@@ -88,14 +88,14 @@ class NewPriceViewController: AbstractController {
         let value = valueTxt.text?.trimmed
         let customer = customersBtn.currentTitle
         
-        if((value?.characters.count)! > 0 && customer != "customers"){
-            if let customerid = DatabaseManagement.shared.findCustomer(name: customer!, userid: (Globals.user?.UserId)!){
-                
-                let price = Price(id: -1, value: value!, customerid: customerid, itemid: itemId, userid: userid)
+        if((value?.characters.count)! > 0 ){
+//            if let customerid = DatabaseManagement.shared.findCustomer(name: customer!, userid: (Globals.user?.UserId)!){
+            
+            let price = Price(id: -1, value: value!, PriceListNum: (self.price?.PriceListNum)!, ItemCode: itemId!, userid: userid)
                 price.save()
                 self.navigationController?.popViewController(animated: true)
             
-            }
+//            }
         }else{
             let alert = UIAlertController(title: "Wrong Data", message: "Enter a vaild Price and Customer", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
@@ -123,10 +123,10 @@ class NewPriceViewController: AbstractController {
             return
         }
         items = user.getCustomerItems()
-        itemsList = items.map({$0.title})
+        itemsList = items.map({$0.title!})
         if itemsList.count > 0{
             itemBtn.setTitle(itemsList[0], for: .normal)
-            self.itemId = self.items[0].id
+            self.itemId = self.items[0].code
         }
     }
     
@@ -153,7 +153,7 @@ class NewPriceViewController: AbstractController {
         itemDropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.itemBtn.setTitle(item, for: .normal)
-            self.itemId = self.items[index].id
+            self.itemId = self.items[index].code
         }
     }
 
@@ -163,7 +163,7 @@ class NewPriceViewController: AbstractController {
             return
         }
         customers = user.getCustomers()
-        customersList = customers.map({ $0.customerName })
+        customersList = customers.map({ $0.customerName! })
         if customersList.count > 0 {
             customersBtn.setTitle(customersList[0], for: .normal)
         }
@@ -196,7 +196,7 @@ class NewPriceViewController: AbstractController {
         self.present(vc, animated: true, completion: nil)
     }
     
-    func selectCustomer(){
+    @objc func selectCustomer(){
         
         if let customer = Globals.customer{
             customersBtn.setTitle(customer.customerName, for: .normal)

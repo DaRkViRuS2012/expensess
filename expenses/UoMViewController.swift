@@ -27,6 +27,7 @@ class UoMViewController: AbstractController,UITableViewDelegate,UITableViewDataS
         let nib =  UINib(nibName: cellid, bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellid)
         self.showNavBackButton = true
+        tableView.tableFooterView = UIView()
         loadData()
         // Do any additional setup after loading the view.
     }
@@ -64,7 +65,7 @@ class UoMViewController: AbstractController,UITableViewDelegate,UITableViewDataS
         
         filterUOM = UoMs.filter({
             
-            $0.title.lowercased().contains(item)
+            ($0.title?.lowercased().contains(item))!
         })
         
         tableView.reloadData()
@@ -90,7 +91,7 @@ class UoMViewController: AbstractController,UITableViewDelegate,UITableViewDataS
     }
     
 
-    func add(){
+    @objc func add(){
         let vc = UIStoryboard.viewController(identifier: "NewUoMViewController") as! NewUoMViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }

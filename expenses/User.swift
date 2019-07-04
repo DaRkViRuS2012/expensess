@@ -9,6 +9,26 @@
 import Foundation
 
 
+enum ItemType:String {
+    
+    
+    case customer
+    case employee
+    
+    var value:String{
+        switch self {
+        case .employee:
+            return "Employee"
+        case .customer:
+            return "Customer"
+        }
+        
+        
+    }
+    
+}
+
+
 class User :NSObject,NSCoding{
     
     var UserId:Int64
@@ -42,13 +62,14 @@ class User :NSObject,NSCoding{
     }
     
     func getEmployeeItems() -> [Item]{
-        let items = DatabaseManagement.shared.queryItems(type: "Employee", userid: self.UserId)
+        let items = DatabaseManagement.shared.queryItems(type: ItemType.employee.value, userid: self.UserId)
+//        let items = DatabaseManagement.shared.queryItems(type: "Employee", userid: self.UserId)
         return items
     
     }
     
     func getCustomerItems() -> [Item]{
-        let items = DatabaseManagement.shared.queryItems(type: "Customer", userid: self.UserId)
+        let items = DatabaseManagement.shared.queryItems(type: ItemType.customer.value, userid: self.UserId)
         return items
         
     }
@@ -56,21 +77,21 @@ class User :NSObject,NSCoding{
     
     func getEmployeeHeaders(date:Date,type:String)->[Header]{
     
-        let headers = DatabaseManagement.shared.queryAllHeadersByDate(type: "Employee", date: date, userid: self.UserId, filterType: type)
+        let headers = DatabaseManagement.shared.queryAllHeadersByDate(type: ItemType.employee.value, date: date, userid: self.UserId, filterType: type)
         return headers
     }
     
     func getCustomerHeaders(date:Date,type:String)->[Header]{
         
         //let headers = DatabaseManagement.shared.queryAllHeaders(type: "Customer", userid: self.UserId)
-        let headers = DatabaseManagement.shared.queryAllHeadersByDate(type: "Customer", date: date, userid: self.UserId, filterType: type)
+        let headers = DatabaseManagement.shared.queryAllHeadersByDate(type: ItemType.customer.value, date: date, userid: self.UserId, filterType: type)
         return headers
     }
     
     
     func getAllCustomerHeaders()->[Header]{
         
-        let headers = DatabaseManagement.shared.queryAllHeaders(type: "Customer", userid: self.UserId)
+        let headers = DatabaseManagement.shared.queryAllHeaders(type: ItemType.customer.value, userid: self.UserId)
         
         return headers
     }

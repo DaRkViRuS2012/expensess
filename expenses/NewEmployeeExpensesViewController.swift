@@ -9,9 +9,9 @@
 import UIKit
 import Material
 import DropDown
-import Popover
+//import Popover
 
-class NewEmployeeExpensesViewController: AbstractController, UIImagePickerControllerDelegate,CalendarViewDelegate{
+class NewEmployeeExpensesViewController: AbstractController, UIImagePickerControllerDelegate,CalendarViewDelegate,UINavigationControllerDelegate{
 
     @IBOutlet weak var dateTextField: UITextField!
 
@@ -121,7 +121,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
     
     
     
-    func deleteHeader(){
+    @objc func deleteHeader(){
         
         
         let alert = UIAlertController(title: "", message: "Are you sure to delete the expense", preferredStyle: .alert)
@@ -158,7 +158,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             dateTextField.text = DateHelper.getStringFromDate((header?.headerCreatedDate)!)
             }
         itemBtn.setTitle(header?.HeaderLines[0].item?.title, for: .normal)
-        self.itemid = header?.HeaderLines[0].item?.id
+        self.itemid = header?.HeaderLines[0].item?.Itemid
         PriceTxt.text = "\(Double((header?.HeaderLines[0].LinePrice)!))"
         QuantityTxt.text = "\(Int((header?.HeaderLines[0].Qty)!))"
         UoMBtn.setTitle(header?.HeaderLines[0].LineUoM, for: .normal)
@@ -230,7 +230,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
         return true
     }
     
-    func save(){
+    @objc func save(){
         let date = dateTextField.text
         let price = PriceTxt.text?.trimmed
         let qty = QuantityTxt.text?.trimmed
@@ -249,9 +249,9 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
         
         
         let expensesDate = DateHelper.getDateFromString(date!)
-        let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerisApproved)!)! : .pendding
+        let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerStatus)!)! : .pendding
         let id = editMode ? header?.id : -1
-        header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.Id, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil)
+            header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.CId, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
     
         header?.save()
         
@@ -280,7 +280,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             return
         }
         currencies = user.getCurrencies()
-        currenciesList = currencies.map({$0.title})
+        currenciesList = currencies.map({$0.title!})
      
     }
     
@@ -298,7 +298,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             return
         }
         UoMs = user.getUoM()
-        UoMList = UoMs.map({$0.title})
+        UoMList = UoMs.map({$0.title!})
       
     }
     
@@ -333,10 +333,10 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
     
     
     
-    func selectItem(){
+    @objc func selectItem(){
         if let item = Globals.item{
             itemBtn.setTitle(item.title, for: .normal)
-            self.itemid = item.id
+            self.itemid = item.Itemid
             self.PriceTxt.text = "\(item.price)"
             self.UoMBtn.setTitle(item.UoM, for: .normal)
             self.selectedUoM = item.UoM
@@ -378,7 +378,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             return
         }
         customers = user.getCustomers()
-        customerList = customers.map({$0.customerName})
+        customerList = customers.map({$0.customerName!})
         customerList.insert("None", at: 0)
     }
     
@@ -410,7 +410,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
     }
     
     
-    func selectCustomer(){
+    @objc func selectCustomer(){
         
         if let customer = Globals.customer{
             customerButton.setTitle(customer.customerName, for: .normal)
@@ -571,7 +571,7 @@ extension NewEmployeeExpensesViewController:UICollectionViewDelegate,UICollectio
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
@@ -629,12 +629,12 @@ extension NewEmployeeExpensesViewController:UICollectionViewDelegate,UICollectio
     }
     
     
-    func doneClick() {
+    @objc func doneClick() {
         
         dateTextField.text = DateHelper.getStringFromDate(datePicker.date)
         dateTextField.resignFirstResponder()
     }
-    func cancelClick() {
+    @objc func cancelClick() {
         dateTextField.resignFirstResponder()
     }
     

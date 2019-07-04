@@ -47,7 +47,9 @@ class ItemCell: UITableViewCell {
             
             titleLabel.text = item.title
             discreptionLabel.text = item.code
-            costLabel.text = "\(item.price)"
+            if let price = item.price{
+                costLabel.text = "\(price)"
+            }
             
         }
         

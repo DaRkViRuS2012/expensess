@@ -42,7 +42,7 @@
 		144DF90D1F338E0100DC50A8 /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DF90C1F338E0100DC50A8 /* Section.swift */; };
 		144DF9101F3391B800DC50A8 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DF90F1F3391B800DC50A8 /* Item.swift */; };
 		144DF9121F33938900DC50A8 /* ExpandableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DF9111F33938900DC50A8 /* ExpandableHeaderView.swift */; };
-		14514FE91FA13165005CD5EF /* ٍStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14514FE81FA13165005CD5EF /* ٍStartViewController.swift */; };
+		14514FE91FA13165005CD5EF /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14514FE81FA13165005CD5EF /* StartViewController.swift */; };
 		145E89A01FBA3FF90023CD50 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145E899F1FBA3FF90023CD50 /* UIImage.swift */; };
 		145F5F161F38F1C400508215 /* NewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145F5F151F38F1C400508215 /* NewItemViewController.swift */; };
 		145F5F181F38F64500508215 /* UoMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145F5F171F38F64500508215 /* UoMViewController.swift */; };
@@ -67,6 +67,7 @@
 		146A13E31FB3BF1E00A56951 /* LineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146A13E11FB3BF1E00A56951 /* LineCell.swift */; };
 		146A13E41FB3BF1E00A56951 /* LineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 146A13E21FB3BF1E00A56951 /* LineCell.xib */; };
 		146CE8B11F363B34002D5108 /* CustomerExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146CE8B01F363B34002D5108 /* CustomerExpensesViewController.swift */; };
+		146E5FD822C36240003E8119 /* Popover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146E5FD722C36240003E8119 /* Popover.swift */; };
 		147517EA1F333845003184DC /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147517E91F333845003184DC /* CreateAccountViewController.swift */; };
 		147517EC1F33450C003184DC /* NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147517EB1F33450C003184DC /* NSLayoutConstraint.swift */; };
 		147517EF1F3376B4003184DC /* EmployeeExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 147517EE1F3376B4003184DC /* EmployeeExpensesViewController.swift */; };
@@ -164,7 +165,7 @@
 		144DF90C1F338E0100DC50A8 /* Section.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		144DF90F1F3391B800DC50A8 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		144DF9111F33938900DC50A8 /* ExpandableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpandableHeaderView.swift; sourceTree = "<group>"; };
-		14514FE81FA13165005CD5EF /* ٍStartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ٍStartViewController.swift"; sourceTree = "<group>"; };
+		14514FE81FA13165005CD5EF /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		145E899F1FBA3FF90023CD50 /* UIImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		145F5F151F38F1C400508215 /* NewItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewItemViewController.swift; sourceTree = "<group>"; };
 		145F5F171F38F64500508215 /* UoMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UoMViewController.swift; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		146A13E11FB3BF1E00A56951 /* LineCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineCell.swift; sourceTree = "<group>"; };
 		146A13E21FB3BF1E00A56951 /* LineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineCell.xib; sourceTree = "<group>"; };
 		146CE8B01F363B34002D5108 /* CustomerExpensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomerExpensesViewController.swift; sourceTree = "<group>"; };
+		146E5FD722C36240003E8119 /* Popover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Popover.swift; sourceTree = "<group>"; };
 		147517E91F333845003184DC /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		147517EB1F33450C003184DC /* NSLayoutConstraint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSLayoutConstraint.swift; sourceTree = "<group>"; };
 		147517EE1F3376B4003184DC /* EmployeeExpensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmployeeExpensesViewController.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				147517F41F338255003184DC /* Date.swift */,
 				1483AA7D1F47390D006F46D5 /* UIViewController.swift */,
 				145E899F1FBA3FF90023CD50 /* UIImage.swift */,
+				146E5FD722C36240003E8119 /* Popover.swift */,
 			);
 			name = extensions;
 			sourceTree = "<group>";
@@ -519,7 +522,7 @@
 			children = (
 				14AE90C71FA91D6F0009BC9F /* Actions.swift */,
 				14C531751FA9104700AC47A5 /* AbstractController.swift */,
-				14514FE81FA13165005CD5EF /* ٍStartViewController.swift */,
+				14514FE81FA13165005CD5EF /* StartViewController.swift */,
 				144B39611F3793DE008F39C3 /* SetupViewController.swift */,
 				147517F01F3376D7003184DC /* HomeViewController.swift */,
 				1461B7271F84EFC50020EC97 /* Login */,
@@ -582,9 +585,8 @@
 				1433E09A1F3122E000997DC2 /* Sources */,
 				1433E09B1F3122E000997DC2 /* Frameworks */,
 				1433E09C1F3122E000997DC2 /* Resources */,
-				FED3EA0AD6CE9686639ABF89 /* [CP] Embed Pods Frameworks */,
-				3C00C4982498E77CC99C2EA3 /* [CP] Copy Pods Resources */,
 				148B44E21F859CB1006E8357 /* Embed App Extensions */,
+				8DCA04960315D2E35A994883 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -607,7 +609,7 @@
 				TargetAttributes = {
 					1433E09D1F3122E000997DC2 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = E5963CA2JF;
+						DevelopmentTeam = BBSB6N9C9P;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -617,8 +619,10 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 1433E0951F3122E000997DC2;
 			productRefGroup = 1433E09F1F3122E000997DC2 /* Products */;
@@ -653,19 +657,46 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3C00C4982498E77CC99C2EA3 /* [CP] Copy Pods Resources */ = {
+		8DCA04960315D2E35A994883 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/CVCalendar/CVCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
+				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
+				"${BUILT_PRODUCTS_DIR}/Motion/Motion.framework",
+				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CVCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Motion.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C21AD02108C358E43BDDF3E7 /* [CP] Check Pods Manifest.lock */ = {
@@ -684,44 +715,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FED3EA0AD6CE9686639ABF89 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/CVCalendar/CVCalendar.framework",
-				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
-				"${BUILT_PRODUCTS_DIR}/FSCalendar/FSCalendar.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/Material/Material.framework",
-				"${BUILT_PRODUCTS_DIR}/Popover/Popover.framework",
-				"${BUILT_PRODUCTS_DIR}/SCLAlertView/SCLAlertView.framework",
-				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CVCalendar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSCalendar.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Material.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Popover.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SCLAlertView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-expenses/Pods-expenses-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -783,13 +776,14 @@
 				1461B72F1F84F6630020EC97 /* titleCell.swift in Sources */,
 				1483AA7E1F47390D006F46D5 /* UIViewController.swift in Sources */,
 				148FE3221FB7A15E00EC8986 /* EditCustomerExpensesViewController.swift in Sources */,
-				14514FE91FA13165005CD5EF /* ٍStartViewController.swift in Sources */,
+				14514FE91FA13165005CD5EF /* StartViewController.swift in Sources */,
 				14DEE02D1FD742F300161120 /* DocumnetType.swift in Sources */,
 				142419561F856695002C16E5 /* EditCustomerViewController.swift in Sources */,
 				145F5F1C1F38FBEC00508215 /* UoM.swift in Sources */,
 				148FE3241FB7A1D400EC8986 /* EditCustomerExpensesLineViewController.swift in Sources */,
 				142D69F120F4EDAA00BE6AAF /* ApiManager.swift in Sources */,
 				147D6C1C1F36641A00CFF8B1 /* DataBaseManagement.swift in Sources */,
+				146E5FD822C36240003E8119 /* Popover.swift in Sources */,
 				147F33F01F38AE6600180808 /* User.swift in Sources */,
 				143D93BB1F35164A00E6037F /* NewEmployeeExpensesViewController.swift in Sources */,
 				145F5F261F39557F00508215 /* NewCustomerViewController.swift in Sources */,
@@ -959,14 +953,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = E5963CA2JF;
+				DEVELOPMENT_TEAM = BBSB6N9C9P;
 				INFOPLIST_FILE = expenses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nour.araar.expensses;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nour.araar.expensses1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -979,14 +973,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 13;
-				DEVELOPMENT_TEAM = E5963CA2JF;
+				DEVELOPMENT_TEAM = BBSB6N9C9P;
 				INFOPLIST_FILE = expenses/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nour.araar.expensses;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nour.araar.expensses1;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};

@@ -18,6 +18,7 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
     var selectMode = false
     
     var cellid = "ItemCell"
+    var Items:[Item] = []
     var EmployeeItems:[Item] = []
     var CustomerItems:[Item] = []
     var filterEmployeeItems:[Item] = []
@@ -35,7 +36,7 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
         tableView.register(nib, forCellReuseIdentifier: cellid)
         
         loadData()
-        getItemsFromServer()
+       // getItemsFromServer()
         self.showNavBackButton = true
         // Do any additional setup after loading the view.
     }
@@ -60,12 +61,12 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
         
             filterCustomerItems = CustomerItems.filter({
             
-            $0.title.lowercased().contains(item.lowercased()) || $0.code.lowercased().contains(item.lowercased())
+                ($0.title?.lowercased().contains(item.lowercased()))! || ($0.code?.lowercased().contains(item.lowercased()))!
             })
             
         }else{
             filterEmployeeItems = EmployeeItems.filter({
-                   $0.title.lowercased().contains(item.lowercased()) || $0.code.lowercased().contains(item.lowercased())
+                ($0.title?.lowercased().contains(item.lowercased()))! || ($0.code?.lowercased().contains(item.lowercased()))!
             })
         }
     
@@ -135,16 +136,6 @@ class ItemsViewController: AbstractController,UITableViewDataSource,UITableViewD
     
     
     // get data from internet
-    func getItemsFromServer(){
-        
-        self.showActivityLoader(true)
-        ApiManager.shared.getModels(model: ModelType.Item,userToken: "c229d8a5-e43f-4e15-8e46-35076d4711d0") { (success, error, result) in
-            self.showActivityLoader(false)
-            print(result)
-        }
-        
-        
-    }
    
 }
 

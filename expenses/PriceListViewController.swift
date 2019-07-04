@@ -39,7 +39,7 @@ class PriceListViewController: AbstractController,UITableViewDelegate,UITableVie
         
     }
     
-    func add(){
+    @objc func add(){
         let vc = UIStoryboard.viewController(identifier: "NewPriceViewController") as! NewPriceViewController
         
         self.navigationController?.pushViewController(vc, animated: true)

@@ -9,8 +9,8 @@
     import UIKit
     import Material
     import DropDown
-    import Popover
-    class EditEmployeeExpensesViewController: AbstractController, UIImagePickerControllerDelegate,CalendarViewDelegate{
+//    import Popover
+    class EditEmployeeExpensesViewController: AbstractController, UIImagePickerControllerDelegate,CalendarViewDelegate,UINavigationControllerDelegate{
         
         
         @IBOutlet weak var dateButton: UIButton!
@@ -99,7 +99,7 @@
         func loadHeaderData(){
             dateButton.setTitle(DateHelper.getStringFromDate((header?.headerCreatedDate)!), for: .normal)
             itemBtn.setTitle(header?.HeaderLines[0].item?.title, for: .normal)
-            self.itemid = header?.HeaderLines[0].item?.id
+            self.itemid = header?.HeaderLines[0].item?.Itemid
             PriceTxt.text = "\(Double((header?.HeaderLines[0].LinePrice)!))"
             QuantityTxt.text = "\(Int((header?.HeaderLines[0].Qty)!))"
             UoMBtn.setTitle(header?.HeaderLines[0].LineUoM, for: .normal)
@@ -168,7 +168,7 @@
         
         
         
-        func save(){
+        @objc func save(){
             let date = dateButton.currentTitle
             let item = itemBtn.titleLabel?.text
             let price = PriceTxt.text?.trimmed
@@ -189,7 +189,7 @@
             
             let expensesDate = DateHelper.getDateFromString(date!)
             
-            let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(), headerExpensesType: "Employee", headerCustomerId: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil)
+                let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
             
             header.save()
             
@@ -212,7 +212,7 @@
         
         
         
-        func deleteHeader(){
+        @objc func deleteHeader(){
             self.header?.delete()
             self.popOrDismissViewControllerAnimated(animated: true)
         }
@@ -224,10 +224,10 @@
             }
             
             items = user.getEmployeeItems()
-            itemsList = items.map({$0.title})
+            itemsList = items.map({$0.title!})
             if itemsList.count > 0{
                 itemBtn.setTitle(itemsList[0], for: .normal)
-                self.itemid = self.items[0].id
+                self.itemid = self.items[0].Itemid
                 self.UoMBtn.setTitle(self.items[0].UoM, for: .normal)
                 self.PriceTxt.text = "\(self.items[0].price)"
             }
@@ -239,7 +239,7 @@
                 return
             }
             currencies = user.getCurrencies()
-            currenciesList = currencies.map({$0.title})
+            currenciesList = currencies.map({$0.title!})
         }
         
         @IBAction func toggleCurrencyDropDown(_ sender: UIButton) {
@@ -256,7 +256,7 @@
                 return
             }
             UoMs = user.getUoM()
-            UoMList = UoMs.map({$0.title})
+            UoMList = UoMs.map({$0.title!})
         }
         
 
@@ -281,10 +281,10 @@
             self.present(vc, animated: true, completion: nil)
         }
         
-        func selectItem(){
+        @objc func selectItem(){
             if let item = Globals.item{
                 itemBtn.setTitle(item.title, for: .normal)
-                self.itemid = item.id
+                self.itemid = item.Itemid
                 self.PriceTxt.text = "\(item.price)"
                 
             }
@@ -321,7 +321,7 @@
                 return
             }
             customers = user.getCustomers()
-            customerList = customers.map({$0.customerName})
+            customerList = customers.map({$0.customerName!})
             customerList.insert("None", at: 0)
         }
         
@@ -353,7 +353,7 @@
         
         
         
-        func selectCustomer(){
+        @objc func selectCustomer(){
             
             if let customer = Globals.customer{
                 customerButton.setTitle(customer.customerName, for: .normal)
@@ -495,7 +495,7 @@ extension EditEmployeeExpensesViewController:UICollectionViewDelegate,UICollecti
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()

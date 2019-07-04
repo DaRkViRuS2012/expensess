@@ -9,7 +9,7 @@
 import UIKit
 import DropDown
 import Material
-import Popover
+//import Popover
 class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelegate{
     
     @IBOutlet weak var tableView: UITableView!
@@ -56,7 +56,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
     
     
     
-    func loadData(notification: Notification){
+    @objc func loadData(notification: Notification){
         lines = Globals.headerLines!
         tableView.reloadData()
     }
@@ -83,7 +83,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
         tableView.register(nib, forCellReuseIdentifier: cellid)
     }
     
-    func deleteHeader(){
+    @objc func deleteHeader(){
         self.header?.delete()
         self.popOrDismissViewControllerAnimated(animated: true)
     }
@@ -137,7 +137,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
     }
    
     
-    func save(){
+    @objc func save(){
         
         let date = dateButton.currentTitle!
         let billingAddress = billingAddressTextField.text
@@ -145,7 +145,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
         let shippingAddress = shippingAddressTextField.text
         let contactPerson = contactPersonTextField.text
         if validate(){
-        header?.headerCustomerId = self.selectedCustomer?.Id
+            header?.headerCustomerId = self.selectedCustomer?.CId
         header?.headerCreatedDate = DateHelper.getDateFromString(date)!
         header?.headerBillingAddress = billingAddress
         header?.headerShippingAddress = shippingAddress
@@ -172,7 +172,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
             
             let vc = segue.destination as! EditCustomerExpensesLineViewController
             vc.headerid  = self.header?.id
-            vc.customerid = self.header?.customer?.Id
+            vc.customerid = self.header?.customer?.CId
             vc.customer = selectedCustomer
             vc.line = self.line
         }
@@ -183,7 +183,7 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
             return
         }
         customers = user.getCustomers()
-        customersList = customers.map({ $0.customerName })
+        customersList = customers.map({ $0.customerName! })
         if customersList.count > 0 {
             customersBtn.setTitle(customersList[0], for: .normal)
             self.selectedCustomer = customers[0]
@@ -201,13 +201,13 @@ class EditCustomerExpensesViewController: AbstractController ,CalendarViewDelega
         customersDropDown.selectionAction = { (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.customersBtn.setTitle(item, for: .normal)
-            self.customerid = self.customers[index].Id
+            self.customerid = self.customers[index].CId
             self.selectedCustomer = self.customers[index]
             
         }
     }
     
-    func selectCustomer(){
+    @objc func selectCustomer(){
     
         if let customer = Globals.customer{
             customersBtn.setTitle(customer.customerName, for: .normal)

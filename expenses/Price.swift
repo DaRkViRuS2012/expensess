@@ -7,69 +7,81 @@
 //
 
 import Foundation
-
-class Price :CustomStringConvertible{
-    var id:Int64
-    var value:String
-    var customerid:Int64
-    var itemid:Int64
-    var userid:Int64
+import SwiftyJSON
+class Price :BaseModel,CustomStringConvertible{
+    var Pid:Int64?
+    var value:String?
+    var PriceListNum:String?
+    var ItemCode:String?
+    var userid:Int64?
     
     
     
     
     var customer:Customer?{
-        return DatabaseManagement.shared.queryCustomerById(customerid:customerid)
+        
+        return DatabaseManagement.shared.queryCustomerByPriceId(priceListId: PriceListNum ?? "-1")
     }
     
     
     var item:Item? {
-        return DatabaseManagement.shared.queryItem(itemid: itemid)
+        return DatabaseManagement.shared.queryItem(itemCode: ItemCode ?? "-1")
     }
     
     var user:User?{
-        return DatabaseManagement.shared.queryUserById(id: userid)
+        return DatabaseManagement.shared.queryUserById(id: userid!)
     }
     
-    init(id:Int64 ,value:String,customerid:Int64,itemid:Int64,userid:Int64) {
-        self.id = id
+    init(id:Int64 ,value:String,PriceListNum:String,ItemCode:String,userid:Int64) {
+        super.init()
+        self.Pid = id
         self.value = value
-        self.customerid = customerid
-        self.itemid = itemid
+        self.PriceListNum = PriceListNum
+        self.ItemCode = ItemCode
         self.userid = userid
     }
+    
+    public required init(json: JSON) {
+        super.init(json: json)
+        self.Pid = json["id"].int64
+        self.value = json["value"].string
+        self.PriceListNum = json["PriceListNum"].string
+        self.ItemCode = json["ItemCode"].string
+        self.userid = json["userid"].int64
+    }
+    
     var description: String {
-        return "id = \(self.id ?? 0), title = \(self.value),item \(self.itemid), customer \(self.customerid)"
+        return "id = \(self.Pid ?? 0), title = \(self.value),item \(self.ItemCode), customer \(self.PriceListNum)"
     }
     
     func save(){
-        if id == -1 {
-            id = DatabaseManagement.shared.addPrice(price: self)!
+        if Pid == nil {
+            Pid = DatabaseManagement.shared.addPrice(price: self)!
             print("Price List JSON \n \n \(dictionaryRepresentation())")
         }else{
         
-            _ = DatabaseManagement.shared.updatePrice(id: id, price: self)
+            _ = DatabaseManagement.shared.updatePrice(id: Pid!, price: self)
         
         }
     }
     
     func delete(){
     
-    _ = DatabaseManagement.shared.deletePrice(Id: id)
+        _ = DatabaseManagement.shared.deletePrice(Id: Pid!)
     
     }
     
     
     
     
-    public  func dictionaryRepresentation() -> [String: Any] {
+    public  override func dictionaryRepresentation() -> [String: Any] {
         
         var dictionary: [String: Any] = [:]
 
-        dictionary["id"] = self.id 
+        dictionary["id"] = self.Pid 
         dictionary["value"] = self.value
-        dictionary["customerid"] = self.customerid
-        dictionary["itemid"] = self.itemid
+        dictionary["PriceListNum"] = self.PriceListNum
+        dictionary["ItemCode"] = self.ItemCode
         dictionary["userid"] = self.userid
         
         return dictionary

@@ -41,8 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func NavigationBarStyle(){
         // remove under line
         
-        let attrs = [NSForegroundColorAttributeName : UIColor.orange ,
-                     NSFontAttributeName : UIFont.systemFont(ofSize: 20)]
+        let attrs = [NSAttributedStringKey.foregroundColor : UIColor.orange ,
+                     NSAttributedStringKey.font : UIFont.systemFont(ofSize: 20)]
         UINavigationBar.appearance().titleTextAttributes = attrs
         // set background color
         UINavigationBar.appearance().barTintColor = .white

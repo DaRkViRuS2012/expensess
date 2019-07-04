@@ -91,8 +91,6 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    _titleLabel.text = self.title;
     if (_subtitle) {
         _subtitleLabel.text = _subtitle;
         if (_subtitleLabel.hidden) {
@@ -105,8 +103,8 @@
     }
     
     if (_subtitle) {
-        CGFloat titleHeight = self.calendar.calculator.titleHeight;
-        CGFloat subtitleHeight = self.calendar.calculator.subtitleHeight;
+        CGFloat titleHeight = self.titleLabel.font.lineHeight;
+        CGFloat subtitleHeight = self.subtitleLabel.font.lineHeight;
         
         CGFloat height = titleHeight + subtitleHeight;
         _titleLabel.frame = CGRectMake(
@@ -131,8 +129,6 @@
     }
     
     _imageView.frame = CGRectMake(self.preferredImageOffset.x, self.preferredImageOffset.y, self.contentView.fs_width, self.contentView.fs_height);
-    
-    
     
     CGFloat titleHeight = self.bounds.size.height*5.0/6.0;
     CGFloat diameter = MIN(self.bounds.size.height*5.0/6.0,self.bounds.size.width);
@@ -161,8 +157,10 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [CATransaction setDisableActions:YES];
-    _shapeLayer.opacity = 0;
+    if (self.window) { // Avoid interrupt of navigation transition somehow
+        [CATransaction setDisableActions:YES]; // Avoid blink of shape layer.
+    }
+    self.shapeLayer.opacity = 0;
     [self.contentView.layer removeAnimationForKey:@"opacity"];
 }
 
@@ -171,25 +169,21 @@
 - (void)performSelecting
 {
     _shapeLayer.opacity = 1;
-    
-#define kAnimationDuration FSCalendarDefaultBounceAnimationDuration
-    
+        
     CAAnimationGroup *group = [CAAnimationGroup animation];
     CABasicAnimation *zoomOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     zoomOut.fromValue = @0.3;
     zoomOut.toValue = @1.2;
-    zoomOut.duration = kAnimationDuration/4*3;
+    zoomOut.duration = FSCalendarDefaultBounceAnimationDuration/4*3;
     CABasicAnimation *zoomIn = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     zoomIn.fromValue = @1.2;
     zoomIn.toValue = @1.0;
-    zoomIn.beginTime = kAnimationDuration/4*3;
-    zoomIn.duration = kAnimationDuration/4;
-    group.duration = kAnimationDuration;
+    zoomIn.beginTime = FSCalendarDefaultBounceAnimationDuration/4*3;
+    zoomIn.duration = FSCalendarDefaultBounceAnimationDuration/4;
+    group.duration = FSCalendarDefaultBounceAnimationDuration;
     group.animations = @[zoomOut, zoomIn];
     [_shapeLayer addAnimation:group forKey:@"bounce"];
     [self configureAppearance];
-    
-#undef kAnimationDuration
     
 }
 
@@ -255,7 +249,6 @@
     
     _eventIndicator.numberOfEvents = self.numberOfEvents;
     _eventIndicator.color = self.colorsForEvents;
-    
 
 }
 
@@ -379,7 +372,6 @@ OFFSET_PROPERTY(preferredEventOffset, PreferredEventOffset, _appearance.eventOff
 @property (weak, nonatomic) UIView *contentView;
 
 @property (strong, nonatomic) NSPointerArray *eventLayers;
-@property (assign, nonatomic) BOOL needsInvalidatingColor;
 
 @end
 
@@ -401,8 +393,6 @@ OFFSET_PROPERTY(preferredEventOffset, PreferredEventOffset, _appearance.eventOff
             [self.contentView.layer addSublayer:layer];
             [self.eventLayers addPointer:(__bridge void * _Nullable)(layer)];
         }
-        
-        _needsInvalidatingColor = YES;
         
     }
     return self;
@@ -433,25 +423,6 @@ OFFSET_PROPERTY(preferredEventOffset, PreferredEventOffset, _appearance.eventOff
                 }
             }
         }
-        
-        if (_needsInvalidatingColor) {
-            _needsInvalidatingColor = NO;
-            if ([_color isKindOfClass:[UIColor class]]) {
-                [self.eventLayers.allObjects makeObjectsPerformSelector:@selector(setBackgroundColor:) withObject:(id)[_color CGColor]];
-            } else if ([_color isKindOfClass:[NSArray class]]) {
-                NSArray *colors = (NSArray *)_color;
-                if (colors.count) {
-                    UIColor *lastColor = colors.firstObject;
-                    for (int i = 0; i < self.eventLayers.count; i++) {
-                        if (i < colors.count) {
-                            lastColor = colors[i];
-                        }
-                        CALayer *eventLayer = [self.eventLayers pointerAtIndex:i];
-                        eventLayer.backgroundColor = lastColor.CGColor;
-                    }
-                }
-            }
-        }
     }
 }
 
@@ -459,8 +430,20 @@ OFFSET_PROPERTY(preferredEventOffset, PreferredEventOffset, _appearance.eventOff
 {
     if (![_color isEqual:color]) {
         _color = color;
-        _needsInvalidatingColor = YES;
-        [self setNeedsLayout];
+        
+        if ([_color isKindOfClass:[UIColor class]]) {
+            for (NSInteger i = 0; i < self.eventLayers.count; i++) {
+                CALayer *layer = [self.eventLayers pointerAtIndex:i];
+                layer.backgroundColor = [_color CGColor];
+            }
+        } else if ([_color isKindOfClass:[NSArray class]]) {
+            NSArray<UIColor *> *colors = (NSArray *)_color;
+            for (int i = 0; i < self.eventLayers.count; i++) {
+                CALayer *eventLayer = [self.eventLayers pointerAtIndex:i];
+                eventLayer.backgroundColor = colors[MIN(i,colors.count-1)].CGColor;
+            }
+        }
+        
     }
 }
 

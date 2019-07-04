@@ -46,7 +46,7 @@ class EditCurrencyViewController: AbstractController {
         let value = titleTxt.text?.trimmed
         if((value?.characters.count)! > 0 ){
             
-            let currency = Currency(id: (self.currency?.id)!, title: value!, userid: userid)
+            let currency = Currency(id: (self.currency?.Cid)!, title: value!, userid: userid)
             currency.save()
             self.navigationController?.popViewController(animated: true)
         }else{

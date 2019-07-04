@@ -31,12 +31,12 @@ extension Data : Value {
     }
 
     public static func fromDatatypeValue(_ dataValue: Blob) -> Data {
-        return Data(bytes: dataValue.bytes)
+        return Data(dataValue.bytes)
     }
 
     public var datatypeValue: Blob {
-        return withUnsafeBytes { (pointer: UnsafePointer<UInt8>) -> Blob in
-            return Blob(bytes: pointer, length: count)
+        return withUnsafeBytes { (pointer: UnsafeRawBufferPointer) -> Blob in
+            return Blob(bytes: pointer.baseAddress!, length: count)
         }
     }
 
@@ -68,41 +68,3 @@ public var dateFormatter: DateFormatter = {
     formatter.timeZone = TimeZone(secondsFromGMT: 0)
     return formatter
 }()
-
-// FIXME: rdar://problem/18673897 // subscript<T>…
-
-extension QueryType {
-
-    public subscript(column: Expression<Data>) -> Expression<Data> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<Data?>) -> Expression<Data?> {
-        return namespace(column)
-    }
-
-    public subscript(column: Expression<Date>) -> Expression<Date> {
-        return namespace(column)
-    }
-    public subscript(column: Expression<Date?>) -> Expression<Date?> {
-        return namespace(column)
-    }
-
-}
-
-extension Row {
-
-    public subscript(column: Expression<Data>) -> Data {
-        return get(column)
-    }
-    public subscript(column: Expression<Data?>) -> Data? {
-        return get(column)
-    }
-
-    public subscript(column: Expression<Date>) -> Date {
-        return get(column)
-    }
-    public subscript(column: Expression<Date?>) -> Date? {
-        return get(column)
-    }
-
-}

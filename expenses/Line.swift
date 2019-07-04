@@ -22,7 +22,7 @@ class Line : CustomStringConvertible{
     var userid:Int64
     
     var item:Item?{
-        return DatabaseManagement.shared.queryItem(itemid: ItemId)
+        return DatabaseManagement.shared.queryItemById(itemId: ItemId)
     }
     
     var user:User?{
@@ -33,7 +33,6 @@ class Line : CustomStringConvertible{
         return DatabaseManagement.shared.queryHeaderById(id: headerId)
     }
     
-  
     init(Lineid:Int64 ,headerId:Int64,Qty:Double,Amount:Double,currency:String,ItemDiscription:String,LinePrice:Double,ItemId:Int64,Lineuom:String,userid:Int64) {
         
         self.Id = Lineid
@@ -56,6 +55,9 @@ class Line : CustomStringConvertible{
     func save(){
         if Id == -1 {
             Id = DatabaseManagement.shared.addLine(line: self)!
+            print("Line")
+            print(dictionaryRepresentation())
+            print("================")
         }else{
             _ = DatabaseManagement.shared.updateLine(id: Id, line: self)
         }
@@ -77,11 +79,11 @@ class Line : CustomStringConvertible{
         dictionary["Qty"] = self.Qty
         dictionary["Amount"] = self.Amount
         dictionary["currency"] = self.currency
-        dictionary["ItemDiscription"] = self.ItemDiscription
+        dictionary["Comment"] = self.ItemDiscription
         dictionary["LinePrice"] = self.LinePrice
         dictionary["ItemId"] = self.ItemId
         dictionary["LineUoM"] = self.LineUoM
-        dictionary["userid"] = self.userid
+     //   dictionary["userid"] = self.userid
         
         return dictionary
     }

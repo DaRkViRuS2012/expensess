@@ -65,14 +65,11 @@ class Image:CustomStringConvertible{
     public  func dictionaryRepresentation() -> [String: Any] {
         
         var dictionary: [String: Any] = [:]
-        
-        dictionary["id"] = self.id
-        dictionary["title"] = self.title
-        dictionary["userid"] = self.userid
-        dictionary["headerId"] = self.headerId
-        dictionary["data"] = self.data
-        
-        
+            dictionary["id"] = self.id
+            dictionary["title"] = self.title
+          //  dictionary["userid"] = self.userid
+            //dictionary["headerId"] = self.headerId
+            dictionary["data"] = self.data
         return dictionary
     }
     

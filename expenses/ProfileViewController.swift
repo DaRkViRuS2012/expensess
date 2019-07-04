@@ -112,12 +112,23 @@ class ProfileViewController: AbstractController{
     }
     
     
+    @IBAction func handelSync(_ sender: UIButton) {
+        DataStore.shared.getItemsFromServer()
+        DataStore.shared.getCurrenciesFromServer()
+        DataStore.shared.getUOMFromServer()
+        DataStore.shared.getCustomersFromServer()
+        DataStore.shared.getPriceListFromServer()
+    }
+    
+    
+    
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if (firstNameTxt.isFirstResponder){
-            lastNameTxt.becomeFirstResponder()
+            _ = lastNameTxt.becomeFirstResponder()
         }else  if (lastNameTxt.isFirstResponder){
-            emailTxt.becomeFirstResponder()
+            _ = emailTxt.becomeFirstResponder()
         }else if (emailTxt.isFirstResponder){
             emailTxt.resignFirstResponder()
         }

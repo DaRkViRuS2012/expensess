@@ -91,7 +91,7 @@ class DatabaseManagement {
     
     func addHeader(header:Header) -> Int64? {
         do {
-            let insert = tblHeader.insert(headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate,headerPostedDate <- header.headerPostedDate , headerExpensesType <- header.headerExpensesType ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerisApproved ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType)
+            let insert = tblHeader.insert(headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType)
             let id = try db!.run(insert)
             
             let header = tblHeader.filter(headerId == id)
@@ -152,7 +152,7 @@ class DatabaseManagement {
             for header in try db!.prepare(self.tblHeader.filter(headerExpensesType == type && headerUserId == userid)) {
                 
                 let state = ExpensesState(rawValue: header[headerisApproved])
-                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType])
+                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerCostSource: "")
                 headers.append(newheader)
             }
         } catch {
@@ -180,7 +180,7 @@ class DatabaseManagement {
                 }
                 if currentDate == headerdate {
                 let state = ExpensesState(rawValue: header[headerisApproved])
-                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType])
+                    let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerCostSource: "")
                     headers.append(newheader)
                 }
             }
@@ -200,7 +200,7 @@ class DatabaseManagement {
             let headerid  = tblHeader.filter(Headerid == id)
             let header  = try db!.pluck(headerid)
             let state = ExpensesState(rawValue: (header?[headerisApproved])!)
-            let newheader = Header(id: (header?[Headerid])!, headerUserId: (header?[headerUserId])!, headerCreatedDate: (header?[headerCreatedDate])!, headerPostedDate: (header?[headerPostedDate])!, headerExpensesType: (header?[headerExpensesType])!, headerCustomerId: header?[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header?[headerPhoneNumber],headerBillingAddress:header?[headerBillingAddress],headerShippingAddress:header?[headerShippingAddress],headerContactPerson:header?[headerContactPerson],headerDocumenetType:header?[headerDocumnetType])
+            let newheader = Header(id: (header?[Headerid])!, headerUserId: (header?[headerUserId])!, headerCreatedDate: (header?[headerCreatedDate])!, headerPostedDate: (header?[headerPostedDate])!, headerUpdateDate: Date(), headerExpensesType: (header?[headerExpensesType])!, headerCustomerId: header?[headerCustomerId], headerisApproved: state!,headerPhoneNumber:header?[headerPhoneNumber],headerBillingAddress:header?[headerBillingAddress],headerShippingAddress:header?[headerShippingAddress],headerContactPerson:header?[headerContactPerson],headerDocumenetType:header?[headerDocumnetType], headerCostSource: "")
             return newheader
         }catch{
             return nil
@@ -214,7 +214,7 @@ class DatabaseManagement {
         let headertbl = tblHeader.filter(Headerid == id)
         do {
             let update = headertbl.update([
-                headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate,headerPostedDate <- header.headerPostedDate , headerExpensesType <- header.headerExpensesType ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerisApproved ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType
+                headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
@@ -517,8 +517,8 @@ class DatabaseManagement {
     func createTableItems() {
         do {
             try db!.run(tblItems.create(ifNotExists: false) { table in
-                table.column(Itemid, primaryKey: true)
-                table.column(ItemCode)
+                table.column(Itemid,primaryKey: true)
+                table.column(ItemCode,unique: true)
                 table.column(ItemTitle)
                 table.column(Itemtype)
                 table.column(ItemIcon)
@@ -538,7 +538,12 @@ class DatabaseManagement {
     
     func addItem(item:Item) -> Int64? {
         do {
-            let insert = tblItems.insert(ItemCode <- item.code, Itemtype <- item.type,ItemIcon <- item.icon, ItemUoMid <- item.UoM ,ItemPrice <- item.price , ItemTitle <- item.title , ItemUserId <- item.userid)
+            if let code = item.code{
+                if let item = queryItemBy(code: code){
+                    return item.Itemid
+                }
+            }
+            let insert = tblItems.insert(or: .ignore,ItemCode <- item.code!, Itemtype <- item.type!,ItemIcon <- item.icon!, ItemUoMid <- item.UoM ,ItemPrice <- item.price! , ItemTitle <- item.title! , ItemUserId <- item.userid)
             let id = try db!.run(insert)
             print("Insert to tblItems successfully")
             return id
@@ -600,10 +605,26 @@ class DatabaseManagement {
     }
     
     
-   
-    func queryItem(itemid:Int64) -> Item?{
+    func queryItemById(itemId:Int64) -> Item?{
         do{
-        let line = tblItems.filter(Itemid == itemid)
+            let line = tblItems.filter(Itemid == itemId)
+            if let item = try db?.pluck(line){
+                let newitem = Item(id: (item[Itemid]) , code: (item[ItemCode]), type: (item[Itemtype]), title: (item[ItemTitle]), price: (item[ItemPrice]), icon: (item[ItemIcon]), UoM: item[ItemUoMid]!,userid: item[ItemUserId])
+                return newitem
+            }
+            
+            return nil
+        }catch{
+            print(error)
+            return nil
+        }
+    }
+    
+    
+   
+    func queryItem(itemCode:String) -> Item?{
+        do{
+        let line = tblItems.filter(ItemCode == itemCode)
             if let item = try db?.pluck(line){
          let newitem = Item(id: (item[Itemid]) , code: (item[ItemCode]), type: (item[Itemtype]), title: (item[ItemTitle]), price: (item[ItemPrice]), icon: (item[ItemIcon]), UoM: item[ItemUoMid]!,userid: item[ItemUserId])
                 return newitem
@@ -613,6 +634,21 @@ class DatabaseManagement {
         }catch{
             print(error)
         return nil
+        }
+    }
+    
+    func queryItemBy(code:String) -> Item?{
+        do{
+            let line = tblItems.filter(ItemCode == code)
+            if let item = try db?.pluck(line){
+                let newitem = Item(id: (item[Itemid]) , code: (item[ItemCode]), type: (item[Itemtype]), title: (item[ItemTitle]), price: (item[ItemPrice]), icon: (item[ItemIcon]), UoM: item[ItemUoMid]!,userid: item[ItemUserId])
+                return newitem
+            }
+            
+            return nil
+        }catch{
+            print(error)
+            return nil
         }
     }
     
@@ -636,7 +672,7 @@ class DatabaseManagement {
             let itemtbl = tblItems.filter(Itemid == id)
             do {
                 let update = itemtbl.update([
-                    ItemCode <- item.code, Itemtype <- item.type,ItemIcon <- item.icon, ItemUoMid <- item.UoM ,ItemPrice <- item.price , ItemTitle <- item.title , ItemUserId <- item.userid
+                    ItemCode <- item.code!, Itemtype <- item.type!,ItemIcon <- item.icon!, ItemUoMid <- item.UoM ,ItemPrice <- item.price! , ItemTitle <- item.title! , ItemUserId <- item.userid
                     
                     ])
                 if try db!.run(update) > 0 {
@@ -704,9 +740,9 @@ class DatabaseManagement {
     private let tblPriceList = Table("PriceList")
     private let pricelistid = Expression<Int64>("id")
     private let pricelistValue = Expression<String>("Value")
-    private let pricelistUserid = Expression<Int64>("UserId")
-    private let pricelistCustomerId = Expression<Int64>("CustomerId")
-    private let pricelistItemId = Expression<Int64>("ItemId")
+    private let PriceListNum = Expression<String>("PriceListNum")
+    private let pricelistUserid = Expression<Int64>("userid")
+    private let pricelistItemCode = Expression<String>("ItemCode")
     
     func createTablePriceList() {
         do {
@@ -714,8 +750,8 @@ class DatabaseManagement {
                 table.column(pricelistid, primaryKey: true)
                 table.column(pricelistValue)
                 table.column(pricelistUserid, references: tblUser,UserId)
-                table.column(pricelistCustomerId, references: tblCustomerList,customerId)
-                table.column(pricelistItemId, references: tblItems,Itemid)
+                table.column(PriceListNum)
+                table.column(pricelistItemCode)
             })
             print("create PriceList table successfully")
         } catch {
@@ -726,7 +762,7 @@ class DatabaseManagement {
     
     func addPrice(price:Price) -> Int64? {
         do {
-            let insert = tblPriceList.insert(pricelistValue <- price.value,pricelistUserid <- price.userid,pricelistCustomerId <- price.customerid,pricelistItemId <- price.itemid)
+            let insert = tblPriceList.insert(pricelistValue <- price.value!,pricelistUserid <- price.userid!,PriceListNum <- price.PriceListNum!,pricelistItemCode <- price.ItemCode!)
             let id = try db!.run(insert)
             print("Insert to tblPrice successfully")
             return id
@@ -738,9 +774,9 @@ class DatabaseManagement {
     }
     
     
-    func addPrice(value:String,customerid:Int64,userid:Int64,itemid:Int64) -> Int64? {
+    func addPrice(value:String,priceListNum:String,userid:Int64,itemcode:String) -> Int64? {
         do {
-            let insert = tblPriceList.insert(pricelistValue <- value,pricelistUserid <- userid,pricelistCustomerId <- customerid,pricelistItemId <- itemid)
+            let insert = tblPriceList.insert(pricelistValue <- value,pricelistUserid <- userid,PriceListNum <- priceListNum,pricelistItemCode <- itemcode)
             let id = try db!.run(insert)
             print("Insert to tblPrice successfully")
             return id
@@ -758,7 +794,8 @@ class DatabaseManagement {
         
         do {
             for price in try db!.prepare(self.tblPriceList.filter(pricelistUserid == userid)) {
-                let newPrice = Price(id: price[pricelistid], value: price[pricelistValue],customerid:price[pricelistCustomerId],itemid:price[pricelistItemId],userid:price[pricelistUserid])
+                let newPrice = Price(id: price[pricelistid], value: price[pricelistValue],PriceListNum:price[PriceListNum],ItemCode:price[pricelistItemCode],userid:price[pricelistUserid])
+                
                 prices.append(newPrice)
             }
         } catch {
@@ -784,11 +821,13 @@ class DatabaseManagement {
         
     }
     
-    func findCustomerPrice(customerid:Int64,itemid:Int64,userid:Int64) -> Price?{
+    func findCustomerPrice(pricelistnum:String,itemCode:String,userid:Int64) -> Price?{
         do{
-            let price = tblPriceList.filter(pricelistUserid == userid && pricelistItemId == itemid && pricelistCustomerId == customerid)
+            let price = tblPriceList.filter(PriceListNum == pricelistnum && pricelistItemCode == itemCode && pricelistUserid == userid)
             if let priceid = try db?.pluck(price){
-                let newprice = Price(id: priceid[pricelistid], value: priceid[pricelistValue], customerid: priceid[pricelistCustomerId], itemid: priceid[pricelistItemId], userid: priceid[pricelistUserid])
+                let newprice = Price(id: priceid[pricelistid], value: priceid[pricelistValue],PriceListNum:priceid[PriceListNum],ItemCode:priceid[pricelistItemCode],userid:priceid[pricelistUserid])
+                
+                
                 return newprice
             }
             return nil
@@ -804,7 +843,7 @@ class DatabaseManagement {
         let Pricetbl = tblPriceList.filter(pricelistid == id)
         do {
             let update = Pricetbl.update([
-               pricelistValue <- price.value,pricelistUserid <- price.userid,pricelistCustomerId <- price.customerid,pricelistItemId <- price.itemid
+                pricelistValue <- price.value!,pricelistUserid <- price.userid!,pricelistItemCode <- price.ItemCode!,PriceListNum <- price.PriceListNum!
                 
                 ])
             if try db!.run(update) > 0 {
@@ -841,7 +880,7 @@ class DatabaseManagement {
     private let customerId = Expression<Int64>("id")
     private let customerName = Expression<String>("customerName")
     private let customerCode = Expression<String>("customerCode")
-//    private let customerpriceListid = Expression<Int64?>("priclistid")
+    private let customerpriceListid = Expression<String?>("priceListNum")
     private let customerCurrency = Expression<String>("CurrencyId")
     private let customerUserId = Expression<Int64>("UserId")
     
@@ -853,6 +892,7 @@ class DatabaseManagement {
                 table.column(customerName)
                 table.column(customerCode)
                 table.column(customerCurrency)
+                table.column(customerpriceListid)
                 table.column(customerUserId, references: tblUser,UserId)
             })
             print("create CustomerList table successfully")
@@ -881,7 +921,14 @@ class DatabaseManagement {
     
     func addCustomer(customer:Customer) -> Int64? {
         do {
-            let insert = tblCustomerList.insert(customerName <- customer.customerName ,customerCode <- customer.customerCode, customerCurrency <- customer.customerCurrency,customerUserId <- customer.userid)
+            if let code = customer.customerCode{
+            if let newcustomer = queryCustomerByCode(code: code){
+                if let id = newcustomer.CId{
+                    return id
+                }
+                }
+            }
+            let insert = tblCustomerList.insert(or:.ignore,customerName <- customer.customerName! ,customerCode <- customer.customerCode!, customerCurrency <- customer.customerCurrency!,customerUserId <- customer.userid!,customerpriceListid <- customer.PriceListNum)
             let id = try db!.run(insert)
             print("Insert to tblCustomer successfully")
             return id
@@ -915,7 +962,7 @@ class DatabaseManagement {
         
         do {
             for customer in try db!.prepare(self.tblCustomerList.filter(customerUserId == userid)) {
-                let newcustomer = Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode])
+                let newcustomer = Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode],pricelistnum:customer[customerpriceListid])
                 customers.append(newcustomer)
             }
         } catch {
@@ -927,13 +974,13 @@ class DatabaseManagement {
         return customers
     }
     
-    func queryCustomerPrice(customerId:Int64,itemId:Int64,userid:Int64) -> Price?{
+    func queryCustomerPrice(pricelistnum:String,itemCode:String,userid:Int64) -> Price?{
         do{
-            let customerPricetbl = tblPriceList.filter(customerId == pricelistCustomerId && pricelistItemId == itemId && pricelistUserid == userid)
+            let customerPricetbl = tblPriceList.filter(PriceListNum == pricelistnum && pricelistItemCode == itemCode && pricelistUserid == userid)
            
             if let price = try db?.pluck(customerPricetbl){
             
-                let newPrice = Price(id: price[pricelistid], value: price[pricelistValue], customerid: price[pricelistCustomerId], itemid: price[pricelistItemId], userid: price[pricelistUserid])
+                let newPrice = Price(id: price[pricelistid], value: price[pricelistValue], PriceListNum: price[PriceListNum], ItemCode: price[pricelistItemCode], userid: price[pricelistUserid])
                 
                 return newPrice
             }
@@ -954,7 +1001,7 @@ class DatabaseManagement {
                 
                 let customertbl = tblCustomerList.filter(customerId == id )
                 let customer = try db!.pluck(customertbl)
-                return Customer(Id: (customer?[customerId])!, customerName: (customer?[customerName])!, customerCurrency: (customer?[customerCurrency])!,userid:(customer?[customerUserId])!,customerCode:(customer?[customerCode])!)
+                return Customer(Id: (customer?[customerId])!, customerName: (customer?[customerName])!, customerCurrency: (customer?[customerCurrency])!,userid:(customer?[customerUserId])!,customerCode:(customer?[customerCode])!,pricelistnum:customer?[customerpriceListid])
             }else{
             
                 return nil
@@ -972,7 +1019,7 @@ class DatabaseManagement {
         do{
             let customertbl = tblCustomerList.filter(customerId == customerid)
             if let customer = try db?.pluck(customertbl){
-                return Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode])
+                return Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode],pricelistnum:customer[customerpriceListid])
             }
             return nil
         }catch{
@@ -983,12 +1030,41 @@ class DatabaseManagement {
     }
     
     
+    func queryCustomerByPriceId(priceListId:String)->Customer?{
+        do{
+            let customertbl = tblCustomerList.filter(customerpriceListid == priceListId)
+            if let customer = try db?.pluck(customertbl){
+                return Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode],pricelistnum:customer[customerpriceListid])
+            }
+            return nil
+        }catch{
+            
+            print(error)
+            return nil
+        }
+    }
+    
+    
+    func queryCustomerByCode(code:String)->Customer?{
+        do{
+            let customertbl = tblCustomerList.filter(customerCode == code)
+            if let customer = try db?.pluck(customertbl){
+                return Customer(Id: customer[customerId], customerName: customer[customerName], customerCurrency: customer[customerCurrency],userid:customer[customerUserId],customerCode:customer[customerCode],pricelistnum:customer[customerpriceListid])
+            }
+            return nil
+        }catch{
+            
+            print(error)
+            return nil
+        }
+    }
+    
     
     func updateCustomer(id:Int64, customer: Customer) -> Bool {
         let customertbl = tblCustomerList.filter(customerId == id)
         do {
             let update = customertbl.update([
-              customerName <- customer.customerName ,customerCode <- customer.customerCode, customerCurrency <- customer.customerCurrency,customerUserId <- customer.userid
+                customerName <- customer.customerName! ,customerCode <- customer.customerCode!, customerCurrency <- customer.customerCurrency!,customerUserId <- customer.userid!
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
@@ -1208,7 +1284,14 @@ class DatabaseManagement {
     
     func addUoM(uom:UoM) -> Int64? {
         do {
-            let insert = tblUoM.insert(Uom_Title <- uom.title,UomUserId <- uom.userid)
+            
+            if let title = uom.title , let userid = uom.userid{
+                if let id = findUoM(value: title, userid: userid){
+                    return id
+                }
+            }
+            
+            let insert = tblUoM.insert(or:.ignore,Uom_Title <- uom.title!,UomUserId <- uom.userid!)
             let id = try db!.run(insert)
             print("Insert to tblItems successfully")
             return id
@@ -1285,8 +1368,8 @@ class DatabaseManagement {
         let uomtbl = tblUoM.filter(UomId == id)
         do {
             let update = uomtbl.update([
-                Uom_Title <- uom.title,
-                UomUserId <- uom.userid
+                Uom_Title <- uom.title!,
+                UomUserId <- uom.userid!
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
@@ -1343,7 +1426,12 @@ class DatabaseManagement {
     
     func addCurrency(currency:Currency) -> Int64? {
         do {
-            let insert = tblCurrency.insert(currencytitle <- currency.title,CurrencyUserId <- currency.userid)
+            if let title = currency.title,let userid = currency.userid{
+                if let id = findCurrency(title: title, userid: userid){
+                    return id
+                }
+            }
+            let insert = tblCurrency.insert(or:.ignore,currencytitle <- currency.title!,CurrencyUserId <- currency.userid!)
             let id = try db!.run(insert)
             print("Insert to tblCurrency successfully")
             return id
@@ -1405,8 +1493,8 @@ class DatabaseManagement {
         let currencytbl = tblCurrency.filter(CurrencyId == id)
         do {
             let update = currencytbl.update([
-              currencytitle <- currency.title,
-              CurrencyUserId <- currency.userid
+                currencytitle <- currency.title!,
+                CurrencyUserId <- currency.userid!
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")

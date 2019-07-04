@@ -9,7 +9,7 @@
 import UIKit
 import DropDown
 import Material
-class CustomerExpensesLineViewController: AbstractController, UIImagePickerControllerDelegate {
+class CustomerExpensesLineViewController: AbstractController, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
 
     
     
@@ -84,7 +84,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         UoMBtn.setTitle(line?.LineUoM, for: .normal)
         DiscriptionTxt.text = line?.ItemDiscription
         currencyBtn.setTitle(line?.currency, for: .normal)
-        self.itemid = line?.item?.id
+        self.itemid = line?.item?.Itemid
         self.selectedUoM = line?.LineUoM
         self.selectedCurrency = line?.currency
         self.selectedItem = line?.item
@@ -174,7 +174,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
     }
 
     
-    func save(){
+    @objc func save(){
         
         
         let item = itemBtn.titleLabel?.text
@@ -223,7 +223,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
                 return
             }
             
-        if let price = customer?.getPrice(itemId: (selectedItem?.id)!){
+        if let price = customer?.getPrice(itemCode: (selectedItem?.code)!){
                 PriceTxt.text = price.value
         }else{
             PriceTxt.text = selectedItem?.price
@@ -239,7 +239,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
             return
         }
         currencies = user.getCurrencies()
-        currenciesList = currencies.map({$0.title})
+        currenciesList = currencies.map({$0.title!})
         if let _ = customer {
             currencyBtn.setTitle(customer?.customerCurrency, for: .normal)
             selectedCurrency = customer?.customerCurrency
@@ -260,7 +260,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
             return
         }
         UoMs = user.getUoM()
-        UoMList = UoMs.map({$0.title})
+        UoMList = UoMs.map({$0.title!})
     }
     
   
@@ -292,10 +292,10 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
     
     
     
-    func selectItem(){
+    @objc func selectItem(){
         if let item = Globals.item{
             itemBtn.setTitle(item.title, for: .normal)
-            self.itemid = item.id
+            self.itemid = item.Itemid
             selectedItem = item
             self.UoMBtn.setTitle(item.UoM, for: .normal)
             self.selectedUoM = item.UoM
@@ -425,7 +425,7 @@ extension CustomerExpensesLineViewController: UICollectionViewDelegate,UICollect
         self.tabBarController?.tabBar.isHidden = true
     }
     
-    func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
+    @objc func dismissFullscreenImage(_ sender: UITapGestureRecognizer) {
         self.navigationController?.isNavigationBarHidden = false
         self.tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()

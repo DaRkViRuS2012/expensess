@@ -89,7 +89,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
     
     func getItemsList(){
     
-        self.itemsList = (Globals.user?.getEmployeeItems().map({$0.title}))!
+        self.itemsList = (Globals.user?.getEmployeeItems().map({$0.title}))! as! [String]
         self.itemsList.insert("All", at: 0)
     }
     
@@ -128,7 +128,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
         
     }
     
-    func add(){
+    @objc func add(){
         let vc = UIStoryboard.viewController(identifier: "NewEmployeeExpensesViewController") as! NewEmployeeExpensesViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -139,6 +139,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
         dropDown.anchorView = categoryBtn // UIView or UIBarButtonItem
         
         // The list of items to display. Can be changed dynamically
+        
         dropDown.dataSource = self.itemsList
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
@@ -287,13 +288,13 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
         
         if isFillter{
             
-            let state = ExpensesState(rawValue: filteredHeaders[section].headerisApproved)
-            header.customInit(date: DateHelper.getStringFromDate(filteredHeaders[section].headerCreatedDate)!,section: section , total:total,state: state!, delegate: self)
+            let state = ExpensesState(rawValue: filteredHeaders[section].headerStatus!)
+            header.customInit(date: DateHelper.getStringFromDate(filteredHeaders[section].headerCreatedDate!)!,section: section , total:total,state: state!, delegate: self)
             
         }else{
             
-            let state = ExpensesState(rawValue: headers[section].headerisApproved)
-            header.customInit(date: DateHelper.getStringFromDate(headers[section].headerCreatedDate)!, section: section,total:total,state: state!, delegate: self)
+            let state = ExpensesState(rawValue: headers[section].headerStatus!)
+            header.customInit(date: DateHelper.getStringFromDate(headers[section].headerCreatedDate!)!, section: section,total:total,state: state!, delegate: self)
         }
         return header
     }

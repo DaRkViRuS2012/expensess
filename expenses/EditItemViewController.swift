@@ -99,7 +99,7 @@ class EditItemViewController: AbstractController {
             return
         }
         UoMs = user.getUoM()
-        UoMList = UoMs.map({ $0.title })
+        UoMList = UoMs.map({ $0.title! })
     }
     
     
@@ -162,7 +162,7 @@ class EditItemViewController: AbstractController {
             if let _ = Double(price!){
                 var id:Int64 = -1
                 if let _ = self.item{
-                    id = (self.item?.id)!
+                    id = (self.item?.Itemid)!
                 }
                 let item = Item(id: id, code: code!, type: type!, title: itemtitle!, price: price!, icon: icon, UoM: uom!, userid: userid)
                 item.save()

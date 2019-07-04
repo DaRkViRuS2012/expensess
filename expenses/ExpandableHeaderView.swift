@@ -31,7 +31,6 @@ enum ExpensesState:Int{
     
         }
     }
-
     var state:Int{
         switch(self){
         case .pendding:
@@ -40,7 +39,6 @@ enum ExpensesState:Int{
             return 1
         case .approved:
             return 2
-            
         }
     }
 }
@@ -118,7 +116,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     }
     
     
-    func handelSelect(gestureRecognizer:UITapGestureRecognizer){
+    @objc func handelSelect(gestureRecognizer:UITapGestureRecognizer){
         let cell = gestureRecognizer.view as! ExpandableHeaderView
         delegate?.toggleSection(header: self, section: cell.section)
     
@@ -163,7 +161,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         
     }
     
-    func edit(){
+    @objc func edit(){
         self.delegate?.edit(section: section)
     }
  

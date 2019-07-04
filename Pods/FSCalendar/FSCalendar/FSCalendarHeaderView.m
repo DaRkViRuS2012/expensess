@@ -12,7 +12,7 @@
 #import "FSCalendarCollectionView.h"
 #import "FSCalendarDynamicHeader.h"
 
-@interface FSCalendarHeaderView ()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface FSCalendarHeaderView ()<UICollectionViewDataSource,UICollectionViewDelegate,FSCalendarCollectionViewInternalDelegate>
 
 - (void)scrollToOffset:(CGFloat)scrollOffset animated:(BOOL)animated;
 - (void)configureCell:(FSCalendarHeaderCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -43,8 +43,6 @@
 
 - (void)initialize
 {
-    _needsAdjustingViewFrame = YES;
-    _needsAdjustingMonthPosition = YES;
     _scrollDirection = UICollectionViewScrollDirectionHorizontal;
     _scrollEnabled = YES;
     
@@ -67,66 +65,24 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    if (_needsAdjustingViewFrame) {
-        _needsAdjustingViewFrame = NO;
-        _collectionViewLayout.itemSize = CGSizeMake(1, 1);
-        [_collectionViewLayout invalidateLayout];
-        _collectionView.frame = CGRectMake(0, self.fs_height*0.1, self.fs_width, self.fs_height*0.9);
-    }
-    
-    if (_needsAdjustingMonthPosition) {
-        _needsAdjustingMonthPosition = NO;
-        [self scrollToOffset:_scrollOffset animated:NO];
-    }
-    
+    self.collectionView.frame = CGRectMake(0, self.fs_height*0.1, self.fs_width, self.fs_height*0.9);
 }
 
 - (void)dealloc
 {
-    _collectionView.dataSource = nil;
-    _collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
+    self.collectionView.delegate = nil;
 }
 
 #pragma mark - <UICollectionViewDataSource>
 
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 1;
-}
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    switch (self.calendar.transitionCoordinator.representingScope) {
-        case FSCalendarScopeMonth: {
-            switch (_scrollDirection) {
-                case UICollectionViewScrollDirectionVertical: {
-                    NSDate *minimumPage = [_calendar.gregorian fs_firstDayOfMonth:_calendar.minimumDate];
-                    NSInteger months = [self.calendar.gregorian components:NSCalendarUnitMonth fromDate:minimumPage toDate:self.calendar.maximumDate options:0].month + 1;
-                    return months;
-                }
-                case UICollectionViewScrollDirectionHorizontal: {
-                    // 2 more pages to prevent scrollView from auto bouncing while push/present to other UIViewController
-                    NSDate *minimumPage = [_calendar.gregorian fs_firstDayOfMonth:_calendar.minimumDate];
-                    NSInteger months = [self.calendar.gregorian components:NSCalendarUnitMonth fromDate:minimumPage toDate:self.calendar.maximumDate options:0].month + 1;
-                    return months + 2;
-                }
-                default: {
-                    break;
-                }
-            }
-            break;
-        }
-        case FSCalendarScopeWeek: {
-            NSDate *minimumPage = [self.calendar.gregorian fs_firstDayOfMonth:_calendar.minimumDate];
-            NSInteger weeks = [self.calendar.gregorian components:NSCalendarUnitWeekOfYear fromDate:minimumPage toDate:self.calendar.maximumDate options:0].weekOfYear + 1;
-            return weeks + 2;
-        }
-        default: {
-            break;
-        }
+    NSInteger numberOfSections = self.calendar.collectionView.numberOfSections;
+    if (self.scrollDirection == UICollectionViewScrollDirectionVertical) {
+        return numberOfSections;
     }
-    return 0;
+    return numberOfSections + 2;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -137,11 +93,6 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    [cell setNeedsLayout];
-}
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [_collectionView.visibleCells makeObjectsPerformSelector:@selector(setNeedsLayout)];
@@ -149,13 +100,11 @@
 
 #pragma mark - Properties
 
-#if TARGET_INTERFACE_BUILDER
 - (void)setCalendar:(FSCalendar *)calendar
 {
     _calendar = calendar;
     [self configureAppearance];
 }
-#endif
 
 - (void)setScrollOffset:(CGFloat)scrollOffset
 {
@@ -164,18 +113,11 @@
 
 - (void)setScrollOffset:(CGFloat)scrollOffset animated:(BOOL)animated
 {
-    if (_scrollOffset != scrollOffset) {
-        _scrollOffset = scrollOffset;
-    }
     [self scrollToOffset:scrollOffset animated:NO];
 }
 
 - (void)scrollToOffset:(CGFloat)scrollOffset animated:(BOOL)animated
 {
-    if (CGSizeEqualToSize(self.collectionView.contentSize, CGSizeZero)) {
-        _needsAdjustingMonthPosition = YES;
-        return;
-    }
     if (self.scrollDirection == UICollectionViewScrollDirectionHorizontal) {
         CGFloat step = self.collectionView.fs_width*((self.scrollDirection==UICollectionViewScrollDirectionHorizontal)?0.5:1);
         [_collectionView setContentOffset:CGPointMake((scrollOffset+0.5)*step, 0) animated:animated];
@@ -190,7 +132,6 @@
     if (_scrollDirection != scrollDirection) {
         _scrollDirection = scrollDirection;
         _collectionViewLayout.scrollDirection = scrollDirection;
-        _needsAdjustingMonthPosition = YES;
         [self setNeedsLayout];
     }
 }
@@ -282,7 +223,7 @@
 - (void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];
-    _titleLabel.frame = bounds;
+    self.titleLabel.frame = bounds;
 }
 
 - (void)layoutSubviews
@@ -297,14 +238,13 @@
         if (self.header.scrollEnabled) {
             self.contentView.alpha = 1.0 - (1.0-self.header.calendar.appearance.headerMinimumDissolvedAlpha)*ABS(center-position)/self.fs_width;
         } else {
-            self.contentView.alpha = (position > 0 && position < self.header.fs_width*0.75);
+            self.contentView.alpha = (position > self.header.fs_width*0.25 && position < self.header.fs_width*0.75);
         }
     } else if (self.header.scrollDirection == UICollectionViewScrollDirectionVertical) {
         CGFloat position = [self.contentView convertPoint:CGPointMake(CGRectGetMidX(self.contentView.bounds), CGRectGetMidY(self.contentView.bounds)) toView:self.header].y;
         CGFloat center = CGRectGetMidY(self.header.bounds);
         self.contentView.alpha = 1.0 - (1.0-self.header.calendar.appearance.headerMinimumDissolvedAlpha)*ABS(center-position)/self.fs_height;
     }
-    
 }
 
 @end
@@ -321,8 +261,14 @@
         self.minimumLineSpacing = 0;
         self.sectionInset = UIEdgeInsetsZero;
         self.itemSize = CGSizeMake(1, 1);
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(didReceiveOrientationChangeNotification:) name:UIDeviceOrientationDidChangeNotification object:nil];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [NSNotificationCenter.defaultCenter removeObserver:self name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 - (void)prepareLayout
@@ -334,6 +280,16 @@
                                self.collectionView.fs_height
                               );
     
+}
+
+- (void)didReceiveOrientationChangeNotification:(NSNotification *)notificatino
+{
+    [self invalidateLayout];
+}
+
+- (BOOL)flipsHorizontallyInOppositeLayoutDirection
+{
+    return YES;
 }
 
 @end

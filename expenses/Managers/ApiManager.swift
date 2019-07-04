@@ -19,29 +19,28 @@ import CoreLocation
 
 
 enum ModelType {
-    case Customer //: 2
+    case customer //: 2
     case currency//: 27
-    case UOM//: 100001
-    case PriceList//: 100002
-    case Item//: 4
+    case uom//: 100001
+    case priceList//: 100002
+    case item//: 4
     
     var value:String{
         switch self {
-        case .Customer:
-            return "2"
+        case .customer:
+            return "oBusinessPartners"
         case .currency:
-            return "27"
-        case .UOM:
-            return "100001"
-        case .PriceList:
-            return "100002"
-        case .Item:
-            return "4"
+            return "oCurrencyCodes"
+        case .uom:
+            return "oUOMs"
+        case .priceList:
+            return "oPriceList"
+        case .item:
+            return "oItems"
             
         }
-        
-        
     }
+    
 }
 
 class ApiManager: NSObject {
@@ -60,10 +59,10 @@ class ApiManager: NSObject {
         }
     }
     
-    let baseURL = "http://demo-api.itm-development.com/API"
+    let baseURL = "https://ms.itmd-b1.com:65511/API"
     //let baseURL = "http://192.168.1.116:8000/api"
-    let imageUrl = "http://anycubed.net"
-    let error_domain = "Wardah"
+//    let imageUrl = "http://anycubed.net"
+//    let error_domain = "Wardah"
     
     //MARK: Shared Instance
     static let shared: ApiManager = ApiManager()
@@ -217,10 +216,9 @@ class ApiManager: NSObject {
     
     
    
-    // get stores
-    
-    func getModels<T:BaseModel>(model:ModelType,userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[T]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(model.value)"
+    //  getItems
+    func getItems(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Item]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.item.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -232,7 +230,7 @@ class ApiManager: NSObject {
                     let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
                     completionBlock(false , serverError,[])
                 } else {
-                    let resultObject = Result<T>(json:jsonResponse)
+                    let resultObject = Result<Item>(json:jsonResponse)
                     if let haserror = resultObject.has_Error,!haserror {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
@@ -254,6 +252,154 @@ class ApiManager: NSObject {
     }
 
     
+    
+    // get customers
+    func getCustomers(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Customer]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.customer.value)"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<Customer>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError.unknownError,[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    // get currency
+    func getCurrency(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Currency]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.currency.value)"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<Currency>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError.unknownError,[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+    
+    
+    // get UOMs
+    func getUOMs(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[UoM]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.uom.value)"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<UoM>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError.unknownError,[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+    
+    
+    
+    // get PriceList
+    func getPriceList(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Price]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.priceList.value)"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<Price>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError.unknownError,[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+
+
 }
 
 /**

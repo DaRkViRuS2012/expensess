@@ -50,7 +50,7 @@ class DataStore :NSObject {
         return false
     }
 
-    
+    var token:String = "ad2e844e-0956-4308-ad2e-d3ab133b2561"
   
     
     // MARK: Cached data
@@ -67,6 +67,105 @@ class DataStore :NSObject {
             return _me
         }
     }
+    
+    
+    func getItemsFromServer(){
+        
+        ApiManager.shared.getItems(userToken: token) { (success, error, result) in
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    func getCurrenciesFromServer(){
+        
+        ApiManager.shared.getCurrency(userToken: token) { (success, error, result) in
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    func getUOMFromServer(){
+        
+        ApiManager.shared.getUOMs(userToken: token) { (success, error, result) in
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    
+    func getCustomersFromServer(){
+        
+        ApiManager.shared.getCustomers(userToken: token) { (success, error, result) in
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    
+    func getPriceListFromServer(){
+        
+        ApiManager.shared.getPriceList(userToken: token) { (success, error, result) in
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+
     
     
     //MARK: Singelton

@@ -90,7 +90,7 @@ class NewItemViewController: AbstractController {
         if(UoMs.count>0){
             ItemUoM.setTitle(UoMs[0].title, for: .normal)
         }
-        UoMList = UoMs.map({ $0.title })
+        UoMList = UoMs.map({ $0.title! })
     }
     
     

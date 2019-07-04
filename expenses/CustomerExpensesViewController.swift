@@ -125,7 +125,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
         self.popOrDismissViewControllerAnimated(animated: true)
     }
     
-    func add(){
+    @objc func add(){
         let vc = UIStoryboard.viewController(identifier: "NewCustomerExpensesViewController") 
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -142,7 +142,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
         let customers  = user.getCustomers()
         var customersNames = customers.map({ $0.customerName })
         customersNames.insert("All", at: 0)
-        dropDown.dataSource = customersNames
+        dropDown.dataSource = customersNames as! [String]
         dropDown.selectionAction = { (index: Int, item: String) in
             print("Selected item: \(item) at index: \(index)")
             self.categoryBtn.setTitle(item, for: .normal)
@@ -294,13 +294,13 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
         
         if isFillter{
         
-            let state = ExpensesState(rawValue: filteredHeaders[section].headerisApproved)
-            header.customInit(date: DateHelper.getStringFromDate(filteredHeaders[section].headerCreatedDate)!,section: section , total:total,state: state!, delegate: self)
+            let state = ExpensesState(rawValue: filteredHeaders[section].headerStatus!)
+            header.customInit(date: DateHelper.getStringFromDate(filteredHeaders[section].headerCreatedDate!)!,section: section , total:total,state: state!, delegate: self)
         
         }else{
         
-            let state = ExpensesState(rawValue: headers[section].headerisApproved)
-            header.customInit(date: DateHelper.getStringFromDate(headers[section].headerCreatedDate)!, section: section,total:total,state: state!, delegate: self)
+            let state = ExpensesState(rawValue: headers[section].headerStatus!)
+            header.customInit(date: DateHelper.getStringFromDate(headers[section].headerCreatedDate!)!, section: section,total:total,state: state!, delegate: self)
         }
         return header
     }

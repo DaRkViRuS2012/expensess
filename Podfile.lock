@@ -1,19 +1,22 @@
 PODS:
-  - Alamofire (4.4.0)
-  - CVCalendar (1.5.2)
-  - DropDown (2)
-  - FSCalendar (2.7.3)
-  - Kingfisher (3.5.1)
-  - Material (2.5.2):
-    - Material/Core (= 2.5.2)
-  - Material/Core (2.5.2)
-  - Popover (1.0.6)
-  - SCLAlertView (0.7.0)
-  - SQLite.swift (0.11.2):
-    - SQLite.swift/standard (= 0.11.2)
-  - SQLite.swift/standard (0.11.2)
-  - SwiftyJSON (4.1.0)
-  - Toast-Swift (2.0.0)
+  - Alamofire (4.8.2)
+  - CVCalendar (1.6.2)
+  - DropDown (2.3.13)
+  - FSCalendar (2.8.0)
+  - Kingfisher (4.10.1)
+  - Material (3.1.5):
+    - Material/Core (= 3.1.5)
+  - Material/Core (3.1.5):
+    - Motion (~> 3.1.1)
+  - Motion (3.1.1):
+    - Motion/Core (= 3.1.1)
+  - Motion/Core (3.1.1)
+  - SCLAlertView (0.8)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
+  - SwiftyJSON (5.0.0)
+  - Toast-Swift (5.0.0)
 
 DEPENDENCIES:
   - Alamofire
@@ -22,25 +25,38 @@ DEPENDENCIES:
   - FSCalendar
   - Kingfisher
   - Material
-  - Popover
   - SCLAlertView
   - SQLite.swift
   - SwiftyJSON
-  - Toast-Swift (~> 2.0.0)
+  - Toast-Swift
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - CVCalendar
+    - DropDown
+    - FSCalendar
+    - Kingfisher
+    - Material
+    - Motion
+    - SCLAlertView
+    - SQLite.swift
+    - SwiftyJSON
+    - Toast-Swift
 
 SPEC CHECKSUMS:
-  Alamofire: dc44b1600b800eb63da6a19039a0083d62a6a62d
-  CVCalendar: 6d429042961f2abdf90a1795e66ef5e1032c88bb
-  DropDown: 744784d9c9aa505100e942c16acd05430cbb2f0a
-  FSCalendar: 574388d70778c22719eed9341653e1743b345573
-  Kingfisher: 12eeffeef42ea45b68c5e5acfe8ba9005b713ab4
-  Material: 00ae261fa04dd3f3f8584d07e44ac658fa1bc6fd
-  Popover: 227aa929a6cdf41c4828786be8ede109c40344c9
-  SCLAlertView: 8a14ffc40590c619e183eed2298b854385f30be1
-  SQLite.swift: 670c3e9e0a806bbfd56a3de5d530768dc0e6fe7c
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
-  Toast-Swift: 5b2f8f720f7e78e48511f693df1f9c9a6e38a25a
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  CVCalendar: 515092247b9c5059855643c2a2220f259bd5417f
+  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  FSCalendar: 3a5ed3636e2ba1b83ebebfcf0c2603105a6f5efe
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  Material: 7b68f7d8e7e83b9d57ab2d6d44232def763906f7
+  Motion: f115b33f36cc52472a25a965daa89b3859817de0
+  SCLAlertView: 6a77bb2edfc65e04dbe57725546cb4107a506b85
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  Toast-Swift: 36f4720243c8582c2be243a60a51e193c761f541
 
-PODFILE CHECKSUM: d0893089aabfb932aaf325b4dbb850e9de0725e5
+PODFILE CHECKSUM: 1330412ba55685c02b5062aa1ae9fce1ef53ee35
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

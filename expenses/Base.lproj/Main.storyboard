@@ -1521,8 +1521,8 @@
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
-                                    <outlet property="dataSource" destination="2I2-Y0-L6d" id="XVV-W0-S9n"/>
-                                    <outlet property="delegate" destination="2I2-Y0-L6d" id="Eyu-GG-It1"/>
+                                    <outlet property="dataSource" destination="2I2-Y0-L6d" id="3uF-zg-647"/>
+                                    <outlet property="delegate" destination="2I2-Y0-L6d" id="zXO-Rs-Grj"/>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FM9-Ip-IUc">
@@ -3117,7 +3117,7 @@
                                                 <rect key="frame" x="0.0" y="182.5" width="375" height="41"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S0K-TU-5tC">
-                                                        <rect key="frame" x="94" y="0.0" width="281" height="41.5"/>
+                                                        <rect key="frame" x="94" y="0.0" width="281" height="41"/>
                                                         <color key="backgroundColor" red="0.87219796770000002" green="0.86323135429999998" blue="0.88620042799999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <state key="normal" title="None">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -3148,7 +3148,7 @@
                                                 <rect key="frame" x="0.0" y="228.5" width="375" height="40.5"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ada-ps-gX6">
-                                                        <rect key="frame" x="94" y="0.0" width="281" height="41"/>
+                                                        <rect key="frame" x="94" y="0.0" width="281" height="40"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
@@ -5391,7 +5391,7 @@
                                                         <rect key="frame" x="0.0" y="106" width="335" height="24"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C3P-sa-KkT">
-                                                                <rect key="frame" x="67" y="0.5" width="268" height="23.5"/>
+                                                                <rect key="frame" x="67" y="1" width="268" height="23.5"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -5400,7 +5400,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geY-2u-4nt">
-                                                                <rect key="frame" x="0.0" y="0.5" width="67" height="24.5"/>
+                                                                <rect key="frame" x="0.0" y="1" width="67" height="23.5"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <nil key="textColor"/>
@@ -5822,7 +5822,7 @@
                                                         <rect key="frame" x="0.0" y="122" width="335" height="28"/>
                                                         <subviews>
                                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zWu-Lc-4DL">
-                                                                <rect key="frame" x="67" y="0.5" width="268" height="28"/>
+                                                                <rect key="frame" x="67" y="1" width="268" height="28"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -5831,7 +5831,7 @@
                                                                 </connections>
                                                             </textField>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quantity" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GC3-O1-MgX">
-                                                                <rect key="frame" x="0.0" y="0.5" width="67" height="28"/>
+                                                                <rect key="frame" x="0.0" y="1" width="67" height="28"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                 <nil key="textColor"/>
@@ -6262,6 +6262,9 @@
                                                                 <color key="value" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <action selector="handelSync:" destination="6g5-tK-EMN" eventType="touchUpInside" id="geX-fY-wST"/>
+                                                        </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="» Web Service" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="0iy-WP-fIJ">
                                                         <rect key="frame" x="65" y="30" width="254" height="32"/>
@@ -6312,7 +6315,6 @@
                                                 </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="handelLogout:" destination="6g5-tK-EMN" eventType="touchUpInside" id="HqJ-8f-o6X"/>
-                                                    <action selector="handleNewAccount:" destination="6g5-tK-EMN" eventType="touchUpInside" id="CdK-tm-OdW"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -6716,7 +6718,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q7T-oo-n38" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4286.9565217391309" y="-651.35869565217399"/>
+            <point key="canvasLocation" x="3822" y="-652"/>
         </scene>
         <!--Setup-->
         <scene sceneID="fB2-lc-mQJ">

@@ -28,14 +28,14 @@ extension UIViewController{
     }
     
     
-    func keyboardHidden(){
+    @objc func keyboardHidden(){
         
         view.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
     }
     
     
     
-    func keyboardShown(notification:NSNotification){
+    @objc func keyboardShown(notification:NSNotification){
         
         let userInfo:NSDictionary = notification.userInfo! as NSDictionary
         let keyboardFrame:NSValue = userInfo.value(forKey: UIKeyboardFrameEndUserInfoKey) as! NSValue
@@ -46,7 +46,7 @@ extension UIViewController{
         
     }
     
-    func endEdit() {
+    @objc func endEdit() {
         view.endEditing(true)
     }
 

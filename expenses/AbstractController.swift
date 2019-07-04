@@ -202,19 +202,19 @@ class AbstractController: UIViewController, UITextFieldDelegate, UIGestureRecogn
     func buildUp() {
     }
     
-    func backButtonAction(_ sender: AnyObject) {
+    @objc func backButtonAction(_ sender: AnyObject) {
         _ = self.navigationController?.popViewController(animated: true)
     }
     
-    func closeButtonAction(_ sender: AnyObject) {
+    @objc func closeButtonAction(_ sender: AnyObject) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    func profileButtonAction( _ sender:AnyObject) {
+    @objc func profileButtonAction( _ sender:AnyObject) {
         
     }
     
-    func chatButtonAction( _ sender:AnyObject) {
+    @objc func chatButtonAction( _ sender:AnyObject) {
         
     }
     
@@ -288,7 +288,7 @@ class AbstractController: UIViewController, UITextFieldDelegate, UIGestureRecogn
         textView.inputAccessoryView = doneToolbar
     }
     
-    func dismissKeyboard() {
+     @objc func dismissKeyboard() {
         //Causes the view (or one of its embedded text fields) to resign the first responder status.
         view.endEditing(true)
     }

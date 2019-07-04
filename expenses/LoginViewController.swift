@@ -35,8 +35,8 @@ class LoginViewController: AbstractController{
     
     func prepareView(){
  
-        usernameTxt.placeholderLabel.font = UIFont.systemFont(ofSize: 12, weight: 1)
-        passwordTxt.placeholderLabel.font = UIFont.systemFont(ofSize: 12, weight: 1)
+        usernameTxt.placeholderLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight(rawValue: 1))
+        passwordTxt.placeholderLabel.font = UIFont.systemFont(ofSize: 12, weight: UIFont.Weight(rawValue: 1))
         usernameTxt.placeholderActiveColor = .orange
         passwordTxt.placeholderActiveColor = .orange
         usernameTxt.placeholderNormalColor = .gray

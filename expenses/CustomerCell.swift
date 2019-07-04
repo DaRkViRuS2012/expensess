@@ -42,7 +42,10 @@ class CustomerCell: UITableViewCell {
             }
         
             nameLbl.text = customer.customerName
-            codeLbl.text = "No: \(customer.customerCode)"
+            if let code = customer.customerCode{
+                codeLbl.text = "No: \(code)"
+                
+            }
             currencyLbl.text = customer.customerCurrency
             
         }

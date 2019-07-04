@@ -8,62 +8,25 @@
 
 import SwiftyJSON
 
-// MARK: Gender types
-enum GenderType: String {
-    case male = "male"
-    case female = "female"
-}
-
-// MARK: User account type
-enum AccountType: String {
-    case normal = "normal"
-    case celebrity = "celebrity"
-}
-
-// MARK: User login type
-enum LoginType: String {
-    case rombeye = "rombeye"
-    case facebook = "facebook"
-    case twitter = "twitter"
-    case instagram = "instagram"
-    /// check current login state (Social - Normal)
-    var isSocial:Bool {
-        switch self {
-        case .rombeye:
-            return false
-        default:
-            return true
-        }
-    }
-}
 
 class AppUser: BaseModel {
     // MARK: Keys
     private let kUserFirstNameKey = "first_name"
     private let kUserLastNameKey = "last_name"
     private let kUserEmailKey = "email"
-    private let kUserProfilePicKey = "profile_photo"
-    private let kUserBirthdayKey = "birth_date"
-    private let kUserGenderKey = "gender"
     private let kUserCountryKey = "country"
-    private let kUserFollowingCountKey = "followingCount"
-    private let kUserFollowersCountKey = "followersCount"
     private let kUserCategoriesKey = "categories"
-    private let kUserLoginTypeKey = "loginType"
     private let kUserAccountTypeKey = "type"
-    private let kUserIsVerifiedKey = "isVerified"
     private let kUserTokenKey = "token"
-    private let kUserPreferencesKey = "preferences"
     private let kUserIdKey = "id"
-    private let KHongKongIDKey = "hk_id"
-    private let KPoneKey = "phone_number"
+    
+    
     // MARK: Properties
     public var firstName: String?
     public var lastName: String?
     public var email: String?
     public var profilePic: String?
     public var birthday: Date?
-    public var gender: GenderType?
     public var country: String?
     public var isVerified: Bool?
     public var token: String?
@@ -101,18 +64,8 @@ class AppUser: BaseModel {
         firstName = json[kUserFirstNameKey].string
         lastName = json[kUserLastNameKey].string
         email = json[kUserEmailKey].string
-        profilePic = json[kUserProfilePicKey].string
-        if let dateString = json[kUserBirthdayKey].string {
-            birthday = DateHelper.getDateFromISOString(dateString)
-        }
-        if let genderString = json[kUserGenderKey].string {
-            gender = GenderType(rawValue: genderString)
-        }
         country = json[kUserCountryKey].string
-        isVerified = json[kUserIsVerifiedKey].boolValue
         token = json[kUserTokenKey].string
-        mobile = json[KPoneKey].string
-
     }
     
     public override func dictionaryRepresentation() -> [String: Any] {
@@ -132,42 +85,16 @@ class AppUser: BaseModel {
         if let value = email {
             dictionary[kUserEmailKey] = value
         }
-        // profile picture
-        if let value = profilePic {
-            dictionary[kUserProfilePicKey] = value
-        }
-        // birthday
-        if let value = birthday {
-            dictionary[kUserBirthdayKey] = DateHelper.getISOStringFromDate(value)
-        }
-        // gender
-        if let value = gender?.rawValue {
-            dictionary[kUserGenderKey] = value
-        }
         // country
         if let value = country {
             let url:[String:AnyObject] = ["url":value as AnyObject]
             let v:[String:AnyObject] = ["data":url as AnyObject]
             dictionary[kUserCountryKey] = v
         }
-        // following count
-        if let value = hongKong {
-            dictionary[KHongKongIDKey] = value
-        }
-       
-        // is verified
-        if let value = isVerified {
-            dictionary[kUserIsVerifiedKey] = value
-        }
         // token
         if let value = token {
             dictionary[kUserTokenKey] = value
         }
-        
-        if let value = mobile {
-            dictionary[KPoneKey] = value
-        }
-       
         return dictionary
     }
     

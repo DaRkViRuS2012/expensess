@@ -59,7 +59,7 @@ class CurrencyViewController: AbstractController ,UITableViewDelegate,UITableVie
     
         filterCurrencies = currencies.filter({
         
-        $0.title.lowercased().contains(item)
+            ($0.title?.lowercased().contains(item))!
         })
     
         tableView.reloadData()
@@ -98,7 +98,7 @@ class CurrencyViewController: AbstractController ,UITableViewDelegate,UITableVie
     
     
     
-    func add(){
+    @objc func add(){
         let vc = UIStoryboard.viewController(identifier: "NewCurrencyViewController") as! NewCurrencyViewController
         
         self.navigationController?.pushViewController(vc, animated: true)
