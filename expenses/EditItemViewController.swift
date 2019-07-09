@@ -164,7 +164,7 @@ class EditItemViewController: AbstractController {
                 if let _ = self.item{
                     id = (self.item?.Itemid)!
                 }
-                let item = Item(id: id, code: code!, type: type!, title: itemtitle!, price: price!, icon: icon, UoM: uom!, userid: userid)
+                let item = Item(id: id, code: code!, type: type!, title: itemtitle!, price: price!, icon: icon, UoM: uom!, userid: userid,itemCode: code!)
                 item.save()
                 self.navigationController?.popViewController(animated: true)
                 return

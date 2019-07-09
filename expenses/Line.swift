@@ -18,6 +18,7 @@ class Line : CustomStringConvertible{
     var ItemDiscription:String
     var LinePrice:Double
     var ItemId:Int64
+    var ItemCode:String
     var LineUoM:String
     var userid:Int64
     
@@ -33,7 +34,7 @@ class Line : CustomStringConvertible{
         return DatabaseManagement.shared.queryHeaderById(id: headerId)
     }
     
-    init(Lineid:Int64 ,headerId:Int64,Qty:Double,Amount:Double,currency:String,ItemDiscription:String,LinePrice:Double,ItemId:Int64,Lineuom:String,userid:Int64) {
+    init(Lineid:Int64 ,headerId:Int64,Qty:Double,Amount:Double,currency:String,ItemDiscription:String,LinePrice:Double,ItemId:Int64,itemCode:String,Lineuom:String,userid:Int64) {
         
         self.Id = Lineid
         self.headerId = headerId
@@ -45,6 +46,7 @@ class Line : CustomStringConvertible{
         self.ItemId = ItemId
         self.LineUoM = Lineuom
         self.userid = userid
+        self.ItemCode = itemCode
     }
     
     var description: String {
@@ -74,14 +76,14 @@ class Line : CustomStringConvertible{
         
         var dictionary: [String: Any] = [:]
         
-        dictionary["Id"] = self.Id
-        dictionary["headerId"] = self.headerId
-        dictionary["Qty"] = self.Qty
-        dictionary["Amount"] = self.Amount
+        dictionary["Id"] = "\(self.Id)"
+        dictionary["headerId"] = "\(self.headerId)"
+        dictionary["Qty"] = "\(self.Qty)"
+        dictionary["Amount"] = "\(self.Amount)"
         dictionary["currency"] = self.currency
         dictionary["Comment"] = self.ItemDiscription
-        dictionary["LinePrice"] = self.LinePrice
-        dictionary["ItemId"] = self.ItemId
+        dictionary["LinePrice"] = "\(self.LinePrice)"
+        dictionary["ItemId"] = "\(self.ItemCode)"
         dictionary["LineUoM"] = self.LineUoM
      //   dictionary["userid"] = self.userid
         

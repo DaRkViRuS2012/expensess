@@ -114,7 +114,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
             return
         }
         
-        headers = user.getCustomerHeaders(date:currentdate,type:filterType)
+        headers = user.getCustomerHeaders(date:currentdate,type:filterType).filter({$0.deleted != true})
         let customer = self.categoryBtn.currentTitle
         fillter(customerName: customer!)
     }

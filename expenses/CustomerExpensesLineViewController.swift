@@ -10,9 +10,6 @@ import UIKit
 import DropDown
 import Material
 class CustomerExpensesLineViewController: AbstractController, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
-
-    
-    
     
     @IBOutlet weak var cameraBtn: UIButton!
     @IBOutlet weak var currencyBtn: UIButton!
@@ -31,6 +28,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
     var selectedCustomer:Customer?
     
     var itemid:Int64?
+    var itemCode:String?
     
     let itemDropDown = DropDown()
     let UoMDropDown = DropDown()
@@ -85,6 +83,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         DiscriptionTxt.text = line?.ItemDiscription
         currencyBtn.setTitle(line?.currency, for: .normal)
         self.itemid = line?.item?.Itemid
+        self.itemCode = line?.item?.code
         self.selectedUoM = line?.LineUoM
         self.selectedCurrency = line?.currency
         self.selectedItem = line?.item
@@ -134,7 +133,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         let discrption = DiscriptionTxt.text?.trimmed
         let currency = currencyBtn.titleLabel?.text
         
-        if itemid == nil {
+        if itemid == nil || itemCode == nil{
             showMessage(message: "choose an item", type: .error)
             return false
         }
@@ -197,7 +196,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         
         let userid = user.UserId
         let lineId = editMode ? line?.Id : -1
-        line = Line(Lineid: lineId!, headerId: headerid!, Qty: qunt!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, Lineuom: uom!, userid: userid)
+            line = Line(Lineid: lineId!, headerId: headerid!, Qty: qunt!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "", Lineuom: uom!, userid: userid)
         
         line?.save()
         
@@ -296,6 +295,7 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         if let item = Globals.item{
             itemBtn.setTitle(item.title, for: .normal)
             self.itemid = item.Itemid
+            self.itemCode = item.code
             selectedItem = item
             self.UoMBtn.setTitle(item.UoM, for: .normal)
             self.selectedUoM = item.UoM
@@ -396,10 +396,6 @@ class CustomerExpensesLineViewController: AbstractController, UIImagePickerContr
         self.dismiss(animated: true, completion: nil);
     }
     
- 
-    
-
-
 }
 
 

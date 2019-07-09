@@ -27,6 +27,7 @@
         
         
         var itemid:Int64?
+        var itemCode:String?
         
         let itemDropDown = DropDown()
         let UoMDropDown = DropDown()
@@ -100,6 +101,7 @@
             dateButton.setTitle(DateHelper.getStringFromDate((header?.headerCreatedDate)!), for: .normal)
             itemBtn.setTitle(header?.HeaderLines[0].item?.title, for: .normal)
             self.itemid = header?.HeaderLines[0].item?.Itemid
+            self.itemCode = header?.HeaderLines[0].item?.code
             PriceTxt.text = "\(Double((header?.HeaderLines[0].LinePrice)!))"
             QuantityTxt.text = "\(Int((header?.HeaderLines[0].Qty)!))"
             UoMBtn.setTitle(header?.HeaderLines[0].LineUoM, for: .normal)
@@ -134,7 +136,7 @@
             
             
             
-            if itemid == nil{
+            if itemid == nil || itemCode == nil{
                 showMessage(message: "select an item", type: .error)
                 return false
             }
@@ -188,13 +190,11 @@
             
             
             let expensesDate = DateHelper.getDateFromString(date!)
-            
-                let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
+
+                let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerCustomerCode: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "", syncId: "", deleted: false)
             
             header.save()
-            
-            
-            let line = Line(Lineid: header.HeaderLines[0].Id, headerId: header.id, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, Lineuom: uom!, userid: userid)
+                let line = Line(Lineid: header.HeaderLines[0].Id, headerId: header.id, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "", Lineuom: uom!, userid: userid)
             
             
             line.save()
@@ -213,8 +213,16 @@
         
         
         @objc func deleteHeader(){
-            self.header?.delete()
-            self.popOrDismissViewControllerAnimated(animated: true)
+            let alert = UIAlertController(title: "Delete Expeness?", message: "are you sure?", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "Yes", style: .destructive) { (_) in
+                self.header?.delete()
+                self.popOrDismissViewControllerAnimated(animated: true)
+            }
+            let cancelAcion = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(okAction)
+            alert.addAction(cancelAcion)
+            self.present(alert, animated: true, completion: nil)
         }
         
         
@@ -228,8 +236,9 @@
             if itemsList.count > 0{
                 itemBtn.setTitle(itemsList[0], for: .normal)
                 self.itemid = self.items[0].Itemid
+                self.itemCode = self.items[0].code
                 self.UoMBtn.setTitle(self.items[0].UoM, for: .normal)
-                self.PriceTxt.text = "\(self.items[0].price)"
+                self.PriceTxt.text = "\(self.items[0].price ?? "")"
             }
         }
         
@@ -285,7 +294,8 @@
             if let item = Globals.item{
                 itemBtn.setTitle(item.title, for: .normal)
                 self.itemid = item.Itemid
-                self.PriceTxt.text = "\(item.price)"
+                self.itemCode = item.code
+                self.PriceTxt.text = "\(item.price ?? "")"
                 
             }
             
@@ -312,9 +322,7 @@
                 UoMDropDown.hide()
             }
         }
-        
-        
-        
+    
         
         func prepareCustomerList(){
             guard let user = Globals.user else{

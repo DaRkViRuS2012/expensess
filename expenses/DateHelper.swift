@@ -13,14 +13,14 @@ struct DateHelper {
     /// Get date from iso string
     static func getDateFromISOString(_ dateStr: String) -> Date? {
         let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormater.date(from: dateStr)
     }
     
     /// Get iso date string from date object
     static func getISOStringFromDate(_ date: Date) -> String? {
         let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-MM-dd"
+        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return dateFormater.string(from: date)
     }
     

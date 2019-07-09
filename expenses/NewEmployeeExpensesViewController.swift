@@ -32,10 +32,12 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
     
     var editMode = false
     
+    
     //date picker 
     var datePicker : UIDatePicker!
     
     var itemid:Int64?
+    var itemCode:String?
     
     let itemDropDown = DropDown()
     let UoMDropDown = DropDown()
@@ -159,6 +161,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             }
         itemBtn.setTitle(header?.HeaderLines[0].item?.title, for: .normal)
         self.itemid = header?.HeaderLines[0].item?.Itemid
+        self.itemCode = header?.HeaderLines[0].item?.code
         PriceTxt.text = "\(Double((header?.HeaderLines[0].LinePrice)!))"
         QuantityTxt.text = "\(Int((header?.HeaderLines[0].Qty)!))"
         UoMBtn.setTitle(header?.HeaderLines[0].LineUoM, for: .normal)
@@ -175,10 +178,11 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
         if let _ = header?.headerCustomerId {
             if let cust = header?.customer{
                 customerButton.setTitle(cust.customerName, for: .normal)
+                self.selectedCustomer = cust
             }
         }
         
-        
+        customerButton.isEnabled = false
     }
 
     
@@ -198,7 +202,7 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
             return false
         }
         
-        if itemid == nil{
+        if itemid == nil || itemCode == nil{
             showMessage(message: "select an item", type: .error)
            return false
         }
@@ -251,12 +255,12 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
         let expensesDate = DateHelper.getDateFromString(date!)
         let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerStatus)!)! : .pendding
         let id = editMode ? header?.id : -1
-            header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.CId, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
+            header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.CId, headerCustomerCode: selectedCustomer?.customerCode, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "0", syncId: header?.syncId ?? "-1",deleted:false)
     
         header?.save()
         
         let lineid = editMode ? header?.HeaderLines[0].Id : -1
-        let line = Line(Lineid: lineid!, headerId: (header?.id)!, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, Lineuom: uom!, userid: userid)
+            let line = Line(Lineid: lineid!, headerId: (header?.id)!, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "" , Lineuom: uom!, userid: userid)
         
         
         line.save()
@@ -337,9 +341,10 @@ class NewEmployeeExpensesViewController: AbstractController, UIImagePickerContro
         if let item = Globals.item{
             itemBtn.setTitle(item.title, for: .normal)
             self.itemid = item.Itemid
-            self.PriceTxt.text = "\(item.price)"
+            self.itemCode = item.code
+            self.PriceTxt.text = "\(item.price ?? "")"
             self.UoMBtn.setTitle(item.UoM, for: .normal)
-            self.selectedUoM = item.UoM
+            self.selectedUoM = item.UoM ?? ""
         }
     
     }

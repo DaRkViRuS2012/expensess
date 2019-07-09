@@ -27,12 +27,14 @@ class DataStore :NSObject {
     private let CACHE_KEY_PRODUCTS = "products"
     private let CACHE_KEY_SEARCH_PRODUCTS = "searchproducts"
     private let CACHE_KEY_LATEST_SEARCH_RESULTS = "latestSearchrResults"
-    private let CACHE_KEY_FCM_TOKEN = "FCM_TOKEN"
+    private let CACHE_KEY_TOKEN = "TOKEN"
+    private let CACHE_KEY_DB = "DB"
     private let CACHE_KEY_ON_GOING_ORDER = "onGoingOrderId"
     //MARK: Temp data holders
     //keep reference to the written value in another private property just to prevent reading from cache each time you use this var
     private var _me:AppUser?
-
+    private var _token:String?
+    private var _company_db:String?
     
     
     var isOnGoingOrder = false{
@@ -50,7 +52,7 @@ class DataStore :NSObject {
         return false
     }
 
-    var token:String = "ad2e844e-0956-4308-ad2e-d3ab133b2561"
+//    var token:String = "ad2e844e-0956-4308-ad2e-d3ab133b2561"
   
     
     // MARK: Cached data
@@ -68,16 +70,56 @@ class DataStore :NSObject {
         }
     }
     
+    public var token:String?{
+        set{
+            _token = newValue
+            saveStringWithKey(stringToStore: _token, key: CACHE_KEY_TOKEN)
+        }
+        get{
+            _token = loadStringForKey(key: CACHE_KEY_TOKEN)
+            return _token
+        }
+    }
+    
+    
+    public var companyDB:String?{
+        set{
+            _company_db = newValue
+            saveStringWithKey(stringToStore: _company_db, key: CACHE_KEY_DB)
+        }
+        get{
+            _company_db = loadStringForKey(key: CACHE_KEY_DB)
+            return _company_db
+        }
+    }
     
     func getItemsFromServer(){
         
-        ApiManager.shared.getItems(userToken: token) { (success, error, result) in
+        ApiManager.shared.getItems(userToken: token ?? "") { (success, error, result) in
             if success{
                 let items = result
                 for item in items{
                     if let id = Globals.user?.UserId{
                         item.userid = id
                     }
+                    item.save()
+                }
+            }
+        }
+    }
+    
+    
+    func getEmployeeItemsFromServer(){
+        
+        ApiManager.shared.getEmployeeItems(userToken: token ?? "") { (success, error, result) in
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    
+                    item.type = ItemType.employee.value
                     item.save()
                 }
                 
@@ -89,7 +131,7 @@ class DataStore :NSObject {
     
     func getCurrenciesFromServer(){
         
-        ApiManager.shared.getCurrency(userToken: token) { (success, error, result) in
+        ApiManager.shared.getCurrency(userToken: token ?? "") { (success, error, result) in
             if success{
                 
                 let items = result
@@ -109,7 +151,7 @@ class DataStore :NSObject {
     
     func getUOMFromServer(){
         
-        ApiManager.shared.getUOMs(userToken: token) { (success, error, result) in
+        ApiManager.shared.getUOMs(userToken: token ?? "") { (success, error, result) in
             if success{
                 
                 let items = result
@@ -130,7 +172,7 @@ class DataStore :NSObject {
     
     func getCustomersFromServer(){
         
-        ApiManager.shared.getCustomers(userToken: token) { (success, error, result) in
+        ApiManager.shared.getCustomers(userToken: token ?? "") { (success, error, result) in
             if success{
                 
                 let items = result
@@ -151,7 +193,7 @@ class DataStore :NSObject {
     
     func getPriceListFromServer(){
         
-        ApiManager.shared.getPriceList(userToken: token) { (success, error, result) in
+        ApiManager.shared.getPriceList(userToken: token ?? "") { (success, error, result) in
             if success{
                 let items = result
                 for item in items{
@@ -166,6 +208,35 @@ class DataStore :NSObject {
         }
     }
 
+    func syncExpenses(){
+        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.HeaderIsSynced == false}) ?? []
+        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.HeaderIsSynced == false}) ?? []
+        let allHeaders = customerHeaders + employeeHeaders
+        
+        let json = JSON(allHeaders.map{$0.dictionaryRepresentation()})
+        if allHeaders.count > 0{
+        ApiManager.shared.sendExpenses(userToken: token ?? "", content: json.rawString() ?? "") { (success, error, result) in
+            if success{
+                for res in result{
+                    if let state = res.SyncResult,state == true{
+                        if let header = allHeaders.first(where: {Int($0.id) == res.ExpenseId}){
+                                header.HeaderIsSynced = true
+                                header.syncId = res.SyncId ?? "-1"
+                                header.save()
+                        }
+                    }
+                }
+            }
+            
+            if error != nil{
+                
+            }
+            }
+    
+        }
+        
+        
+    }
     
     
     //MARK: Singelton
@@ -244,6 +315,7 @@ class DataStore :NSObject {
     public func logout() {
         clearCache()
         me = nil
+        token = nil
         Globals.user = nil
         Globals.isLogedin = false
         UserDefaults.standard.removeObject(forKey: "username")

@@ -8,6 +8,8 @@
 
 import UIKit
 import Material
+import SwiftyJSON
+
 class ProfileViewController: AbstractController{
     
     let userDefulat = UserDefaults.standard
@@ -19,6 +21,7 @@ class ProfileViewController: AbstractController{
     
     
     @IBOutlet weak var confirm: TextField!
+    @IBOutlet weak var dbTexField: TextField!
     
     @IBOutlet weak var saveButton: UIButton!
     
@@ -32,6 +35,10 @@ class ProfileViewController: AbstractController{
        // addKeyboardobserver()
        // self.showNavBackButton  = true
         prepareView()
+        
+        if let db = DataStore.shared.companyDB{
+            self.dbTexField.text = db
+        }
     }
     
     
@@ -113,11 +120,34 @@ class ProfileViewController: AbstractController{
     
     
     @IBAction func handelSync(_ sender: UIButton) {
-        DataStore.shared.getItemsFromServer()
-        DataStore.shared.getCurrenciesFromServer()
-        DataStore.shared.getUOMFromServer()
-        DataStore.shared.getCustomersFromServer()
-        DataStore.shared.getPriceListFromServer()
+        
+        
+        guard let username = Globals.user?.UserName ,
+            let password = Globals.user?.UserPWD else {return}
+    
+
+        if let db = dbTexField.text , !db.isEmpty{
+            self.showActivityLoader(true)
+            ApiManager.shared.userLogin(username: username, password: password, db: db) { (success, error, _) in
+                    self.showActivityLoader(false)
+                    if success{
+                        DataStore.shared.companyDB = db
+                        self.getItemsFromServer()
+                        self.getEmployeeItemsFromServer()
+                        self.getCurrenciesFromServer()
+                        self.getUOMFromServer()
+                        self.getCustomersFromServer()
+                        self.getPriceListFromServer()
+                        self.syncExpenses()
+                    }
+                    if let msg = error?.errorName{
+                        self.showMessage(message: msg, type: .error)
+                    }
+                }
+        }else{
+            self.showMessage(message: "Enter DB URL First", type: .error)
+        }
+       
     }
     
     
@@ -134,5 +164,164 @@ class ProfileViewController: AbstractController{
         }
         return true
     }
+    
+    
+    func syncExpenses(){
+        
+        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.HeaderIsSynced == false}) ?? []
+        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.HeaderIsSynced == false}) ?? []
+        let allHeaders = customerHeaders + employeeHeaders
+        
+        
+        let json = JSON(allHeaders.map{$0.dictionaryRepresentation()})
+        if allHeaders.count > 0{
+            self.showActivityLoader(true)
+            ApiManager.shared.sendExpenses(userToken: DataStore.shared.token ?? "", content: json.rawString() ?? "") { (success, error, result) in
+                self.showActivityLoader(false)
+                if success{
+                    for res in result{
+                        if let state = res.SyncResult,state == true{
+                            if let header = allHeaders.first(where: {Int($0.id) == res.ExpenseId}){
+                                header.HeaderIsSynced = true
+                                header.syncId = res.SyncId ?? "-1"
+                                header.save()
+                            }
+                        }
+                    }
+                }
+                
+                if error != nil{
+                    
+                }
+            }
+            
+        }
+        
+        
+    }
+    
+    
+    
+    func getItemsFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getItems(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+            }
+        }
+    }
+    
+    
+    func getEmployeeItemsFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getEmployeeItems(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    
+                    item.type = ItemType.employee.value
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    func getCurrenciesFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getCurrency(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    func getUOMFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getUOMs(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    
+    func getCustomersFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getCustomers(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                
+                let items = result
+                
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
+    
+    
+    func getPriceListFromServer(){
+        self.showActivityLoader(true)
+        ApiManager.shared.getPriceList(userToken: DataStore.shared.token ?? "") { (success, error, result) in
+            self.showActivityLoader(false)
+            if success{
+                let items = result
+                for item in items{
+                    if let id = Globals.user?.UserId{
+                        item.userid = id
+                    }
+                    item.save()
+                }
+                
+                
+            }
+        }
+    }
+    
 
 }

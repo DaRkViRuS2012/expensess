@@ -16,49 +16,11 @@ public class Result<T:BaseModel>:BaseModel{
 	public var has_Error : Bool?
 	public var error_Message : String?
 	public var resault_Value : Array<T>?
+    public var value : String?
 	public var xML_data : String?
 	public var invalidSession : Bool?
 	public var documentNumber : Int?
 
-/**
-    Returns an array of models based on given dictionary.
-    
-    Sample usage:
-    let json4Swift_Base_list = Json4Swift_Base.modelsFromDictionaryArray(someDictionaryArrayFromJSON)
-
-    - parameter array:  NSArray from JSON dictionary.
-
-    - returns: Array of Json4Swift_Base Instances.
-*/
-    public class func modelsFromDictionaryArray(array:[JSON]) -> [Result<T>]
-    {
-        var models:[Result<T>] = []
-        for item in array
-        {
-            models.append(Result<T>(json: item))
-        }
-        return models
-    }
-
-/**
-    Constructs the object based on the given dictionary.
-    
-    Sample usage:
-    let json4Swift_Base = Json4Swift_Base(someDictionaryFromJSON)
-
-    - parameter dictionary:  NSDictionary from JSON.
-
-    - returns: Json4Swift_Base Instance.
-*/
-	required public init?(dictionary: NSDictionary) {
-        super.init()
-		has_Error = dictionary["Has_Error"] as? Bool
-		error_Message = dictionary["Error_Message"] as? String
-//        if (dictionary["Resault_Value"] != nil) { resault_Value = T.modelsFromDictionaryArray(dictionary["Resault_Value"] as! NSArray) }
-		xML_data = dictionary["XML_data"] as? String
-		invalidSession = dictionary["InvalidSession"] as? Bool
-		documentNumber = dictionary["DocumentNumber"] as? Int
-	}
     
     public required init(json: JSON) {
         super.init(json: json)
@@ -67,6 +29,7 @@ public class Result<T:BaseModel>:BaseModel{
         if let array = json["Resault_Value"].array{
             resault_Value =  array.map{T(json:$0)}
         }
+        value = json["Resault_Value"].string
         xML_data = json["XML_data"].string
         invalidSession = json["InvalidSession"].bool
         documentNumber = json["DocumentNumber"].int

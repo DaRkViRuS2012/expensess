@@ -142,13 +142,9 @@ class NewCustomerExpensesViewController: AbstractController ,CalendarViewDelegat
     
     self.present(alert, animated: true, completion: nil)
     
-    
-    
-   
 }
 
 func loadHeaderData(){
-    
     dateTextField.text = DateHelper.getStringFromDate((header?.headerCreatedDate)!)
     billingAddressTextField.text = header?.headerBillingAddress
     phoneNumberTextField.text = header?.headerPhoneNumber
@@ -157,7 +153,6 @@ func loadHeaderData(){
     customersBtn.setTitle(header?.customer?.customerName, for: .normal)
     selectedCustomer = header?.customer
     if let dc = header?.headerDocumenetType{
-    
         self.docuomentType = header?.headerDocumenetType
         self.documentTypeButton.setTitle(dc, for: .normal)
     }
@@ -173,8 +168,7 @@ func loadHeaderData(){
         }
         let state:ExpensesState = editMode ? ExpensesState(rawValue:(self.header?.headerStatus)!)! : .pendding
         
-        
-        header = Header(id: -1, headerUserId: userid, headerCreatedDate: Date(), headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Customer", headerCustomerId: self.selectedCustomer?.CId, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerCostSource: "")
+        header = Header(id: -1, headerUserId: userid, headerCreatedDate: Date(), headerPostedDate: Date(), headerUpdateDate: Date(), headerExpensesType: "Customer", headerCustomerId: self.selectedCustomer?.CId,headerCustomerCode: self.selectedCustomer?.customerCode, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "", syncId: "-1", deleted: false)
         header?.save()
         Globals.headerLines = [Line]()
         lines = Globals.headerLines!
@@ -246,16 +240,18 @@ func loadHeaderData(){
             guard let user = Globals.user else{
                 return
             }
-        let userid = user.UserId
+            let userid = user.UserId
             header?.headerCustomerId = self.selectedCustomer?.CId
-        header?.headerCreatedDate = DateHelper.getDateFromString(date!)!
-        header?.headerBillingAddress = billingAddress
-        header?.headerShippingAddress = shippingAddress
-        header?.headerContactPerson = contactPerson
-        header?.headerPhoneNumber = phoneNumber
-        header?.headerUserId = userid
-        header?.headerDocumenetType = self.docuomentType
-        header?.save()
+            header?.headerCreatedDate = DateHelper.getDateFromString(date!)!
+            header?.headerBillingAddress = billingAddress
+            header?.headerShippingAddress = shippingAddress
+            header?.headerContactPerson = contactPerson
+            header?.headerPhoneNumber = phoneNumber
+            header?.headerUserId = userid
+            header?.headerDocumenetType = self.docuomentType
+            header?.headerCustomerCode = selectedCustomer?.customerCode
+            header?.HeaderIsSynced = false
+            header?.save()
             
             for image in images{
                 image.headerId = (header?.id)!
@@ -263,7 +259,7 @@ func loadHeaderData(){
                 image.save()
             }
 
-        self.popOrDismissViewControllerAnimated(animated: true)
+            self.popOrDismissViewControllerAnimated(animated: true)
         }
     }
     

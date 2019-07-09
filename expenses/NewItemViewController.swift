@@ -149,9 +149,9 @@ class NewItemViewController: AbstractController {
         
         let userid = user.UserId
         
-        if((itemtitle?.characters.count)! > 0 && (code?.characters.count)! > 0){
+        if((itemtitle?.count)! > 0 && (code?.count)! > 0){
             if let _ = Double(price!){
-                let item = Item(id: -1, code: code!, type: type!, title: itemtitle!, price: price!, icon: icon, UoM: uom!, userid: userid)
+                let item = Item(id: -1, code: code!, type: type!, title: itemtitle!, price: price!, icon: icon, UoM: uom!, userid: userid,itemCode: code!)
                 item.save()
                 self.dismiss(animated: true, completion: nil)
                 return

@@ -44,14 +44,10 @@ class Header :CustomStringConvertible{
     var headerCostSoruce:String?
     var HeaderEditable:Bool?
     var HeaderIsSynced:Bool?
+    var headerCustomerCode:String?
+    var syncId:String?
+    var deleted:Bool?
     
-    var headerCustomerCode:String?{
-        if let _ = headerCustomerId{
-            return customer?.customerCode
-        }
-        return nil
-    
-    }
     var customer:Customer?{
         if let _ = headerCustomerId{
             return DatabaseManagement.shared.queryCustomerById(customerid: headerCustomerId!)
@@ -67,7 +63,7 @@ class Header :CustomStringConvertible{
     var images:[Image]{
         return DatabaseManagement.shared.queryHeaderImages(headerid: id)
     }
-    init(id:Int64 ,headerUserId:Int64,headerCreatedDate:Date,headerPostedDate:Date,headerUpdateDate:Date?,headerExpensesType:String,headerCustomerId:Int64?,headerisApproved:ExpensesState,expaded:Bool = false,headerPhoneNumber:String?,headerBillingAddress:String?,headerShippingAddress:String?,headerContactPerson:String?,headerDocumenetType:String? = nil , headerEditable:Bool? = false,headerIsSynced:Bool? = false,headerCostSource:String) {
+    init(id:Int64 ,headerUserId:Int64,headerCreatedDate:Date,headerPostedDate:Date,headerUpdateDate:Date?,headerExpensesType:String,headerCustomerId:Int64?,headerCustomerCode:String?,headerisApproved:ExpensesState,expaded:Bool = false,headerPhoneNumber:String?,headerBillingAddress:String?,headerShippingAddress:String?,headerContactPerson:String?,headerDocumenetType:String? = nil , headerEditable:Bool? = false,headerIsSynced:Bool?,headerCostSource:String,syncId:String?,deleted:Bool?) {
         self.id = id
         self.headerUserId = headerUserId
         self.headerCreatedDate = headerCreatedDate
@@ -86,6 +82,9 @@ class Header :CustomStringConvertible{
         self.HeaderIsSynced = headerIsSynced
         self.headerCostSoruce = headerCostSource
         self.headerUpdatedDate = headerUpdateDate
+        self.headerCustomerCode = headerCustomerCode
+        self.syncId = syncId
+        self.deleted = deleted
     }
     
     var description: String {
@@ -107,13 +106,17 @@ class Header :CustomStringConvertible{
     
     
     func delete(){
-        for line in HeaderLines{
-            line.delete()
-        }
-        for image in images{
-            image.delete()
-        }
-        _ = DatabaseManagement.shared.deleteHeader(Id: id)
+//        for line in HeaderLines{
+//            line.delete()
+//        }
+//        for image in images{
+//            image.delete()
+//        }
+        self.headerUpdatedDate = Date()
+        self.deleted = true
+        self.HeaderIsSynced = false
+        self.save()
+//        _ = DatabaseManagement.shared.deleteHeader(Id: id)
     }
     
     
@@ -123,26 +126,39 @@ class Header :CustomStringConvertible{
         var dictionary: [String: Any] = [:]
         
         dictionary["id"] = self.id
-        dictionary["headerUserId"] = self.headerUserId
-        dictionary["headerCreatedDate"] = self.headerCreatedDate
-        dictionary["headerPostedDate"] = self.headerPostedDate
-        dictionary["headerExpensesType"] = self.headerExpensesType
-        dictionary["headerCustomerCode"] = self.headerCustomerId
-        dictionary["headerStatus"] = self.headerStatus
+        dictionary["headerUserId"] = "\(self.headerUserId)"
+        if let date = self.headerCreatedDate {
+            dictionary["headerCreatedDate"] = DateHelper.getISOStringFromDate(date)
+        }
+        if let date = self.headerPostedDate{
+            dictionary["headerPostedDate"] =  DateHelper.getISOStringFromDate(date)
+        }
+        if let value = self.headerExpensesType {
+            dictionary["headerExpensesType"] = value == "Customer" ? "0" : "1"
+        }
+        dictionary["headerCustomerCode"] = self.headerCustomerCode
+        if let value = self.headerStatus{
+            dictionary["headerStatus"] = "\(value)"
+        }
         dictionary["headerKey"] = self.headerKey
-        dictionary["expaded"] = self.expaded
+        dictionary["expaded"] = "\(self.expaded)"
         dictionary["headerPhoneNumber"] = self.headerPhoneNumber
         dictionary["headerBillingAddress"] = self.headerBillingAddress
         dictionary["headerShippingAddress"] = self.headerShippingAddress
         dictionary["headerContactPerson"] = self.headerContactPerson
-        dictionary["headerDocumenetType"] = HeadrDocumentTypeValue(val:self.headerDocumenetType)
-        dictionary["HeaderIsSynced"] = self.HeaderIsSynced
-        dictionary["HeaderEditable"] = self.HeaderEditable
-        dictionary["headerUpdatedDate"] = self.headerUpdatedDate
-        dictionary["headerCostSoruce"] = self.headerCostSoruce
-
+        dictionary["headerDocumenetType"] = "\(HeadrDocumentTypeValue(val:self.headerDocumenetType) ?? 0)"
+        dictionary["HeaderIsSynced"] = "\(self.HeaderIsSynced ?? false)"
+        dictionary["HeaderEditable"] = "\(self.HeaderEditable ?? false)"
+        if let date = self.headerUpdatedDate{
+            dictionary["headerUpdatedDate"] = DateHelper.getISOStringFromDate(date)
+        }
+        if let value = self.headerCostSoruce{
+            dictionary["headerCostSoruce"] = value == "" ? "0" : value
+        }
         dictionary["lines"] = HeaderLines.map{$0.dictionaryRepresentation()}
         dictionary["images"] = self.images.map{$0.dictionaryRepresentation()}
+        dictionary["SyncId"] = syncId ?? "-1"
+        dictionary["deleted"] = deleted ?? false
         return dictionary
     }
     
@@ -163,7 +179,7 @@ class Header :CustomStringConvertible{
         case "Credit_Note"?:
             return 14
         default:
-            return nil
+            return 0
         }
     }
     

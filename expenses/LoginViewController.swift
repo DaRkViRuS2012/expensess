@@ -50,6 +50,8 @@ class LoginViewController: AbstractController{
         
         usernameTxt.detailLabel.textAlignment = .right
         passwordTxt.detailLabel.textAlignment = .right
+        passwordTxt.isErrorRevealed = false
+        usernameTxt.isErrorRevealed = false
     }
     
 
@@ -93,7 +95,6 @@ class LoginViewController: AbstractController{
             return false
         }else{
             passwordTxt.isErrorRevealed = false
-        
         }
 
         return true

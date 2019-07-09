@@ -113,12 +113,13 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
     override func viewWillAppear(_ animated: Bool) {
         loadData()
     }
+    
     func loadData(){
     
         guard let user = Globals.user else{
             return
         }
-        headers = user.getEmployeeHeaders(date: currentdate, type: filterType)
+        headers = user.getEmployeeHeaders(date: currentdate, type: filterType).filter({$0.deleted != true})
         let title = self.categoryBtn.currentTitle
         fillter(title: title!)
     }

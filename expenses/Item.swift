@@ -17,6 +17,7 @@ class Item :BaseModel{
     private let kpriceKey = "Price"
     private let kUoMKey = "UoM"
     private let kiconKey = "icon"
+    private let KItemCode = "ItemCode"
     
     var Itemid:Int64 = -1
     var code:String?
@@ -26,9 +27,10 @@ class Item :BaseModel{
     var UoM:String?
     var icon:String?
     var userid:Int64 = 0
+    var itemCode:String?
     
     
-    init(id:Int64 ,code:String,type:String,title:String,price:String,icon:String,UoM:String,userid:Int64) {
+    init(id:Int64 ,code:String?,type:String,title:String?,price:String?,icon:String?,UoM:String?,userid:Int64,itemCode:String?) {
         super.init()
         self.Itemid = id
         self.code = code
@@ -38,20 +40,24 @@ class Item :BaseModel{
         self.UoM = UoM
         self.icon = icon
         self.userid = userid
+        self.itemCode = itemCode
         
     }
     
     public required init(json: JSON) {
         
         super.init(json: json)
-        
-        self.code = json[kcodeKey].string
+        if let value = json[kcodeKey].string{
+            self.code = value
+        }else if let value = json[KItemCode].string{
+            self.code = value
+        }
         self.type = json[ktypeKey].string
         self.title = json[ktitleKey].string
         self.price = json[kpriceKey].string
         self.UoM = json[kUoMKey].string
         self.icon = json[kiconKey].string
-
+        
     }
     
     var description: String {
@@ -83,16 +89,16 @@ class Item :BaseModel{
     public  override func dictionaryRepresentation() -> [String: Any] {
         
         var dictionary: [String: Any] = [:]
-        
-       dictionary["id"] = self.Itemid
-       dictionary[kcodeKey] = self.code
-       dictionary[ktypeKey] = self.type
-       dictionary[ktitleKey] = self.title
-       dictionary[kpriceKey] = self.price
-       dictionary[kUoMKey] = self.UoM
-       dictionary[kiconKey] = self.icon
-       dictionary["user"] = self.userid
-        
+        dictionary["id"] = self.Itemid
+        dictionary[kcodeKey] = self.code
+        dictionary[ktypeKey] = self.type
+        dictionary[ktitleKey] = self.title
+        dictionary[kpriceKey] = self.price
+        dictionary[kUoMKey] = self.UoM
+        dictionary[kiconKey] = self.icon
+        dictionary["user"] = self.userid
+        dictionary[KItemCode] = code
+
         return dictionary
     }
     

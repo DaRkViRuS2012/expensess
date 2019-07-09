@@ -41,7 +41,6 @@ class User :NSObject,NSCoding{
     var UserVendorCode:String?
     var UserEmail:String
     
-    
     init(id:Int64 ,UserFirstName:String,UserLastName:String,UserEmail:String,UserName:String,UserImage:String,UserPWD:String,UserisActive:Bool,UserVendorCode:String?) {
         self.UserId = id
         self.UserFirstName = UserFirstName
@@ -92,6 +91,11 @@ class User :NSObject,NSCoding{
     func getAllCustomerHeaders()->[Header]{
         
         let headers = DatabaseManagement.shared.queryAllHeaders(type: ItemType.customer.value, userid: self.UserId)
+        return headers
+    }
+    
+    func getAllEmployeesHeaders()->[Header]{
+        let headers = DatabaseManagement.shared.queryAllHeaders(type: ItemType.employee.value, userid: self.UserId)
         
         return headers
     }

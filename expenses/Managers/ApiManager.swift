@@ -24,6 +24,7 @@ enum ModelType {
     case uom//: 100001
     case priceList//: 100002
     case item//: 4
+    case expenses
     
     var value:String{
         switch self {
@@ -37,7 +38,8 @@ enum ModelType {
             return "oPriceList"
         case .item:
             return "oItems"
-            
+        case .expenses:
+            return "oExpenseList"
         }
     }
     
@@ -50,11 +52,8 @@ class ApiManager: NSObject {
     /// frequent request headers
     var headers: HTTPHeaders{
         get{
-            let token = ((DataStore.shared.me?.token) != nil) ? "Bearer \((DataStore.shared.me?.token)!)" : ""
-            let httpHeaders = [
-                "Authorization": token,
-                "Accept":"application/json"
-            ]
+        
+            let httpHeaders:HTTPHeaders = [:]
             return httpHeaders
         }
     }
@@ -74,18 +73,12 @@ class ApiManager: NSObject {
     // MARK: Authorization
 
     /// User login request
-    func userLogin(email: String, password: String, completionBlock: @escaping (_ success: Bool, _ error: ServerError?, _ user:AppUser?) -> Void) {
+    func userLogin(username: String, password: String,db:String, completionBlock: @escaping (_ success: Bool, _ error: ServerError?, _ user:AppUser?) -> Void) {
         // url & parameters
-        let signInURL = "\(baseURL)/login"
-        let parameters : [String : Any] = [
-            "email": email,
-            "password": password
-        ]
-        
-        
+        let signInURL = "\(baseURL)/Authenticate/GetToken?username=\(username)&password=\(password)&companydb=\(db)"
         print(signInURL)
         // build request
-        Alamofire.request(signInURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers).responseJSON { (responseObject) -> Void in
+        Alamofire.request(signInURL, method: .get, encoding: JSONEncoding.default, headers: headers).responseJSON { (responseObject) -> Void in
             if responseObject.result.isSuccess {
                 let jsonResponse = JSON(responseObject.result.value!)
                 print(jsonResponse)
@@ -94,9 +87,14 @@ class ApiManager: NSObject {
                     completionBlock(false , serverError, nil)
                 } else {
                     // parse response to data model >> user object
-                    let user = AppUser(json: jsonResponse)
-                    DataStore.shared.me = user
-                    completionBlock(true , nil, user)
+                    let resultObject = Result<Item>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        DataStore.shared.token = resultObject.value
+                        completionBlock(true , nil, nil)
+                    }else{
+                        completionBlock(false, ServerError(json: jsonResponse),nil)
+                    }
+                  
                 }
             }
             // Network error request time out or server error with no payload
@@ -213,9 +211,6 @@ class ApiManager: NSObject {
         }
     }
     
-    
-    
-   
     //  getItems
     func getItems(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Item]) -> Void) {
         let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.item.value)"
@@ -235,7 +230,7 @@ class ApiManager: NSObject {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
                     }else{
-                        completionBlock(false, ServerError.unknownError,[])
+                        completionBlock(false, ServerError(json: jsonResponse),[])
                     }
 
                 }
@@ -250,6 +245,42 @@ class ApiManager: NSObject {
             }
         }
     }
+    
+    
+    func getEmployeeItems(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Item]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.expenses.value)"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<Item>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError(json: jsonResponse),[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+
 
     
     
@@ -272,7 +303,7 @@ class ApiManager: NSObject {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
                     }else{
-                        completionBlock(false, ServerError.unknownError,[])
+                        completionBlock(false, ServerError(json: jsonResponse),[])
                     }
                     
                 }
@@ -310,7 +341,7 @@ class ApiManager: NSObject {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
                     }else{
-                        completionBlock(false, ServerError.unknownError,[])
+                        completionBlock(false, ServerError(json: jsonResponse),[])
                     }
                     
                 }
@@ -346,7 +377,7 @@ class ApiManager: NSObject {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
                     }else{
-                        completionBlock(false, ServerError.unknownError,[])
+                        completionBlock(false, ServerError(json: jsonResponse),[])
                     }
                     
                 }
@@ -383,7 +414,7 @@ class ApiManager: NSObject {
                         let result = resultObject.resault_Value
                         completionBlock(true, nil,result!)
                     }else{
-                        completionBlock(false, ServerError.unknownError,[])
+                        completionBlock(false, ServerError(json: jsonResponse),[])
                     }
                     
                 }
@@ -398,8 +429,78 @@ class ApiManager: NSObject {
             }
         }
     }
+    
+    // send Expenses
+    func sendExpenses(userToken:String,content:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[SyncResult]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Send/SendData"
+        let parameters : [String : Any] = [
+            "userToken": userToken,
+            "content": content,
+        ]
+        print(parameters)
+        Alamofire.request(categoriesListURL, method: .post,parameters: parameters, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<SyncResult>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value ?? []
+                        completionBlock(true, nil,result)
+                    }else{
+                        completionBlock(false, ServerError(json: jsonResponse),[])
+                    }
+                }
+            }
+            if responseObject.result.isFailure {
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
+    
+    ///Get/GetExpenseStatus?userToken=ea0fdd8f-c6e2-4db6-91a1-b4dd37d8113f&ids=6;7;8
 
-
+    func getExpenseStatus(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Price]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetExpenseStatus?userToken=\(userToken)&ids=6;7;8"
+        Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
+            print(responseObject)
+            if responseObject.result.isSuccess {
+                // let resJson = JSON(responseObject.result.value!)
+                
+                let jsonResponse = JSON(responseObject.result.value!)
+                print(jsonResponse)
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
+                    completionBlock(false , serverError,[])
+                } else {
+                    let resultObject = Result<Price>(json:jsonResponse)
+                    if let haserror = resultObject.has_Error,!haserror {
+                        let result = resultObject.resault_Value
+                        completionBlock(true, nil,result!)
+                    }else{
+                        completionBlock(false, ServerError(json: jsonResponse),[])
+                    }
+                    
+                }
+            }
+            if responseObject.result.isFailure {
+                
+                if let code = responseObject.response?.statusCode, code >= 400 {
+                    completionBlock(false, ServerError.unknownError,[])
+                } else {
+                    completionBlock(false, ServerError.connectionError,[])
+                }
+            }
+        }
+    }
 }
 
 /**
@@ -492,24 +593,7 @@ struct ServerError {
 //            return nil
 //        }
 //        code = errorCode
-        errorName = ""
-        if let errorArray = json["error:"].array{
-            for error in errorArray{
-                errorName?.append("\n\(error)")
-            }
-        }
-        
-        if let errorArray = json["error"].array{
-            for error in errorArray{
-                if let msg = error.rawString(){
-                    errorName?.append("\n\(msg)")
-                    
-                }
-            }
-        }
-        
-     
-        
+        errorName = json["Error_Message"].string
         if let statusCode = json["status"].int{ status = statusCode}
     }
 }
