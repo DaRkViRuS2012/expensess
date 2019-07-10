@@ -39,7 +39,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
     
     var header:Header?
     
-    var currentDate = DateHelper.getStringFromShortDate(Date())
+//    var currentDate = DateHelper.getStringFromShortDate(Date())
     
     fileprivate lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -277,12 +277,12 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
         var total:Double = 0.0
         if isFillter{
             for line  in filteredHeaders[section].HeaderLines{
-                total += line.Amount
+                total += line.Amount!
             }
             
         }else{
             for line  in headers[section].HeaderLines{
-                total += line.Amount
+                total += line.Amount!
             }
             
         }
@@ -315,7 +315,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
     
     func toggleSection(header: ExpandableHeaderView, section: Int) {
         if isFillter {
-            filteredHeaders[section].expaded = !filteredHeaders[section].expaded
+            filteredHeaders[section].expaded = !(filteredHeaders[section].expaded ?? false)
             tableView.beginUpdates()
             
             for i in 0..<filteredHeaders[section].HeaderLines.count {
@@ -326,7 +326,7 @@ class EmployeeExpensesViewController: AbstractController,UITableViewDelegate,UIT
             }
             tableView.endUpdates()
         }else{
-            headers[section].expaded = !headers[section].expaded
+            headers[section].expaded = !(headers[section].expaded ?? false)
             tableView.beginUpdates()
             
             for i in 0..<headers[section].HeaderLines.count {

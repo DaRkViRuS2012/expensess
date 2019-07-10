@@ -10,7 +10,7 @@
     import Material
     import DropDown
 //    import Popover
-    class EditEmployeeExpensesViewController: AbstractController, UIImagePickerControllerDelegate,CalendarViewDelegate,UINavigationControllerDelegate{
+    class EditEmployeeExpensesViewController: AbstractController,CalendarViewDelegate{
         
         
         @IBOutlet weak var dateButton: UIButton!
@@ -194,14 +194,14 @@
                 let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerCustomerCode: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "", syncId: "", deleted: false)
             
             header.save()
-                let line = Line(Lineid: header.HeaderLines[0].Id, headerId: header.id, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "", Lineuom: uom!, userid: userid)
+                let line = Line(Lineid: header.HeaderLines[0].Id!, headerId: header.id!, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "", Lineuom: uom!, userid: userid)
             
             
             line.save()
 
             for image in images{
             
-                image.headerId = header.id
+                image.headerId = header.id!
                 image.userid = user.UserId
                 image.save()
             
@@ -374,60 +374,60 @@
         
         @IBAction func takePhoto(_ sender: UIButton) {
             endEdit()
-            let alertController  = UIAlertController(title: "", message: "Choose image source", preferredStyle: .actionSheet)
-            
-            alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: openCamera))
-            
-            alertController.addAction(UIAlertAction(title: "Gallery", style: .default, handler: openGallery))
-            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alertController, animated: true, completion: nil)
+//            let alertController  = UIAlertController(title: "", message: "Choose image source", preferredStyle: .actionSheet)
+//
+//            alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: openCamera))
+//
+//            alertController.addAction(UIAlertAction(title: "Gallery", style: .default, handler: openGallery))
+//            alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//            self.present(alertController, animated: true, completion: nil)
         }
         
         
-        func openCamera(action: UIAlertAction){
-            
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
-                imagePicker.allowsEditing = false
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            
-        }
-        
-        func openGallery(action: UIAlertAction){
-            
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
-                let imagePicker = UIImagePickerController()
-                imagePicker.delegate = self
-                imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
-                imagePicker.allowsEditing = true
-                self.present(imagePicker, animated: true, completion: nil)
-            }
-            
-        }
-        
-        
-        
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!){
-            let date :NSDate = NSDate()
-            
-            let dateFormatter = DateFormatter()
-            //dateFormatter.dateFormat = "yyyy-MM-dd'_'HH:mm:ss"
-            dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
-            
-            dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone!
-            
-            let imageName = "\(dateFormatter.string(from: date as Date)).jpg"
-            let newimage = Image(id: -1, title: imageName, headerId: -1, userid: -1, data: image.datatypeValue)
-            images.append(newimage)
-            collectionView.reloadData()
-            
-            self.dismiss(animated: true, completion: nil);
-        }
-        
+//        func openCamera(action: UIAlertAction){
+//            
+//            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
+//                let imagePicker = UIImagePickerController()
+//                imagePicker.delegate = self
+//                imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+//                imagePicker.allowsEditing = false
+//                self.present(imagePicker, animated: true, completion: nil)
+//            }
+//            
+//        }
+//        
+//        func openGallery(action: UIAlertAction){
+//            
+//            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
+//                let imagePicker = UIImagePickerController()
+//                imagePicker.delegate = self
+//                imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
+//                imagePicker.allowsEditing = true
+//                self.present(imagePicker, animated: true, completion: nil)
+//            }
+//            
+//        }
+//        
+//        
+//        
+//        
+//        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!){
+//            let date :NSDate = NSDate()
+//            
+//            let dateFormatter = DateFormatter()
+//            //dateFormatter.dateFormat = "yyyy-MM-dd'_'HH:mm:ss"
+//            dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
+//            
+//            dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone!
+//            
+//            let imageName = "\(dateFormatter.string(from: date as Date)).jpg"
+//            let newimage = Image(id: -1, title: imageName, headerId: -1, userid: -1, data: image.datatypeValue)
+//            images.append(newimage)
+//            collectionView.reloadData()
+//            
+//            self.dismiss(animated: true, completion: nil);
+//        }
+//        
         
         
         @IBAction func openCalendar(_ sender: UIButton) {

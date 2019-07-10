@@ -496,7 +496,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vsh-1N-ohW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2394" y="-1429"/>
+            <point key="canvasLocation" x="-2762" y="-1465"/>
         </scene>
         <!--Employee-->
         <scene sceneID="ZrE-UP-Czo">
@@ -4052,7 +4052,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ION-pq-Raw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1739.1304347826087" y="-60.326086956521742"/>
+            <point key="canvasLocation" x="1155" y="373"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="j0u-t6-ufn">
@@ -5850,7 +5850,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PvF-7s-7Xu">
                                                         <rect key="frame" x="0.0" y="152" width="335" height="28.5"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-Bn-yFV">
+                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ew1-Bn-yFV">
                                                                 <rect key="frame" x="67" y="0.0" width="268" height="28.5"/>
                                                                 <color key="backgroundColor" red="0.87219796770000002" green="0.86323135429999998" blue="0.88620042799999998" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <state key="normal" title="None">
@@ -6735,7 +6735,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KYi-0h-nC5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="831.88405797101461" y="-60.326086956521742"/>
+            <point key="canvasLocation" x="1156" y="-913"/>
         </scene>
     </scenes>
     <resources>

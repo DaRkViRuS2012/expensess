@@ -280,12 +280,12 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
         var total:Double = 0.0
         if isFillter{
             for line  in filteredHeaders[section].HeaderLines{
-                total += line.Amount
+                total += line.Amount!
             }
             
         }else{
             for line  in headers[section].HeaderLines{
-                total += line.Amount
+                total += line.Amount!
             }
             
         }
@@ -320,7 +320,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
     func toggleSection(header: ExpandableHeaderView, section: Int) {
       
         if isFillter {
-        filteredHeaders[section].expaded = !filteredHeaders[section].expaded
+            filteredHeaders[section].expaded = !(filteredHeaders[section].expaded ?? true)
             tableView.beginUpdates()
             
             for i in 0..<filteredHeaders[section].HeaderLines.count {
@@ -331,7 +331,7 @@ class CustomerExpensesViewController: AbstractController,UITableViewDelegate,UIT
             }
             tableView.endUpdates()
         }else{
-            headers[section].expaded = !headers[section].expaded
+            headers[section].expaded = !(headers[section].expaded ?? false)
             tableView.beginUpdates()
             
             for i in 0..<headers[section].HeaderLines.count {

@@ -13,11 +13,11 @@ import SwiftyJSON
 public class BaseModel {
 
     // MARK: Declaration for string constants to be used to decode and also serialize.
-    private let kBaseModelIdKey: String = "id"
+    private let kBaseModelIdKey: String = "baseId"
 
     // MARK: Properties
     
-    public var id: String = ""
+    public var baseId: String = ""
     
     init() {
     }
@@ -38,7 +38,7 @@ public class BaseModel {
      */
     public required init(json: JSON) {
         if let identefier = json[kBaseModelIdKey].string {
-            id = identefier
+            baseId = identefier
         }
     }
 
@@ -48,12 +48,12 @@ public class BaseModel {
     */
     public func dictionaryRepresentation() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        dictionary[kBaseModelIdKey] = id
+        dictionary[kBaseModelIdKey] = baseId
         return dictionary
     }
     
     func isEqual<T:BaseModel>(item:T) -> Bool {
-        if item.id == self.id {
+        if item.baseId == self.baseId {
             return true
         }
         return false
@@ -61,7 +61,7 @@ public class BaseModel {
     
     // MARK: arrays utils
     func isExistIn<T:BaseModel>(arr:[T]) -> Bool {        
-        if arr.contains(where: { $0.id == self.id }) {
+        if arr.contains(where: { $0.baseId == self.baseId }) {
             return true
         } else {
             return false
@@ -69,13 +69,13 @@ public class BaseModel {
     }
     
     func findObjectById<T:BaseModel>(arr:[T] , id: String) -> T? {
-        let object = arr.filter{$0.id == id}.first
+        let object = arr.filter{$0.baseId == baseId}.first
         return object
     }
     
     func removeObjectById<T:BaseModel>(arr:[T] , id: String) -> [T] {
         var result = arr
-        if let index = arr.index(where: {$0.id == id}) {
+        if let index = arr.index(where: {$0.baseId == baseId}) {
             result.remove(at: index)
         }
         return result

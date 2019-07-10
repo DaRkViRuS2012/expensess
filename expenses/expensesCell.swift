@@ -35,7 +35,7 @@ class expensesCell: UITableViewCell {
                 customerNameLabel.text = ""
             }
             
-            costLabel.text = "\(line.LinePrice) \(line.currency)"
+            costLabel.text = "\(line.LinePrice ?? 0) \(line.currency ?? "")"
             
         }
     

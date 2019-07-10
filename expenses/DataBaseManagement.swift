@@ -99,7 +99,7 @@ class DatabaseManagement {
     
     func addHeader(header:Header) -> Int64? {
         do {
-            let insert = tblHeader.insert(headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false, headerIsDeleted <- header.deleted ?? false)
+            let insert = tblHeader.insert(headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false, headerIsDeleted <- header.deleted ?? false)
             let id = try db!.run(insert)
             
             let header = tblHeader.filter(headerId == id)
@@ -171,6 +171,26 @@ class DatabaseManagement {
         }
         return headers
     }
+    
+    
+    func queryAllHeaders() -> [Header] {
+        var headers = [Header]()
+        
+        do {
+            for header in try db!.prepare(self.tblHeader) {
+                
+                let state = ExpensesState(rawValue: header[headerisApproved])
+                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted])
+                headers.append(newheader)
+            }
+        } catch {
+            print("Cannot get list of product")
+        }
+        for header in headers {
+            print("each product = \(header)")
+        }
+        return headers
+    }
 
     
     func queryAllHeadersByDate(type:String,date:Date,userid:Int64,filterType:String) -> [Header] {
@@ -181,7 +201,9 @@ class DatabaseManagement {
         
             for header in try db!.prepare(self.tblHeader.filter(headerExpensesType == type && headerUserId == userid)) {
                 var currentDate =  DateHelper.getMonthStringFromShortDate(date)
-                var headerdate = DateHelper.getMonthStringFromShortDate(header[headerCreatedDate])
+                let hdate = header[headerCreatedDate]
+                print(DateHelper.getMonthStringFromShortDate(hdate))
+                var headerdate = DateHelper.getMonthStringFromShortDate(hdate)
                 if filterType == "Yearly"{
                     currentDate =  DateHelper.getYearStringFromShortDate(date)
                      headerdate = DateHelper.getYearStringFromShortDate(header[headerCreatedDate])
@@ -189,6 +211,7 @@ class DatabaseManagement {
                 if currentDate == headerdate {
                 let state = ExpensesState(rawValue: header[headerisApproved])
                     let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted])
+                    print(newheader)
                     headers.append(newheader)
                 }
             }
@@ -222,7 +245,7 @@ class DatabaseManagement {
         let headertbl = tblHeader.filter(Headerid == id)
         do {
             let update = headertbl.update([
-                headerUserId <- header.headerUserId,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false,headerIsDeleted <- header.deleted ?? false
+                headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false,headerIsDeleted <- header.deleted ?? false
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
@@ -417,8 +440,8 @@ class DatabaseManagement {
     
     func addLine(line:Line) -> Int64? {
         do {
-            let insert = tblLine.insert(headerId <- line.headerId, Qty <- line.Qty,Amount <- line.Amount,LineCurrency <- line.currency , LinePrice <- line.LinePrice
-                ,ItemDiscription <- line.ItemDiscription , LineItem <- line.ItemId, LineUoM <- line.LineUoM,LineUserId <- line.userid,LineItemCode <- line.ItemCode)
+            let insert = tblLine.insert(headerId <- line.headerId!, Qty <- line.Qty!,Amount <- line.Amount!,LineCurrency <- line.currency! , LinePrice <- line.LinePrice!
+                ,ItemDiscription <- line.ItemDiscription! , LineItem <- line.ItemId!, LineUoM <- line.LineUoM!,LineUserId <- line.userid!,LineItemCode <- line.ItemCode!)
             let id = try db!.run(insert)
             print("Insert to tblLine successfully")
             return id
@@ -476,8 +499,8 @@ class DatabaseManagement {
         let linetbl = tblLine.filter(Lineid == id)
         do {
             let update = linetbl.update([
-                headerId <- line.headerId, Qty <- line.Qty,Amount <- line.Amount,LineCurrency <- line.currency , LinePrice <- line.LinePrice
-                ,ItemDiscription <- line.ItemDiscription , LineItem <- line.ItemId, LineUoM <- line.LineUoM,LineUserId <- line.userid
+                headerId <- line.headerId!, Qty <- line.Qty!,Amount <- line.Amount!,LineCurrency <- line.currency! , LinePrice <- line.LinePrice!
+                ,ItemDiscription <- line.ItemDiscription! , LineItem <- line.ItemId!, LineUoM <- line.LineUoM!,LineUserId <- line.userid!
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
@@ -1181,7 +1204,7 @@ class DatabaseManagement {
     func addImages(headerid:Int64,images:[Image],userid:Int64) {
         do {
             for image in images{
-                let insert = tblImages.insert(ImageHeaderId <- headerid ,ImageTitle <- image.title,ImageData <- image.data ,ImageUserId <- userid)
+                let insert = tblImages.insert(ImageHeaderId <- headerid ,ImageTitle <- image.title!,ImageData <- image.data! ,ImageUserId <- userid)
                 let id = try db!.run(insert)
                 print(id)
             print("Insert to Images successfully")
@@ -1225,10 +1248,10 @@ class DatabaseManagement {
         let tbl = tblImages.filter(ImageId == id)
         do {
             let update = tbl.update([
-                ImageHeaderId <- image.headerId ,
-                ImageTitle <- image.title,
-                ImageData <- image.data,
-                ImageUserId <- image.userid
+                ImageHeaderId <- image.headerId! ,
+                ImageTitle <- image.title!,
+                ImageData <- image.data!,
+                ImageUserId <- image.userid!
                 ])
             if try db!.run(update) > 0 {
                 print("Update item successfully")

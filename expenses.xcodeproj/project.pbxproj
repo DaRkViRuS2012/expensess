@@ -31,6 +31,7 @@
 		143593841F401D740093AADF /* Pods_expenses.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0947908A0637F3C6BE2BA0B3 /* Pods_expenses.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		143D93BB1F35164A00E6037F /* NewEmployeeExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143D93BA1F35164A00E6037F /* NewEmployeeExpensesViewController.swift */; };
 		143D93BD1F35181700E6037F /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143D93BC1F35181700E6037F /* UIStoryboard.swift */; };
+		1440EA3822D48FAD0078B62A /* ExpensesResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1440EA3722D48FAD0078B62A /* ExpensesResult.swift */; };
 		144B39541F377AA8008F39C3 /* ExpensesDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B39531F377AA8008F39C3 /* ExpensesDemoViewController.swift */; };
 		144B395A1F377B59008F39C3 /* StatefulPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B39551F377B59008F39C3 /* StatefulPlaceholderView.swift */; };
 		144B395B1F377B59008F39C3 /* BasicPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B39561F377B59008F39C3 /* BasicPlaceholderView.swift */; };
@@ -155,6 +156,7 @@
 		14356F3822CF9616008E3090 /* SyncResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncResult.swift; sourceTree = "<group>"; };
 		143D93BA1F35164A00E6037F /* NewEmployeeExpensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewEmployeeExpensesViewController.swift; sourceTree = "<group>"; };
 		143D93BC1F35181700E6037F /* UIStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboard.swift; sourceTree = "<group>"; };
+		1440EA3722D48FAD0078B62A /* ExpensesResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesResult.swift; sourceTree = "<group>"; };
 		144B39531F377AA8008F39C3 /* ExpensesDemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExpensesDemoViewController.swift; sourceTree = "<group>"; };
 		144B39551F377B59008F39C3 /* StatefulPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatefulPlaceholderView.swift; sourceTree = "<group>"; };
 		144B39561F377B59008F39C3 /* BasicPlaceholderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicPlaceholderView.swift; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				14AB12C61FB39B3E001FBD6F /* Image.swift */,
 				14DEE02C1FD742F300161120 /* DocumnetType.swift */,
 				14356F3822CF9616008E3090 /* SyncResult.swift */,
+				1440EA3722D48FAD0078B62A /* ExpensesResult.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				14AE90C81FA91D6F0009BC9F /* Actions.swift in Sources */,
 				14B2EC551F3A5CC40042B54B /* Line.swift in Sources */,
 				145F5F201F38FFEF00508215 /* NewPriceViewController.swift in Sources */,
+				1440EA3822D48FAD0078B62A /* ExpensesResult.swift in Sources */,
 				145F5F281F3955EB00508215 /* Customer.swift in Sources */,
 				145F5F161F38F1C400508215 /* NewItemViewController.swift in Sources */,
 				14DF35361F5312780065D38A /* Globals.swift in Sources */,

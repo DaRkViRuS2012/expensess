@@ -13,17 +13,31 @@ struct DateHelper {
     /// Get date from iso string
     static func getDateFromISOString(_ dateStr: String) -> Date? {
         let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
         return dateFormater.date(from: dateStr)
     }
     
     /// Get iso date string from date object
     static func getISOStringFromDate(_ date: Date) -> String? {
         let dateFormater = DateFormatter()
-        dateFormater.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
         return dateFormater.string(from: date)
     }
     
+    
+    
+    static func getFormatedDateFromISOString(_ dateStr: String) -> Date? {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        return dateFormater.date(from: dateStr)
+    }
+    
+    /// Get iso date string from date object
+    static func getFormatedISOStringFromDate(_ date: Date) -> String? {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        return dateFormater.string(from: date)
+    }
     
     
     static func getDateFromString(_ dateStr: String) -> Date? {
@@ -36,6 +50,21 @@ struct DateHelper {
     static func getStringFromDate(_ date: Date) -> String? {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "dd-MM-yyyy"
+        return dateFormater.string(from: date)
+    }
+    
+    
+    
+    static func getFormatedDateFromString(_ dateStr: String) -> Date? {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        return dateFormater.date(from: dateStr)
+    }
+    
+    /// Get iso date string from date object
+    static func getFormatedStringFromDate(_ date: Date) -> String? {
+        let dateFormater = DateFormatter()
+        dateFormater.dateFormat = "dd-MM-yyyy HH:mm:ss"
         return dateFormater.string(from: date)
     }
     
@@ -67,6 +96,22 @@ struct DateHelper {
         let dateFormater = DateFormatter()
         dateFormater.dateFormat = "yyyy"
         return dateFormater.string(from: date)
+    }
+    
+    
+    static func getDateComponentFrom(_ date:Date) -> DateComponents{
+        let calendar = Calendar.current
+        return calendar.dateComponents([.year, .month, .day, .hour, .minute ,.second], from: date)
+    }
+    
+    static func getDayNumberFrom(_ date:Date) ->Int{
+        let dayNumber = Calendar.current.component(.weekday, from: date)
+        return dayNumber
+    }
+    
+    static func getMonthNumberFrom(_ date:Date) ->Int{
+        let dayNumber = Calendar.current.component(.month, from: date)
+        return dayNumber
     }
     
     

@@ -22,8 +22,8 @@ class LineCell: UITableViewCell {
             }
             
             self.descLabel.text = line.item?.title
-            self.qntyLabel.text = "\(line.LinePrice)*\(line.Qty) \(line.LineUoM)"
-            self.priceLabel.text = "\(line.Amount) \(line.currency)" 
+            self.qntyLabel.text = "\(line.LinePrice ?? 0)*\(line.Qty ?? 1) \(line.LineUoM ?? "")"
+            self.priceLabel.text = "\(line.Amount ?? 0) \(line.currency ?? "")" 
         }
     
     }

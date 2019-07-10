@@ -16,9 +16,9 @@ protocol ExpandableHeaderViewDelegate {
 
 
 enum ExpensesState:Int{
-    case pendding
-    case rejected
-    case approved
+    case pendding = 1
+    case rejected = 3
+    case approved = 2
     
     var color:UIColor{
         switch(self){
@@ -34,9 +34,9 @@ enum ExpensesState:Int{
     var state:Int{
         switch(self){
         case .pendding:
-            return 0
-        case .rejected:
             return 1
+        case .rejected:
+            return 3
         case .approved:
             return 2
         }
@@ -125,11 +125,15 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     func customInit(date:String,section:Int,total:Double,state:ExpensesState,delegate:ExpandableHeaderViewDelegate){
     
         self.dayName.text = date //daydateFormatter.string(from: date)
-        
         self.total.text = "\(total)"
         self.section = section
         self.delegate = delegate
         self.stateView.backgroundColor = state.color
+        if state == .pendding{
+            self.editButton.isHidden = false
+        }else{
+            self.editButton.isHidden = true
+        }
     }
     
     

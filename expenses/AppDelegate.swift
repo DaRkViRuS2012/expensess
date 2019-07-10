@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loadUser()
         loadView()
         addDocumentTypes()
+        let headers = DatabaseManagement.shared.queryAllHeaders()
+        print(headers.map{$0.dictionaryRepresentation()})
         return true
     }
     
@@ -73,11 +75,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-    
+
         let vc = UIStoryboard.viewController(identifier: "StartViewController") as! StartViewController
-    let nav = UINavigationController(rootViewController: vc)
+        let nav = UINavigationController(rootViewController: vc)
         window?.rootViewController = nav
-    
+
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

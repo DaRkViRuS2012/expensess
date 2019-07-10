@@ -40,17 +40,17 @@ class ItemCell: UITableViewCell {
     
     var item:Item?{
         
-    didSet{
-                guard let item = item else{
-                    return
-                }
-            
-            titleLabel.text = item.title
-            discreptionLabel.text = item.code
+        didSet{
+            guard let item = item else{
+                return
+            }
+
+            titleLabel.text = item.title ?? ""
+            discreptionLabel.text = item.code ?? ""
             if let price = item.price{
                 costLabel.text = "\(price)"
             }
-            
+
         }
         
     }

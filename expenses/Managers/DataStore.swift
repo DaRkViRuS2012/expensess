@@ -219,7 +219,7 @@ class DataStore :NSObject {
             if success{
                 for res in result{
                     if let state = res.SyncResult,state == true{
-                        if let header = allHeaders.first(where: {Int($0.id) == res.ExpenseId}){
+                        if let header = allHeaders.first(where: {Int($0.id!) == res.ExpenseId}){
                                 header.HeaderIsSynced = true
                                 header.syncId = res.SyncId ?? "-1"
                                 header.save()

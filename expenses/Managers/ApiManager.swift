@@ -468,8 +468,8 @@ class ApiManager: NSObject {
     
     ///Get/GetExpenseStatus?userToken=ea0fdd8f-c6e2-4db6-91a1-b4dd37d8113f&ids=6;7;8
 
-    func getExpenseStatus(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Price]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetExpenseStatus?userToken=\(userToken)&ids=6;7;8"
+    func getExpenseStatus(userToken:String,ids:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[ExpensesResult]) -> Void) {
+        let categoriesListURL = "\(baseURL)/Get/GetExpenseStatus?userToken=\(userToken)&ids=\(ids)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -481,10 +481,10 @@ class ApiManager: NSObject {
                     let serverError = ServerError(json: jsonResponse) ?? ServerError.unknownError
                     completionBlock(false , serverError,[])
                 } else {
-                    let resultObject = Result<Price>(json:jsonResponse)
+                    let resultObject = Result<ExpensesResult>(json:jsonResponse)
                     if let haserror = resultObject.has_Error,!haserror {
-                        let result = resultObject.resault_Value
-                        completionBlock(true, nil,result!)
+                        let result = resultObject.resault_Value ?? []
+                        completionBlock(true, nil,result)
                     }else{
                         completionBlock(false, ServerError(json: jsonResponse),[])
                     }

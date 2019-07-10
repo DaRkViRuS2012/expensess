@@ -10,7 +10,7 @@
 import UIKit
 import DropDown
 import Material
-class EditCustomerExpensesLineViewController: AbstractController, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+class EditCustomerExpensesLineViewController: AbstractController {
     
     
     
@@ -325,60 +325,60 @@ class EditCustomerExpensesLineViewController: AbstractController, UIImagePickerC
     
     @IBAction func takePhoto(_ sender: UIButton) {
         endEdit()
-        let alertController  = UIAlertController(title: "Choose source", message: "", preferredStyle: .actionSheet)
-        
-        alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: openCamera))
-        
-        alertController.addAction(UIAlertAction(title: "Gallery", style: .default, handler: openGallery))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
-        self.present(alertController, animated: true, completion: nil)
+//        let alertController  = UIAlertController(title: "Choose source", message: "", preferredStyle: .actionSheet)
+//
+//        alertController.addAction(UIAlertAction(title: "Camera", style: .default, handler: openCamera))
+//
+//        alertController.addAction(UIAlertAction(title: "Gallery", style: .default, handler: openGallery))
+//        alertController.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil))
+//        self.present(alertController, animated: true, completion: nil)
     }
     
-    
-    func openCamera(action: UIAlertAction){
-        
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
-            imagePicker.allowsEditing = false
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-        
-    }
-    
-    func openGallery(action: UIAlertAction){
-        
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
-            imagePicker.allowsEditing = true
-            self.present(imagePicker, animated: true, completion: nil)
-        }
-        
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!){
-    
-        let date :NSDate = NSDate()
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
-        
-        dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone!
-        
-        let imageName = "\(dateFormatter.string(from: date as Date)).jpg"
-        
-        
-        let newimage = Image(id: -1, title: imageName, headerId: -1, userid: -1, data: image.datatypeValue)
-        images.append(newimage)
-        
-        collectionView.reloadData()
-        
-        self.dismiss(animated: true, completion: nil);
-    }
-    
+//    
+//    func openCamera(action: UIAlertAction){
+//        
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera){
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.camera;
+//            imagePicker.allowsEditing = false
+//            self.present(imagePicker, animated: true, completion: nil)
+//        }
+//        
+//    }
+//    
+//    func openGallery(action: UIAlertAction){
+//        
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary){
+//            let imagePicker = UIImagePickerController()
+//            imagePicker.delegate = self
+//            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary;
+//            imagePicker.allowsEditing = true
+//            self.present(imagePicker, animated: true, completion: nil)
+//        }
+//        
+//    }
+//    
+//    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!){
+//    
+//        let date :NSDate = NSDate()
+//        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd'_'HH_mm_ss"
+//        
+//        dateFormatter.timeZone = NSTimeZone(name: "GMT") as TimeZone!
+//        
+//        let imageName = "\(dateFormatter.string(from: date as Date)).jpg"
+//        
+//        
+//        let newimage = Image(id: -1, title: imageName, headerId: -1, userid: -1, data: image.datatypeValue)
+//        images.append(newimage)
+//        
+//        collectionView.reloadData()
+//        
+//        self.dismiss(animated: true, completion: nil);
+//    }
+//    
     
 }
 
