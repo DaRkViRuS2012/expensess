@@ -22,6 +22,7 @@ class ProfileViewController: AbstractController{
     
     @IBOutlet weak var confirm: TextField!
     @IBOutlet weak var dbTexField: TextField!
+    @IBOutlet weak var urlTexField: TextField!
     
     @IBOutlet weak var saveButton: UIButton!
     
@@ -35,16 +36,11 @@ class ProfileViewController: AbstractController{
        // addKeyboardobserver()
        // self.showNavBackButton  = true
         prepareView()
-        
-        if let db = DataStore.shared.companyDB{
-            self.dbTexField.text = db
-        }
+
     }
     
     
     func prepareView(){
-        
-        
         password.placeholderNormalColor = .darkGray
         emailTxt.placeholderNormalColor = .darkGray
         lastNameTxt.placeholderNormalColor = .darkGray
@@ -56,15 +52,18 @@ class ProfileViewController: AbstractController{
         lastNameTxt.placeholderActiveColor = .gray
         firstNameTxt.placeholderActiveColor = .gray
         confirm.placeholderActiveColor = .gray
-        
-   
-        // load data 
-        
+    
+        // load data
         emailTxt.text = user?.UserEmail
         firstNameTxt.text = user?.UserFirstName
         lastNameTxt.text = user?.UserLastName
         
-        
+        if let db = DataStore.shared.companyDB{
+            self.dbTexField.text = db
+        }
+        if let url = DataStore.shared.URL{
+            self.urlTexField.text = url
+        }
     }
     
    
@@ -119,11 +118,15 @@ class ProfileViewController: AbstractController{
         
         
         guard let username = Globals.user?.UserName ,
-            let password = Globals.user?.UserPWD else {return}
+            let password = Globals.user?.UserPWD else {
+                self.showMessage(message: "There is error in your login please Log out and login again", type: .error)
+                return
+        }
 //
 //        self.checkStatus()
 //        return
-
+        if let url = urlTexField.text , !url.isEmpty{
+        DataStore.shared.URL = url
         if let db = dbTexField.text , !db.isEmpty{
             self.showActivityLoader(true)
             ApiManager.shared.userLogin(username: username, password: password, db: db) { (success, error, _) in
@@ -143,7 +146,11 @@ class ProfileViewController: AbstractController{
                     }
                 }
         }else{
-            self.showMessage(message: "Enter DB URL First", type: .error)
+            self.showMessage(message: "Enter DB  First", type: .error)
+            }
+            
+        }else{
+            self.showMessage(message: "Enter URL First", type: .error)
         }
        
     }

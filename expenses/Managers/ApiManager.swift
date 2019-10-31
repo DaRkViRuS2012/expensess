@@ -58,7 +58,8 @@ class ApiManager: NSObject {
         }
     }
     
-    let baseURL = "https://ms.itmd-b1.com:65511/API"
+    let baseURL = DataStore.shared.URL ?? ""
+    //"https://ms.itmd-b1.com:65511/API"
     //let baseURL = "http://192.168.1.116:8000/api"
 //    let imageUrl = "http://anycubed.net"
 //    let error_domain = "Wardah"
@@ -75,7 +76,7 @@ class ApiManager: NSObject {
     /// User login request
     func userLogin(username: String, password: String,db:String, completionBlock: @escaping (_ success: Bool, _ error: ServerError?, _ user:AppUser?) -> Void) {
         // url & parameters
-        let signInURL = "\(baseURL)/Authenticate/GetToken?username=\(username)&password=\(password)&companydb=\(db)"
+        let signInURL = "\(baseURL)/API/Authenticate/GetToken?username=\(username)&password=\(password)&companydb=\(db)"
         print(signInURL)
         // build request
         Alamofire.request(signInURL, method: .get, encoding: JSONEncoding.default, headers: headers).responseJSON { (responseObject) -> Void in
@@ -213,7 +214,7 @@ class ApiManager: NSObject {
     
     //  getItems
     func getItems(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Item]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.item.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.item.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -248,7 +249,7 @@ class ApiManager: NSObject {
     
     
     func getEmployeeItems(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Item]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.expenses.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.expenses.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -286,7 +287,7 @@ class ApiManager: NSObject {
     
     // get customers
     func getCustomers(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Customer]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.customer.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.customer.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -324,7 +325,7 @@ class ApiManager: NSObject {
     
     // get currency
     func getCurrency(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Currency]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.currency.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.currency.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -360,7 +361,7 @@ class ApiManager: NSObject {
     
     // get UOMs
     func getUOMs(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[UoM]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.uom.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.uom.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -397,7 +398,7 @@ class ApiManager: NSObject {
     
     // get PriceList
     func getPriceList(userToken:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[Price]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.priceList.value)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetData?userToken=\(userToken)&moduleId=\(ModelType.priceList.value)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {
@@ -432,7 +433,7 @@ class ApiManager: NSObject {
     
     // send Expenses
     func sendExpenses(userToken:String,content:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[SyncResult]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Send/SendData"
+        let categoriesListURL = "\(baseURL)/API/Send/SendData"
         let parameters : [String : Any] = [
             "userToken": userToken,
             "content": content,
@@ -469,7 +470,7 @@ class ApiManager: NSObject {
     ///Get/GetExpenseStatus?userToken=ea0fdd8f-c6e2-4db6-91a1-b4dd37d8113f&ids=6;7;8
 
     func getExpenseStatus(userToken:String,ids:String,completionBlock: @escaping (_ success: Bool, _ error: ServerError?,_ response:[ExpensesResult]) -> Void) {
-        let categoriesListURL = "\(baseURL)/Get/GetExpenseStatus?userToken=\(userToken)&ids=\(ids)"
+        let categoriesListURL = "\(baseURL)/API/Get/GetExpenseStatus?userToken=\(userToken)&ids=\(ids)"
         Alamofire.request(categoriesListURL, method: .get, headers: headers).responseJSON { (responseObject) -> Void in
             print(responseObject)
             if responseObject.result.isSuccess {

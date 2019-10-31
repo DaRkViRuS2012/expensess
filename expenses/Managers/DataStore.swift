@@ -29,12 +29,14 @@ class DataStore :NSObject {
     private let CACHE_KEY_LATEST_SEARCH_RESULTS = "latestSearchrResults"
     private let CACHE_KEY_TOKEN = "TOKEN"
     private let CACHE_KEY_DB = "DB"
+    private let CACHE_KEY_URL = "URL"
     private let CACHE_KEY_ON_GOING_ORDER = "onGoingOrderId"
     //MARK: Temp data holders
     //keep reference to the written value in another private property just to prevent reading from cache each time you use this var
     private var _me:AppUser?
     private var _token:String?
     private var _company_db:String?
+    private var _url:String?
     
     
     var isOnGoingOrder = false{
@@ -90,6 +92,16 @@ class DataStore :NSObject {
         get{
             _company_db = loadStringForKey(key: CACHE_KEY_DB)
             return _company_db
+        }
+    }
+    public var URL:String?{
+        set{
+            _url = newValue
+            saveStringWithKey(stringToStore: _url, key: CACHE_KEY_URL)
+        }
+        get{
+            _url = loadStringForKey(key: CACHE_KEY_URL)
+            return _url
         }
     }
     

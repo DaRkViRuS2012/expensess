@@ -6055,7 +6055,7 @@
                         <viewControllerLayoutGuide type="bottom" id="uWt-QN-ohr"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="1bs-jg-n7k">
-                        <rect key="frame" x="0.0" y="0.0" width="750" height="1387"/>
+                        <rect key="frame" x="0.0" y="0.0" width="750" height="1531"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg1" translatesAutoresizingMaskIntoConstraints="NO" id="9OI-GO-sll">
@@ -6074,10 +6074,10 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q9i-6L-gEj">
-                                <rect key="frame" x="0.0" y="90" width="750" height="1297"/>
+                                <rect key="frame" x="0.0" y="90" width="750" height="1441"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vyl-We-gJU">
-                                        <rect key="frame" x="0.0" y="0.0" width="750" height="1420"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="750" height="1564"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XF2-oN-CaL">
                                                 <rect key="frame" x="0.0" y="0.0" width="750" height="365"/>
@@ -6225,10 +6225,10 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5kg-FC-tkf">
-                                                <rect key="frame" x="0.0" y="820" width="750" height="355"/>
+                                                <rect key="frame" x="0.0" y="820" width="750" height="499"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NdK-FJ-7U7" customClass="TextField" customModule="Material">
-                                                        <rect key="frame" x="65" y="112" width="620" height="94"/>
+                                                        <rect key="frame" x="65" y="256" width="620" height="94"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="94" id="hmY-26-b0p" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                         </constraints>
@@ -6236,11 +6236,11 @@
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                         <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="URL"/>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Data base"/>
                                                         </userDefinedRuntimeAttributes>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KhM-hn-UYB">
-                                                        <rect key="frame" x="65" y="222" width="620" height="94"/>
+                                                        <rect key="frame" x="65" y="366" width="620" height="94"/>
                                                         <color key="backgroundColor" red="0.87219796770000002" green="0.86323135429999998" blue="0.88620042799999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="94" id="rYa-Z5-cDF" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
@@ -6269,29 +6269,47 @@
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="plD-xD-6Wz" customClass="TextField" customModule="Material">
+                                                        <rect key="frame" x="65" y="112" width="620" height="94"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="94" id="omq-nI-zo8" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                        </constraints>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="URL"/>
+                                                        </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="6g5-tK-EMN" id="KEb-k9-H5H"/>
+                                                        </connections>
+                                                    </textField>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="0iy-WP-fIJ" firstAttribute="leading" secondItem="5kg-FC-tkf" secondAttribute="leading" constant="65" id="2IZ-TI-Riv" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
-                                                    <constraint firstAttribute="height" constant="355" id="4H0-0l-UMR" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                    <constraint firstAttribute="height" constant="499" id="4H0-0l-UMR" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                    <constraint firstItem="NdK-FJ-7U7" firstAttribute="top" secondItem="plD-xD-6Wz" secondAttribute="bottom" constant="50" id="5hI-lZ-Ig0" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstItem="KhM-hn-UYB" firstAttribute="top" secondItem="NdK-FJ-7U7" secondAttribute="bottom" constant="16" id="I69-Ah-XtF" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
-                                                    <constraint firstItem="NdK-FJ-7U7" firstAttribute="top" secondItem="0iy-WP-fIJ" secondAttribute="bottom" constant="50" id="XcB-PX-C06" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                    <constraint firstItem="plD-xD-6Wz" firstAttribute="leading" secondItem="5kg-FC-tkf" secondAttribute="leading" constant="65" id="SiM-Ic-SsY" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstItem="KhM-hn-UYB" firstAttribute="leading" secondItem="5kg-FC-tkf" secondAttribute="leading" constant="65" id="a5U-we-Zih" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstAttribute="trailing" secondItem="0iy-WP-fIJ" secondAttribute="trailing" constant="431" id="cHV-Sp-0gp" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstItem="0iy-WP-fIJ" firstAttribute="top" secondItem="5kg-FC-tkf" secondAttribute="top" constant="30" id="k76-5e-Jd2" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                    <constraint firstAttribute="trailing" secondItem="plD-xD-6Wz" secondAttribute="trailing" constant="65" id="oOl-6g-2AB" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstItem="NdK-FJ-7U7" firstAttribute="leading" secondItem="5kg-FC-tkf" secondAttribute="leading" constant="65" id="pXD-fZ-zKd" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstAttribute="trailing" secondItem="NdK-FJ-7U7" secondAttribute="trailing" constant="65" id="qKj-8p-UbD" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                     <constraint firstAttribute="trailing" secondItem="KhM-hn-UYB" secondAttribute="trailing" constant="65" id="uHX-1b-fWq" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                                    <constraint firstItem="plD-xD-6Wz" firstAttribute="top" secondItem="0iy-WP-fIJ" secondAttribute="bottom" constant="50" id="yx0-E2-6mO" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6v-bY-euD">
-                                                <rect key="frame" x="65" y="1183" width="620" height="1"/>
+                                                <rect key="frame" x="65" y="1327" width="620" height="1"/>
                                                 <color key="backgroundColor" red="0.87219796770000002" green="0.86323135429999998" blue="0.88620042799999998" alpha="1" colorSpace="calibratedRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="1" id="9pk-mW-nTA"/>
                                                 </constraints>
                                             </view>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kGF-0C-4PH">
-                                                <rect key="frame" x="65" y="1188" width="620" height="94"/>
+                                                <rect key="frame" x="65" y="1332" width="620" height="94"/>
                                                 <color key="backgroundColor" red="1" green="0.19368068150000001" blue="0.15091905520000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="94" id="r3s-Wa-bFh" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
@@ -6318,7 +6336,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="j7g-Qs-bbW" firstAttribute="leading" secondItem="Vyl-We-gJU" secondAttribute="leading" id="7M7-ih-kwe" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
-                                            <constraint firstAttribute="height" constant="1420" id="88v-lR-FAg" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
+                                            <constraint firstAttribute="height" constant="1564" id="88v-lR-FAg" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                             <constraint firstItem="kGF-0C-4PH" firstAttribute="leading" secondItem="Vyl-We-gJU" secondAttribute="leading" constant="65" id="E1m-Yr-JCu" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                             <constraint firstItem="kGF-0C-4PH" firstAttribute="top" secondItem="h6v-bY-euD" secondAttribute="bottom" constant="4" id="HZa-Yd-l1X" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
                                             <constraint firstAttribute="trailing" secondItem="j7g-Qs-bbW" secondAttribute="trailing" id="Iex-TM-E1r" customClass="XNSLayoutConstraint" customModule="expenses" customModuleProvider="target"/>
@@ -6362,7 +6380,7 @@
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" title="My profile" id="2c6-5M-5cI"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="750" height="1500"/>
+                    <size key="freeformSize" width="750" height="1644"/>
                     <connections>
                         <outlet property="confirm" destination="LT0-Ie-ay1" id="f29-a8-3iA"/>
                         <outlet property="dbTexField" destination="NdK-FJ-7U7" id="9xd-XD-B6n"/>
@@ -6370,11 +6388,12 @@
                         <outlet property="firstNameTxt" destination="oef-IV-E9Q" id="Xp9-RC-KCd"/>
                         <outlet property="lastNameTxt" destination="dRR-zu-7AY" id="IlJ-lp-DYh"/>
                         <outlet property="password" destination="33R-gv-fwj" id="V9Y-Nl-7ad"/>
+                        <outlet property="urlTexField" destination="plD-xD-6Wz" id="At1-vo-qUa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ygt-SK-CX3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5194.202898550725" y="-651.35869565217399"/>
+            <point key="canvasLocation" x="4866" y="-653"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="FL1-Kq-lpa">
