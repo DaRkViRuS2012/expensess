@@ -67,6 +67,7 @@ class DatabaseManagement {
     private let headerContactPerson = Expression<String?>("ContactPerson")
     private let headerIsSynced = Expression<Bool>("isSynced")
     private let headerIsDeleted = Expression<Bool>("isDeleted")
+    private let headerIsDraft = Expression<Bool>("isDraft")
     
     
     func createTableHeader() {
@@ -89,6 +90,7 @@ class DatabaseManagement {
                 table.column(headerSyncId)
                 table.column(headerIsSynced)
                 table.column(headerIsDeleted)
+                table.column(headerIsDraft)
             })
             print("create Header table successfully")
         } catch {
@@ -99,11 +101,11 @@ class DatabaseManagement {
     
     func addHeader(header:Header) -> Int64? {
         do {
-            let insert = tblHeader.insert(headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false, headerIsDeleted <- header.deleted ?? false)
+            let insert = tblHeader.insert(headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson, headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false, headerIsDeleted <- header.deleted ?? false,headerIsDraft <- header.isDraft ?? false)
             let id = try db!.run(insert)
             
-            let header = tblHeader.filter(headerId == id)
-            try db!.run(header.update(headerKey <- "\(header[headerUserId])\(id)"))
+            let headertbl = tblHeader.filter(headerId == id)
+            try db!.run(headertbl.update(headerKey <- "\(headertbl[headerUserId])\(id)"))
             print("Insert to tblHeader successfully userid \(headerUserId)")
             return id
         } catch {
@@ -136,20 +138,14 @@ class DatabaseManagement {
     
     
     func findHeader(date:Date,type:String)->Int64?{
-    
         do{
             let header = try tblHeader.filter(headerPostedDate == date && headerExpensesType == type)
             let headerid = try db!.pluck(header)
             let id = headerid?[headerId]
-          
-                return id
-          
+            return id
         }catch{
             return nil
         }
-        
-    
-    
     }
     
     
@@ -160,7 +156,7 @@ class DatabaseManagement {
             for header in try db!.prepare(self.tblHeader.filter(headerExpensesType == type && headerUserId == userid)) {
                 
                 let state = ExpensesState(rawValue: header[headerisApproved])
-                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted])
+                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted],isDraft:header[headerIsDraft])
                 headers.append(newheader)
             }
         } catch {
@@ -180,7 +176,7 @@ class DatabaseManagement {
             for header in try db!.prepare(self.tblHeader) {
                 
                 let state = ExpensesState(rawValue: header[headerisApproved])
-                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted])
+                let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted],isDraft:header[headerIsDraft])
                 headers.append(newheader)
             }
         } catch {
@@ -210,7 +206,7 @@ class DatabaseManagement {
                 }
                 if currentDate == headerdate {
                 let state = ExpensesState(rawValue: header[headerisApproved])
-                    let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted])
+                    let newheader = Header(id: header[Headerid], headerUserId: header[headerUserId], headerCreatedDate: header[headerCreatedDate], headerPostedDate: header[headerPostedDate], headerUpdateDate: Date(), headerExpensesType: header[headerExpensesType], headerCustomerId: header[headerCustomerId], headerCustomerCode: header[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header[headerPhoneNumber],headerBillingAddress:header[headerBillingAddress],headerShippingAddress:header[headerShippingAddress],headerContactPerson:header[headerContactPerson],headerDocumenetType:header[headerDocumnetType], headerIsSynced: header[headerIsSynced], headerCostSource: "", syncId: header[headerSyncId], deleted: header[headerIsDeleted],isDraft:header[headerIsDraft])
                     print(newheader)
                     headers.append(newheader)
                 }
@@ -231,7 +227,7 @@ class DatabaseManagement {
             let headerid  = tblHeader.filter(Headerid == id)
             let header  = try db!.pluck(headerid)
             let state = ExpensesState(rawValue: (header?[headerisApproved])!)
-            let newheader = Header(id: (header?[Headerid])!, headerUserId: (header?[headerUserId])!, headerCreatedDate: (header?[headerCreatedDate])!, headerPostedDate: (header?[headerPostedDate])!, headerUpdateDate: Date(), headerExpensesType: (header?[headerExpensesType])!, headerCustomerId: header?[headerCustomerId], headerCustomerCode: header?[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header?[headerPhoneNumber],headerBillingAddress:header?[headerBillingAddress],headerShippingAddress:header?[headerShippingAddress],headerContactPerson:header?[headerContactPerson],headerDocumenetType:header?[headerDocumnetType], headerIsSynced: header?[headerIsSynced], headerCostSource: "", syncId: header?[headerSyncId], deleted: header?[headerIsDeleted])
+            let newheader = Header(id: (header?[Headerid])!, headerUserId: (header?[headerUserId])!, headerCreatedDate: (header?[headerCreatedDate])!, headerPostedDate: (header?[headerPostedDate])!, headerUpdateDate: Date(), headerExpensesType: (header?[headerExpensesType])!, headerCustomerId: header?[headerCustomerId], headerCustomerCode: header?[headerCustomerCode], headerisApproved: state!,headerPhoneNumber:header?[headerPhoneNumber],headerBillingAddress:header?[headerBillingAddress],headerShippingAddress:header?[headerShippingAddress],headerContactPerson:header?[headerContactPerson],headerDocumenetType:header?[headerDocumnetType], headerIsSynced: header?[headerIsSynced], headerCostSource: "", syncId: header?[headerSyncId], deleted: header?[headerIsDeleted],isDraft:header?[headerIsDraft])
             return newheader
         }catch{
             return nil
@@ -239,14 +235,12 @@ class DatabaseManagement {
         
     }
     
-    
-    
     func updateHeader(id:Int64, header: Header) -> Bool {
         let headertbl = tblHeader.filter(Headerid == id)
         do {
             let update = headertbl.update([
-                headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false,headerIsDeleted <- header.deleted ?? false
-                ])
+                headerUserId <- header.headerUserId!,headerCreatedDate <- header.headerCreatedDate!,headerPostedDate <- header.headerPostedDate! , headerExpensesType <- header.headerExpensesType! ,headerCustomerId <- header.headerCustomerId , headerisApproved <- header.headerStatus! ,headerPhoneNumber <- header.headerPhoneNumber,headerBillingAddress <- header.headerBillingAddress , headerShippingAddress <- header.headerShippingAddress,headerContactPerson <- header.headerContactPerson , headerDocumnetType <- header.headerDocumenetType,headerCustomerCode <- header.headerCustomerCode,headerSyncId <- header.syncId,headerIsSynced <- header.HeaderIsSynced ?? false,headerIsDeleted <- header.deleted ?? false,
+                    headerIsDraft <- header.isDraft ?? true])
             if try db!.run(update) > 0 {
                 print("Update item successfully")
                 return true

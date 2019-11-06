@@ -25,6 +25,7 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var DiscriptionTxt: UITextField!
     @IBOutlet weak var customerButton: UIButton!
+    @IBOutlet weak var isDraftSwitch: UISwitch!
     
     
     
@@ -61,6 +62,7 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
     var selectedCustomer:Customer?
     var selectedUoM:String?
     var selectedCurrency:String?
+    var isDraft = true
 //
 //    fileprivate lazy var dateFormatter: DateFormatter = {
 //        let formatter = DateFormatter()
@@ -118,30 +120,22 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
                 image.delete()
             }
         }
-        
         self.popOrDismissViewControllerAnimated(animated:true)
     }
     
     
     
     @objc func deleteHeader(){
-        
-        
         let alert = UIAlertController(title: "", message: "Are you sure to delete the expense", preferredStyle: .alert)
         let alertAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             self.header?.delete()
             self.popOrDismissViewControllerAnimated(animated: true)
         }
-        
         let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
-        
         alert.addAction(cancelAction)
         alert.addAction(alertAction)
-        
-        
         self.present(alert, animated: true, completion: nil)
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(self,
@@ -153,8 +147,6 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
                                                name: NSNotification.Name(rawValue: "selectItem"),
                                                object: nil)
     }
-    
-    
     
     func loadHeaderData(){
         if let _ = DateHelper.getStringFromDate((header?.headerCreatedDate)!){
@@ -171,33 +163,35 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
         currencyBtn.setTitle(header?.HeaderLines[0].currency, for: .normal)
         selectedCurrency = header?.HeaderLines[0].currency
        
-        
         if let _ = header?.images{
             self.images =  (header?.images)!
         }
-        
+    
         if let _ = header?.headerCustomerId {
             if let cust = header?.customer{
                 customerButton.setTitle(cust.customerName, for: .normal)
                 self.selectedCustomer = cust
             }
         }
-        
         customerButton.isEnabled = false
+        if header?.HeaderIsSynced == true{
+            isDraftSwitch.isEnabled = false
+            isDraftSwitch.isOn = false
+            isDraft = false
+        }else{
+            isDraft = header?.isDraft ?? true
+            isDraftSwitch.isOn = isDraft
+        }
     }
-
     
+    @IBAction func setDraft(_ sender: UISwitch) {
+        isDraft = sender.isOn
+    }
     
-    
-    func validate()->Bool{
-    
-        
-        
+    func validate()->Bool {
         let date = dateTextField.text
         let price = PriceTxt.text?.trimmed
         let qty = QuantityTxt.text?.trimmed
-        
-        
         if DateHelper.getDateFromString(date!) == nil {
             showMessage(message: "wrong date format dd-mm-yyyy", type: .error)
             return false
@@ -214,24 +208,18 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
         }
         
         if (qty?.isEmpty)! || Double(qty!) == nil{
-        
             showMessage(message: "enter a vaild quantity", type: .error)
             return false
-            
         }
         
         if selectedUoM == nil{
             showMessage(message: "choose a vaild UOM", type: .error)
             return false
-            
-        
         }
-        
         if selectedCurrency == nil{
             showMessage(message: "choose a vaild currency", type: .error)
             return false
         }
-        
         return true
     }
     
@@ -242,21 +230,16 @@ class NewEmployeeExpensesViewController: AbstractController,CalendarViewDelegate
         let uom  = UoMBtn.titleLabel?.text
         let discrption = DiscriptionTxt.text?.trimmed
         let currency = self.selectedCurrency
-        
         if validate(){
-        
         guard let user = Globals.user else{
             return
         }
-        
-        
+
         let userid = user.UserId
-        
-        
         let expensesDate = DateHelper.getDateFromString(date!)
         let state:ExpensesState =  .pendding //editMode ? ExpensesState(rawValue:(self.header?.headerStatus)!)! :
         let id = editMode ? header?.id : -1
-            header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: DateHelper.getDateFromString(DateHelper.getStringFromDate(Date()) ?? "") ?? Date() , headerUpdateDate:  DateHelper.getDateFromISOString(DateHelper.getISOStringFromDate(Date()) ?? "") ?? Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.CId, headerCustomerCode: selectedCustomer?.customerCode, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "0", syncId: header?.syncId ?? "-1",deleted:false)
+            header = Header(id: id!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: DateHelper.getDateFromString(DateHelper.getStringFromDate(Date()) ?? "") ?? Date() , headerUpdateDate:  DateHelper.getDateFromISOString(DateHelper.getISOStringFromDate(Date()) ?? "") ?? Date(), headerExpensesType: "Employee", headerCustomerId: selectedCustomer?.CId, headerCustomerCode: selectedCustomer?.customerCode, headerisApproved: state, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "0", syncId: header?.syncId ?? "-1",deleted:false,isDraft: isDraft)
     
         header?.save()
         

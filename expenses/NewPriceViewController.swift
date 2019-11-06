@@ -88,7 +88,7 @@ class NewPriceViewController: AbstractController {
         let value = valueTxt.text?.trimmed
         let customer = customersBtn.currentTitle
         
-        if((value?.characters.count)! > 0 ){
+        if((value?.count)! > 0 ){
 //            if let customerid = DatabaseManagement.shared.findCustomer(name: customer!, userid: (Globals.user?.UserId)!){
             
             let price = Price(id: -1, value: value!, PriceListNum: (self.price?.PriceListNum)!, ItemCode: itemId!, userid: userid)

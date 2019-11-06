@@ -14,7 +14,7 @@ enum expensesType{
     case Employee
     case Customer
     
-    var value:Int{
+    var value:Int {
         switch self {
         case .Employee:
             return 1
@@ -50,6 +50,7 @@ public class Header :BaseModel,CustomStringConvertible{
     var deleted:Bool?
     var headerImages:[Image]?
     var lines:[Line]?
+    var isDraft:Bool?
     
     var customer:Customer?{
         if let _ = headerCustomerId{
@@ -66,7 +67,7 @@ public class Header :BaseModel,CustomStringConvertible{
         return DatabaseManagement.shared.queryHeaderImages(headerid: id!)
     }
     
-    init(id:Int64 ,headerUserId:Int64,headerCreatedDate:Date,headerPostedDate:Date,headerUpdateDate:Date?,headerExpensesType:String,headerCustomerId:Int64?,headerCustomerCode:String?,headerisApproved:ExpensesState,expaded:Bool = false,headerPhoneNumber:String?,headerBillingAddress:String?,headerShippingAddress:String?,headerContactPerson:String?,headerDocumenetType:String? = nil , headerEditable:Bool? = false,headerIsSynced:Bool?,headerCostSource:String,syncId:String?,deleted:Bool?) {
+    init(id:Int64 ,headerUserId:Int64,headerCreatedDate:Date,headerPostedDate:Date,headerUpdateDate:Date?,headerExpensesType:String,headerCustomerId:Int64?,headerCustomerCode:String?,headerisApproved:ExpensesState,expaded:Bool = false,headerPhoneNumber:String?,headerBillingAddress:String?,headerShippingAddress:String?,headerContactPerson:String?,headerDocumenetType:String? = nil , headerEditable:Bool? = false,headerIsSynced:Bool?,headerCostSource:String,syncId:String?,deleted:Bool?,isDraft:Bool?) {
         
         self.id = id
         self.headerUserId = headerUserId
@@ -89,10 +90,9 @@ public class Header :BaseModel,CustomStringConvertible{
         self.headerCustomerCode = headerCustomerCode
         self.syncId = syncId
         self.deleted = deleted
+        self.isDraft = isDraft
         super.init()
     }
-    
-    
     override init() {
         super.init()
     }
@@ -101,7 +101,7 @@ public class Header :BaseModel,CustomStringConvertible{
         super.init(json: json)
          self.id = json["id"].int64
          self.headerUserId = json["headerUserId"].int64
-        if let date = json["headerCreatedDate"].string{
+        if let date = json["headerCreatedDate"].string {
             self.headerCreatedDate = DateHelper.getFormatedDateFromISOString(date)
         }
         if let date = json["headerPostedDate"].string{
@@ -131,6 +131,7 @@ public class Header :BaseModel,CustomStringConvertible{
         }
          self.syncId = json["SyncId"].string
          self.deleted = json["deleted"].bool
+        self.isDraft = json["isDraft"].bool
     }
     
     public var description: String {
@@ -151,16 +152,13 @@ public class Header :BaseModel,CustomStringConvertible{
         }
     }
     
-    
     func delete(){
         self.headerUpdatedDate = Date()
         self.deleted = true
         self.HeaderIsSynced = false
         self.save()
     }
-    
-    
-    
+
     public  override func dictionaryRepresentation() -> [String: Any] {
         
         var dictionary: [String: Any] = [:]
@@ -199,10 +197,9 @@ public class Header :BaseModel,CustomStringConvertible{
         dictionary["images"] = self.images.map{$0.dictionaryRepresentation()}
         dictionary["SyncId"] = syncId ?? "-1"
         dictionary["deleted"] = deleted ?? false
+        dictionary["isDraft"] = isDraft ?? true
         return dictionary
     }
-    
-    
     
     func  HeadrDocumentTypeValue(val:String?)->Int?{
         switch val {
@@ -222,8 +219,5 @@ public class Header :BaseModel,CustomStringConvertible{
             return 0
         }
     }
-    
-
-    
     
 }

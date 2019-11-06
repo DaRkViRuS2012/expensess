@@ -23,8 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         loadUser()
         loadView()
         addDocumentTypes()
-        let headers = DatabaseManagement.shared.queryAllHeaders()
-        print(headers.map{$0.dictionaryRepresentation()})
         return true
     }
     

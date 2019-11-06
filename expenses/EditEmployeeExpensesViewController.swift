@@ -147,17 +147,13 @@
             }
             
             if (qty?.isEmpty)! || Double(qty!) == nil{
-                
                 showMessage(message: "enter a vaild quantity", type: .error)
                 return false
-                
             }
             
             if selectedUOM == nil{
                 showMessage(message: "choose a vaild UOM", type: .error)
                 return false
-                
-                
             }
             
             if selectedCurrency == nil{
@@ -168,8 +164,6 @@
             return true
         }
         
-        
-        
         @objc func save(){
             let date = dateButton.currentTitle
             let item = itemBtn.titleLabel?.text
@@ -179,32 +173,20 @@
             let discrption = DiscriptionTxt.text?.trimmed
             let currency = currencyBtn.titleLabel?.text
             
-          
-            
             if validate(){
             guard let user = Globals.user else{
                 return
             }
-            
             let userid = user.UserId
-            
-            
             let expensesDate = DateHelper.getDateFromString(date!)
-
-                let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerCustomerCode: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "", syncId: "", deleted: false)
-            
+                let header = Header(id: (self.header?.id)!, headerUserId: userid, headerCreatedDate: expensesDate!, headerPostedDate: Date(),headerUpdateDate:nil, headerExpensesType: "Employee", headerCustomerId: nil, headerCustomerCode: nil, headerisApproved: .pendding, expaded: false, headerPhoneNumber: nil, headerBillingAddress: nil, headerShippingAddress: nil, headerContactPerson: nil, headerIsSynced: false, headerCostSource: "", syncId: "", deleted: false,isDraft:true)
             header.save()
                 let line = Line(Lineid: header.HeaderLines[0].Id!, headerId: header.id!, Qty: Double(qty!)!, Amount: Double(qty!)! * Double(price!)!, currency: currency!, ItemDiscription: discrption!, LinePrice: Double(price!)!, ItemId: itemid!, itemCode: itemCode ?? "", Lineuom: uom!, userid: userid)
-            
-            
             line.save()
-
             for image in images{
-            
                 image.headerId = header.id!
                 image.userid = user.UserId
                 image.save()
-            
             }
             self.popOrDismissViewControllerAnimated(animated: true)
             }

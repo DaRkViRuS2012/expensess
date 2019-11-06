@@ -26,6 +26,16 @@ class ProfileViewController: AbstractController{
     
     @IBOutlet weak var saveButton: UIButton!
     
+    var count: Int = 0 {
+        didSet{
+            if count == 0 {
+                self.showActivityLoader(true)
+            }
+            if count >= 6{
+                self.showActivityLoader(false)
+            }
+        }
+    }
     
     var user:User?
     
@@ -115,16 +125,11 @@ class ProfileViewController: AbstractController{
     
     
     @IBAction func handelSync(_ sender: UIButton) {
-        
-        
         guard let username = Globals.user?.UserName ,
             let password = Globals.user?.UserPWD else {
                 self.showMessage(message: "There is error in your login please Log out and login again", type: .error)
                 return
         }
-//
-//        self.checkStatus()
-//        return
         if let url = urlTexField.text , !url.isEmpty{
         DataStore.shared.URL = url
         if let db = dbTexField.text , !db.isEmpty{
@@ -132,6 +137,7 @@ class ProfileViewController: AbstractController{
             ApiManager.shared.userLogin(username: username, password: password, db: db) { (success, error, _) in
                     self.showActivityLoader(false)
                     if success{
+                        self.count = 0
                         DataStore.shared.companyDB = db
                         self.getItemsFromServer()
                         self.getEmployeeItemsFromServer()
@@ -139,7 +145,6 @@ class ProfileViewController: AbstractController{
                         self.getUOMFromServer()
                         self.getCustomersFromServer()
                         self.getPriceListFromServer()
-                        self.checkStatus()
                     }
                     if let msg = error?.errorName{
                         self.showMessage(message: msg, type: .error)
@@ -155,9 +160,6 @@ class ProfileViewController: AbstractController{
        
     }
     
-    
-    
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if (firstNameTxt.isFirstResponder){
@@ -171,31 +173,36 @@ class ProfileViewController: AbstractController{
     }
     
     
+    @IBAction func sync(_ sender: UIButton) {
+        self.checkStatus()
+    }
     
     func checkStatus(){
-        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.syncId != nil && $0.HeaderIsSynced == false}) ?? []
-        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.syncId != nil && $0.HeaderIsSynced == false }) ?? []
+        guard let token = DataStore.shared.token else {
+            self.showMessage(message: "First you have to link to URL and Database", type: .error)
+            return
+        }
+        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.syncId != nil && $0.HeaderIsSynced == false && $0.isDraft == false}) ?? []
+        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.syncId != nil && $0.HeaderIsSynced == false && $0.isDraft == false }) ?? []
         
         let allHeaders = customerHeaders + employeeHeaders
-        if allHeaders.count > 0{
+        if allHeaders.count > 0 {
             let idsString = allHeaders.map{"\($0.id!)-\($0.syncId!)"}.joined(separator: ";")
-
             self.showActivityLoader(true)
-            ApiManager.shared.getExpenseStatus(userToken: DataStore.shared.token ?? "", ids: idsString) { (success, error, result) in
-             self.showActivityLoader(false)
+            ApiManager.shared.getExpenseStatus(userToken:  token, ids: idsString) { (success, error, result) in
                 if success{
-                    for expense in result{
+                    for expense in result {
                         if let status = expense.expenseStatus , status != 1{
                             if let header = expense.expense,let oldHeader = allHeaders.first(where: {$0.id == header.id}){
                                 header.headerExpensesType = oldHeader.headerExpensesType
                                 header.headerUserId = oldHeader.headerUserId
                                 header.HeaderIsSynced = true
                                 header.HeaderEditable = false
-                                
                                 header.save()
                             }
                         }
                     }
+                    self.showActivityLoader(false)
                     self.syncExpenses()
                 }
             }
@@ -205,18 +212,13 @@ class ProfileViewController: AbstractController{
     }
     
     func syncExpenses(){
-        
-        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.HeaderIsSynced == false && $0.headerStatus == 1}) ?? []
-        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.HeaderIsSynced == false && $0.headerStatus == 1}) ?? []
+        let customerHeaders =  Globals.user?.getAllCustomerHeaders().filter({$0.HeaderIsSynced == false && $0.headerStatus == 1 && $0.isDraft == false}) ?? []
+        let employeeHeaders =  Globals.user?.getAllEmployeesHeaders().filter({$0.HeaderIsSynced == false && $0.headerStatus == 1 && $0.isDraft == false}) ?? []
         let allHeaders = customerHeaders + employeeHeaders
-        
-        
         let json = JSON(allHeaders.map{$0.dictionaryRepresentation()})
-        print(json)
-        if allHeaders.count > 0{
+        if allHeaders.count > 0 {
             self.showActivityLoader(true)
             ApiManager.shared.sendExpenses(userToken: DataStore.shared.token ?? "", content: json.rawString() ?? "") { (success, error, result) in
-                self.showActivityLoader(false)
                 if success{
                     for res in result{
                         if let state = res.SyncResult,state == true{
@@ -227,29 +229,24 @@ class ProfileViewController: AbstractController{
                             }
                         }
                     }
+                    self.showActivityLoader(false)
                     self.showMessage(message: "Expenesive List Successfully Synced", type: .success)
-                    
                 }
-                
                 if error != nil{
                     if let msg = error?.errorName{
                         self.showMessage(message: msg, type: .error)
                     }
                 }
-
             }
-            
+        }else{
+            self.showMessage(message: "No thing to Sync", type: .success)
         }
-        
-        
     }
     
     
     
     func getItemsFromServer(){
-        self.showActivityLoader(true)
         ApiManager.shared.getItems(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
             if success{
                 let items = result
                 for item in items{
@@ -258,8 +255,8 @@ class ProfileViewController: AbstractController{
                     }
                     item.save()
                 }
+                self.count = self.count + 1
                 self.showMessage(message: "Item List Successfully downloaded", type: .success)
-                
             }
             
             if error != nil{
@@ -274,7 +271,7 @@ class ProfileViewController: AbstractController{
     func getEmployeeItemsFromServer(){
         self.showActivityLoader(true)
         ApiManager.shared.getEmployeeItems(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
+            
             if success{
                 let items = result
                 for item in items{
@@ -285,7 +282,7 @@ class ProfileViewController: AbstractController{
                     item.type = ItemType.employee.value
                     item.save()
                 }
-                
+                self.count = self.count + 1
                 self.showMessage(message: "Items List Successfully downloaded", type: .success)
                 
             }
@@ -303,7 +300,7 @@ class ProfileViewController: AbstractController{
     func getCurrenciesFromServer(){
         self.showActivityLoader(true)
         ApiManager.shared.getCurrency(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
+            
             if success{
                 
                 let items = result
@@ -314,6 +311,7 @@ class ProfileViewController: AbstractController{
                     }
                     item.save()
                 }
+                self.count = self.count + 1
                 self.showMessage(message: "Currency List Successfully downloaded", type: .success)
                 
             }
@@ -331,19 +329,16 @@ class ProfileViewController: AbstractController{
     func getUOMFromServer(){
         self.showActivityLoader(true)
         ApiManager.shared.getUOMs(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
             if success{
-                
                 let items = result
-                
                 for item in items{
                     if let id = Globals.user?.UserId{
                         item.userid = id
                     }
                     item.save()
                 }
+                self.count = self.count + 1
                 self.showMessage(message: "UOM List Successfully downloaded", type: .success)
-                
             }
             
             if error != nil{
@@ -360,19 +355,16 @@ class ProfileViewController: AbstractController{
     func getCustomersFromServer(){
         self.showActivityLoader(true)
         ApiManager.shared.getCustomers(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
             if success{
-                
                 let items = result
-                
                 for item in items{
                     if let id = Globals.user?.UserId{
                         item.userid = id
                     }
                     item.save()
                 }
+                self.count = self.count + 1
                 self.showMessage(message: "Customer List Successfully downloaded", type: .success)
-                
             }
             
             if error != nil{
@@ -388,7 +380,6 @@ class ProfileViewController: AbstractController{
     func getPriceListFromServer(){
         self.showActivityLoader(true)
         ApiManager.shared.getPriceList(userToken: DataStore.shared.token ?? "") { (success, error, result) in
-            self.showActivityLoader(false)
             if success{
                 let items = result
                 for item in items{
@@ -397,8 +388,8 @@ class ProfileViewController: AbstractController{
                     }
                     item.save()
                 }
+                self.count = self.count + 1
                 self.showMessage(message: "Price List Successfully downloaded", type: .success)
-                
             }
             
             if error != nil{
@@ -408,6 +399,4 @@ class ProfileViewController: AbstractController{
             }
         }
     }
-    
-
 }

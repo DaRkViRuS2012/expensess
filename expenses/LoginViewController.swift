@@ -59,7 +59,7 @@ class LoginViewController: AbstractController{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         if textField.tag == 1 {
-            passwordTxt.becomeFirstResponder()
+            _ = passwordTxt.becomeFirstResponder()
             return true
         }
         
